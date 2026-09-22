@@ -1,7 +1,8 @@
 {
   // Deploy Cloudflare Workers — Static Assets (full static, tanpa adapter).
   // Ref: docs/WEBSITE-BRIEF.md §8
-  "name": "pixcode-studio",
+  // NAMA HARUS SAMA dengan Worker yang dibuat Workers Builds (dari nama repo) = "pixcode".
+  "name": "pixcode",
   // Set this to today's date saat pertama deploy.
   "compatibility_date": "2026-09-22",
   "assets": {
@@ -9,6 +10,9 @@
     // Sajikan 404.html untuk path yang tidak ditemukan.
     "not_found_handling": "404-page"
   },
+  // Eksplisit supaya tidak ada warning default-aktif tiap deploy.
+  "workers_dev": true,
+  "preview_urls": true,
   "observability": {
     "enabled": true
   }

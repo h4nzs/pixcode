@@ -1,0 +1,31 @@
+# QA gate — TIDAK melakukan deploy.
+# Deploy produksi = Cloudflare Workers Builds (Git connect di dashboard).
+# Ref: docs/WEBSITE-BRIEF.md §8
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 24 (LTS — minimum Astro 7 adalah >= 22.12)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies (lockfile terkunci — cocok dengan allowScripts)
+        run: npm ci
+
+      - name: Typecheck (astro check)
+        run: npm run check
+
+      - name: Build (verifikasi dist siap deploy)
+        run: npm run build

@@ -15,7 +15,8 @@ interface Props {
 }
 
 const { title, description = site.description, active, schema } = Astro.props;
-const fullTitle = `${title} | ${site.name} — Jasa Website UMKM Bandung`;
+// Suffix pendek agar title tidak terpotong Google & tidak duplikat keyword halaman Home.
+const fullTitle = `${title} | ${site.name}`;
 const canonical = fullUrl(Astro.url.pathname);
 const ogImage = fullUrl("/og-image.png");
 const siteOrigin = new URL(site.url).origin;

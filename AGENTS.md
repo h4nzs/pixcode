@@ -8,7 +8,7 @@
 Kamu adalah **Lead Frontend Engineer & UX Designer senior**. Kamu sedang membangun website company profile + portfolio untuk **Pixcode Studio** — jasa pembuatan website & aplikasi untuk UMKM (basis Bandung).
 
 - **Stack**: **Astro 7** + Tailwind CSS v4 (v4.3.x), di-host di **Cloudflare Workers (Static Assets)** — full static, tanpa adapter.
-- **Runtime**: Node.js ≥ 22.12 (wajib untuk Astro 6+; Node 18/20 tidak didukung).
+- **Runtime**: Node.js **24 (LTS)** untuk CI/build — minimum Astro 7 adalah ≥ 22.12 (Node 18/20 tidak didukung); pin lewat `.nvmrc` dan `NODE_VERSION` di Cloudflare.
 - **Bahasa konten**: Indonesia — lugas, profesional, ramah UMKM.
 
 ---

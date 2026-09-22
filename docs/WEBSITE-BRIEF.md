@@ -233,6 +233,10 @@ featured?: boolean            // tampil di Home highlight
 4. Build command `npm run build` (output `dist`), setiap push ke branch produksi → auto-deploy; PR dapat preview URL.
 5. Custom domain: tambahkan di pengaturan Workers — DNS otomatis jika domain sudah di Cloudflare.
 6. Opsional: `not_found_handling: "404-page"` agar `404.html` tersaji sebagai halaman error.
+7. **CI/CD final (keputusan user): kombinasi** —
+   - **Workers Builds** (dashboard) = deploy otomatis: push ke `main` → deploy produksi; PR → preview URL.
+   - **GitHub Actions** (`.github/workflows/ci.yml`) = QA gate tanpa deploy: `astro check` + `npm run build` di setiap push/PR.
+   - **Node version**: set env var `NODE_VERSION=24` di settings build Cloudflare (Node 24 LTS — minimum Astro 7 adalah ≥ 22.12); `.nvmrc` berisi `24` juga disertakan di repo.
 
 Catatan: situs ini full static sehingga tidak perlu adapter/Worker code. Jika nanti butuh fitur server-side (misal form dengan simpan database), jalur upgrade-nya adapter `@astrojs/cloudflare` + `main` di wrangler.jsonc — struktur sekarang tidak perlu dirombak.
 
