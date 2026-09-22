@@ -1,0 +1,105 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import PackageCard from "../components/PackageCard.astro";
+import FaqItem from "../components/FaqItem.astro";
+import WaButton from "../components/WaButton.astro";
+import CtaBanner from "../components/CtaBanner.astro";
+import { packages } from "../data/packages";
+
+const faqs = [
+  {
+    q: "Kenapa harganya berupa rentang, bukan angka pasti?",
+    a: "Karena kebutuhan tiap usaha berbeda — jumlah konten, kebutuhan desain, dan fitur menentukan posisi akhir di rentang. Setelah konsultasi singkat, harga final dikunci tertulis di proposal dan tidak berubah.",
+  },
+  {
+    q: "Apa yang membuat harga naik dari batas bawah?",
+    a: "Jumlah halaman/konten yang lebih banyak, kebutuhan desain khusus, atau fitur tambahan di luar daftar 'termasuk'. Semua dihitung dan disepakati sebelum DP — tidak ada tambahan diam-diam di tengah jalan.",
+  },
+  {
+    q: "Berapa biaya revisi di luar batas paket?",
+    a: "Revisi melebihi batas otomatis dikenakan biaya per revisi: Paket Hemat Rp 100.000, Hemat Plus Rp 150.000, Standar/Dynamic dan Desktop POS Rp 300.000–500.000 tergantung kompleksitas. Rate ini sudah dicantumkan di proposal sejak awal.",
+  },
+  {
+    q: "Apakah bisa request fitur di luar paket?",
+    a: "Bisa — fitur tambahan (integrasi pembayaran, multi-cabang, dll.) dihitung sebagai add-on dan dikutip terpisah sebelum pengerjaan dimulai, jadi kamu tahu biayanya sebelum memutuskan.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+---
+
+<BaseLayout
+  title="Layanan & Harga Paket Website"
+  description="5 paket pembuatan website untuk UMKM: dari Rp 400.000 (Paket UMKM) sampai aplikasi kasir Rp 2,5–8 juta. Termasuk/tidak termasuk tertulis, batas revisi jelas, DP 50%."
+  active="layanan"
+  schema={schema}
+>
+  <!-- Answer block GEO (riset §6): jawaban langsung di atas -->
+  <section class="border-b border-slate-100 bg-slate-50 py-14 lg:py-16">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <p class="text-xs font-bold uppercase tracking-widest text-brand-600">Layanan & harga</p>
+      <h1 class="mt-3 max-w-3xl text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
+        Pilih paket — semua ketentuannya tertulis di sini
+      </h1>
+      <p class="mt-4 max-w-3xl text-lg leading-relaxed text-slate-600">
+        Biaya pembuatan website untuk UMKM di Pixcode Studio mulai
+        <strong class="font-semibold text-slate-900">Rp 400.000</strong> (Paket UMKM) sampai
+        <strong class="font-semibold text-slate-900">Rp 8.000.000</strong> (Desktop POS), diperbarui September 2026.
+        Setiap paket punya daftar termasuk, tidak termasuk, dan batas revisi yang eksplisit — harga final dikunci di proposal sebelum DP.
+      </p>
+    </div>
+  </section>
+
+  <!-- Grid paket -->
+  <section class="py-16 lg:py-20">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        {
+          packages.map((pkg) => (
+            <div class={pkg.featured ? "reveal xl:-mt-4" : "reveal"}>
+              <PackageCard pkg={pkg} />
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Trust line tepat di bawah grid harga (riset §7) -->
+      <p class="reveal mx-auto mt-8 max-w-2xl rounded-xl border border-brand-100 bg-brand-50 p-4 text-center text-sm text-brand-900">
+        <strong class="font-semibold">Alur pembayaran: DP 50% saat mulai — pelunasan 50% setelah kamu approve demo di domain staging.</strong>
+        Website sudah kamu lihat dan setuju dulu, baru lunas.
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ harga (H2 pertanyaan nyata — GEO) -->
+  <section class="border-y border-slate-100 bg-slate-50 py-16 lg:py-20">
+    <div class="mx-auto max-w-3xl px-4 sm:px-6">
+      <SectionHeading
+        kicker="FAQ harga"
+        title="Pertanyaan soal harga & ketentuan"
+        subtitle="Jawaban singkat dan langsung — detail lengkapnya dijelaskan saat konsultasi."
+        center
+      />
+      <div class="reveal mt-10 space-y-3">
+        {faqs.map((f) => <FaqItem question={f.q} answer={f.a} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20">
+    <CtaBanner
+      title="Masih ragu pilih paket yang mana?"
+      subtitle="Ceritakan usaha & kebutuhan kamu — kami rekomendasikan yang paling pas, bukan yang paling mahal."
+    />
+  </section>
+</BaseLayout>

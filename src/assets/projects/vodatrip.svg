@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-label="Placeholder Voda Tour &amp; Event">
+  <rect width="1200" height="900" fill="#f0fdfa"/>
+  <rect x="90" y="90" width="110" height="110" fill="#14b8a6" opacity="0.14"/>
+  <rect x="230" y="90" width="110" height="110" fill="#14b8a6" opacity="0.28"/>
+  <rect x="90" y="230" width="110" height="110" fill="#14b8a6" opacity="0.22"/>
+  <text x="600" y="500" font-family="ui-sans-serif, system-ui, sans-serif" font-size="300" font-weight="800" fill="#14b8a6" text-anchor="middle">V</text>
+  <text x="600" y="790" font-family="ui-sans-serif, system-ui, sans-serif" font-size="42" font-weight="600" fill="#475569" text-anchor="middle">Voda Tour &amp; Event</text>
+  <text x="600" y="850" font-family="ui-sans-serif, system-ui, sans-serif" font-size="28" fill="#94a3b8" text-anchor="middle">placeholder — ganti dengan screenshot asli</text>
+</svg>

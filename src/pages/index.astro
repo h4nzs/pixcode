@@ -1,0 +1,266 @@
+---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import PackageCard from "../components/PackageCard.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import WaButton from "../components/WaButton.astro";
+import CtaBanner from "../components/CtaBanner.astro";
+import FaqItem from "../components/FaqItem.astro";
+import Icon from "../components/Icon.astro";
+import { site, waLink } from "../data/site";
+import { packages } from "../data/packages";
+import { projectImage } from "../utils/projectImage";
+
+const featuredProjects = (await getCollection("projects", ({ data }) => data.featured)).slice(0, 3);
+
+// ---- FAQ (juga dipakai FAQPage schema — riset §6: jawaban siap-kutip 2–3 kalimat) ----
+const faqs = [
+  {
+    q: "Berapa biaya buat website untuk UMKM?",
+    a: "Di Pixcode Studio mulai Rp 400.000 (Paket UMKM) untuk 1 halaman profil usaha dengan tombol WhatsApp dan lokasi. Paket lebih lengkap tersedia sampai Rp 8.000.000 untuk aplikasi kasir (POS). Detail tiap paket ada di halaman Layanan.",
+  },
+  {
+    q: "Bagaimana sistem pembayarannya?",
+    a: "DP 50% setelah kesepakatan, pelunasan 50% setelah kamu approve demo website di domain staging. Jadi website sudah kamu lihat dan setuju dulu, baru pembayaran dilunasi.",
+  },
+  {
+    q: "Berapa lama pengerjaannya?",
+    a: "Paket 1 halaman umumnya selesai 3–7 hari kerja setelah materi (foto, teks) lengkap. Paket dengan admin & database 2–4 minggu. Kalau materi dari kita yang menunggu, timeline menyesuaikan dan kami kabari dari awal.",
+  },
+  {
+    q: "Kalau ada yang mau diubah, berapa kali revisi?",
+    a: "Sudah tertulis per paket: 1x untuk Paket Hemat, 2x untuk paket lainnya — ditetapkan di proposal sebelum DP. Revisi di luar batas dikenakan biaya tambahan yang juga sudah diumumkan di awal, tanpa kejutan belakangan.",
+  },
+  {
+    q: "Domain dan hosting atas nama siapa?",
+    a: "Idealnya didaftarkan atas nama/email kamu sendiri — kami bantu prosesnya. Kalau sementara memakai akun kami, prosedur transfer kepemilikan setelah pelunasan dijelaskan tertulis di awal.",
+  },
+  {
+    q: "Setelah website live, kalau ada masalah bagaimana?",
+    a: "Setiap handover termasuk training singkat cara pakai. Untuk update dan perawatan rutin ada paket maintenance opsional — kamu bebas lanjut atau tidak.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
+const umkmTypes = [
+  { icon: "shopping-bag", label: "Toko & Ritel" },
+  { icon: "utensils", label: "Kuliner & F&B" },
+  { icon: "heart-pulse", label: "Klinik & Kesehatan" },
+  { icon: "wrench", label: "Jasa & Bengkel" },
+  { icon: "graduation-cap", label: "Kursus & Sekolah" },
+  { icon: "briefcase", label: "Event & Agensi" },
+] as const;
+
+const steps = [
+  {
+    n: "1",
+    title: "Konsultasi & pilih paket",
+    text: "Ceritakan kebutuhan via WhatsApp. Kami bantu pilih paket yang pas — harga dan cakupan sudah jelas di awal, tertulis di proposal.",
+  },
+  {
+    n: "2",
+    title: "DP 50%, pengerjaan dimulai",
+    text: "Proyek dibuka setelah DP. Kamu dapat update progress berkala — tidak perlu mengejar kabar.",
+  },
+  {
+    n: "3",
+    title: "Demo staging & revisi",
+    text: "Website kamu tinjau di domain staging. Revisi sesuai batas paket — jelas berapa kali, jelas biayanya kalau lebih.",
+  },
+  {
+    n: "4",
+    title: "Approve, live & support",
+    text: "Setelah kamu setuju, pelunasan, website tayang di domain final + training singkat. Maintenance opsional, bukan paksaan.",
+  },
+];
+---
+
+<BaseLayout
+  title="Jasa Pembuatan Website UMKM Bandung — Mulai Rp 400.000"
+  active="home"
+  schema={schema}
+>
+  <!-- ============ HERO (riset §3: value + 2 CTA + bukti cepat) ============ -->
+  <section class="relative overflow-hidden">
+    <div class="mx-auto grid max-w-6xl gap-10 px-4 pb-16 pt-14 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pb-24 lg:pt-20">
+      <div>
+        <p class="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
+          <Icon name="map-pin" class="h-3.5 w-3.5" />
+          Studio web lokal dari {site.city} — melayani {site.areasServed.slice(0, 3).join(", ")} & sekitarnya
+        </p>
+        <h1 class="mt-5 text-4xl font-extrabold leading-[1.1] tracking-tight text-slate-900 sm:text-5xl">
+          Website untuk UMKM —
+          <span class="text-brand-600">jelas cakupannya, jelas harganya, jelas prosesnya.</span>
+        </h1>
+        <p class="mt-5 max-w-xl text-lg leading-relaxed text-slate-600">
+          Jasa pembuatan website & aplikasi untuk usaha kecil. Mulai <strong class="font-semibold text-slate-900">Rp 400.000</strong>,
+          batas revisi tertulis di proposal, dan demo dulu sebelum lunas — tidak ada tambahan diam-diam.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          <WaButton context={{ type: "general" }} size="large" label="Tanya-tanya dulu, gratis" />
+          <a
+            href="/layanan/"
+            class="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-6 py-3.5 text-base font-semibold text-slate-700 transition-colors hover:border-brand-600 hover:text-brand-700"
+          >
+            Lihat Paket & Harga
+            <Icon name="arrow-right" class="h-5 w-5" />
+          </a>
+        </div>
+        <p class="mt-4 flex items-center gap-2 text-sm text-slate-500">
+          <Icon name="clock" class="h-4 w-4 text-brand-600" />
+          Balasan cepat di jam kerja — langsung ke orang yang mengerjakan, bukan CS berlapis.
+        </p>
+      </div>
+
+      <!-- Bukti cepat: mini-grid 3 proyek (mobile di dalam mockup browser) -->
+      <div class="reveal relative mx-auto w-full max-w-md lg:max-w-none">
+        <div class="rounded-2xl border border-slate-200 bg-white shadow-lg">
+          <div class="flex items-center gap-1.5 border-b border-slate-100 px-4 py-3">
+            <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
+            <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
+            <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
+            <span class="ml-3 truncate rounded-md bg-slate-50 px-2 py-1 text-[11px] text-slate-400">
+              pixcode.my.id — contoh karya kami
+            </span>
+          </div>
+          <div class="grid grid-cols-3 gap-3 p-4">
+            {
+              featuredProjects.map((p) => (
+                <Image
+                  src={projectImage(p.data.thumbnail)}
+                  alt={`Contoh karya: ${p.data.title}`}
+                  width={300}
+                  height={225}
+                  loading="eager"
+                  class="aspect-[4/3] w-full rounded-lg object-cover ring-1 ring-slate-100"
+                />
+              ))
+            }
+          </div>
+          <div class="px-4 pb-4">
+            <p class="text-sm font-semibold text-slate-900">Website yang sedang dipakai usaha nyata</p>
+            <p class="mt-1 text-xs text-slate-500">Lihat sendiri di halaman Portfolio — semua ada link-nya.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ UNTUK SIAPA ============ -->
+  <section class="border-y border-slate-100 bg-slate-50 py-16">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <SectionHeading
+        kicker="Untuk siapa"
+        title="Dibuat untuk usaha yang belum punya 'etaler digital'"
+        subtitle="Kalau usaha kamu masuk salah satu kategori ini, website akan langsung terasa manfaatnya."
+        center
+      />
+      <ul class="reveal mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+        {
+          umkmTypes.map((t) => (
+            <li class="flex flex-col items-center gap-3 rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
+              <Icon name={t.icon} class="h-7 w-7 text-brand-600" strokeWidth={1.75} />
+              <span class="text-sm font-semibold text-slate-800">{t.label}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ PAKET (UMKM highlight paling depan — riset §7) ============ -->
+  <section class="py-20 lg:py-24" id="paket">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <SectionHeading
+        kicker="Paket & harga"
+        title="Harga terpampang. Termasuk dan tidak termasuk, tertulis."
+        subtitle={'Tidak ada "hubungi kami untuk tahu harga". Pilih yang sesuai anggaran, tanya sisanya via WhatsApp.'}
+        center
+      />
+      <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        {
+          packages.map((pkg) => (
+            <div class={pkg.featured ? "reveal xl:-mt-4" : "reveal"}>
+              <PackageCard pkg={pkg} />
+            </div>
+          ))
+        }
+      </div>
+      <p class="reveal mx-auto mt-8 max-w-2xl text-center text-sm text-slate-500">
+        <strong class="font-semibold text-slate-700">Cara bayar: DP 50% — lunas setelah kamu approve demo.</strong>
+        Revisi di luar batas paket dikenakan biaya tambahan yang diumumkan sejak proposal, bukan saat kejadian.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ PORTFOLIO HIGHLIGHT ============ -->
+  <section class="border-y border-slate-100 bg-slate-50 py-20 lg:py-24">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <SectionHeading
+          kicker="Karya"
+          title="Website yang sedang dipakai usaha nyata"
+          subtitle="Klik untuk melihat detail — termasuk link website yang bisa kamu buka sendiri."
+        />
+        <a href="/portfolio/" class="group inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-600">
+          Lihat semua proyek
+          <Icon name="arrow-right" class="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+        </a>
+      </div>
+      <div class="reveal mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {featuredProjects.map((p) => <ProjectCard project={p} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CARA KERJA ============ -->
+  <section class="py-20 lg:py-24">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <SectionHeading
+        kicker="Cara kerja"
+        title="Empat langkah, semua transparan"
+        subtitle="Proses ini tertulis di setiap proposal — bukan janji lisan."
+        center
+      />
+      <ol class="reveal mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {
+          steps.map((s) => (
+            <li class="relative rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-600 text-base font-extrabold text-white">
+                {s.n}
+              </span>
+              <h3 class="mt-4 font-bold text-slate-900">{s.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-600">{s.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="border-t border-slate-100 bg-slate-50 py-20 lg:py-24">
+    <div class="mx-auto max-w-3xl px-4 sm:px-6">
+      <SectionHeading kicker="FAQ" title="Pertanyaan yang paling sering masuk" center />
+      <div class="reveal mt-10 space-y-3">
+        {faqs.map((f) => <FaqItem question={f.q} answer={f.a} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA AKHIR ============ -->
+  <section class="py-20 lg:py-24">
+    <CtaBanner />
+  </section>
+</BaseLayout>

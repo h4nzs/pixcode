@@ -1,0 +1,49 @@
+---
+// Pelacak klik WA tanpa JS (riset §9): Cloudflare Web Analytics tidak punya custom event,
+// jadi tiap tombol WA penting mengarah ke halaman vanity /wa/<konteks>/ — saat dikunjungi,
+// terhitung sebagai pageview (bisa dipecah per paket di analytics), lalu meta-refresh ke wa.me.
+// Target di-bake SAAT BUILD dari site.ts — situs statis tidak bisa membaca query string.
+import type { GetStaticPaths } from "astro";
+import { waLink } from "../../data/site";
+import { packages } from "../../data/packages";
+
+export const getStaticPaths = (() => {
+  // CATATAN: getStaticPaths diekstrak saat build — semua nilai harus dihitung DI DALAM fungsi
+  // (const top-level komponen tidak terlihat dari sini).
+  const contexts = [
+    { slug: "umum", target: waLink({ type: "general" }) },
+    { slug: "portfolio", target: waLink({ type: "project", projectTitle: "proyek di portfolio" }) },
+    ...packages.map((p) => ({
+      slug: `paket-${p.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
+      target: waLink({ type: "package", packageName: `Paket ${p.name}` }),
+    })),
+  ];
+  return contexts.map(({ slug, target }) => ({ params: { slug }, props: { target } }));
+}) satisfies GetStaticPaths;
+
+const { slug } = Astro.params;
+const { target } = Astro.props;
+const baseUrl = new URL(`/wa/${slug}/`, Astro.site).toString();
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mengalihkan ke WhatsApp…</title>
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={baseUrl} />
+    <style>
+      body {
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+        color: #334155;
+      }
+    </style>
+  </head>
+  <body>
+    <p>Membuka WhatsApp…</p>
+  </body>
+</html>

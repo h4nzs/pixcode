@@ -1,0 +1,198 @@
+---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import WaButton from "../../components/WaButton.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import Icon from "../../components/Icon.astro";
+import { site, fullUrl } from "../../data/site";
+import { packages } from "../../data/packages";
+import { projectImage } from "../../utils/projectImage";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { title, client, category, package: pkgId, internalLabel, year, thumbnail, gallery, liveUrl, repoUrl, description, benefit, features } = project.data;
+const thumb = projectImage(thumbnail);
+const galleryImgs = gallery.map((g) => projectImage(g));
+
+const pkgName = pkgId ? packages.find((p) => p.id === pkgId)?.name : undefined;
+const categoryLabel = { website: "Website", "web-app": "Web App", pos: "POS" }[category];
+
+// Proyek lain (maks 3, tanpa proyek ini)
+const others = (await getCollection("projects", (p) => p.id !== project.id)).slice(0, 3);
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: fullUrl("/") },
+    { "@type": "ListItem", position: 2, name: "Portfolio", item: fullUrl("/portfolio/") },
+    { "@type": "ListItem", position: 3, name: title, item: fullUrl(`/portfolio/${project.id}/`) },
+  ],
+};
+---
+
+<BaseLayout
+  title={`${title} — Studi Kasus`}
+  description={description}
+  active="portfolio"
+  schema={schema}
+>
+  <article class="py-12 lg:py-16">
+    <div class="mx-auto max-w-4xl px-4 sm:px-6">
+      <!-- Breadcrumb -->
+      <nav aria-label="Breadcrumb" class="text-sm text-slate-500">
+        <a href="/portfolio/" class="hover:text-brand-700">Portfolio</a>
+        <span class="mx-2 text-slate-300">/</span>
+        <span class="text-slate-700" aria-current="page">{title}</span>
+      </nav>
+
+      <header class="mt-6">
+        {
+          internalLabel && (
+            <p class="inline-block rounded-full bg-slate-100 px-3 py-1 text-xs font-bold uppercase tracking-wide text-slate-500">
+              {internalLabel}
+            </p>
+          )
+        }
+        <h1 class="mt-3 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">{title}</h1>
+        <p class="mt-3 text-sm text-slate-500">
+          {internalLabel ? client : `Klien: ${client}`}
+          <span class="mx-1.5 text-slate-300">·</span>
+          {categoryLabel}
+          {pkgName && <><span class="mx-1.5 text-slate-300">·</span>Paket {pkgName}</>}
+          <span class="mx-1.5 text-slate-300">·</span>
+          {year}
+        </p>
+      </header>
+
+      <div class="reveal mt-8 overflow-hidden rounded-2xl border border-slate-200 shadow-md">
+        <Image
+          src={thumb}
+          alt={`Tampilan utama ${title}`}
+          width={1200}
+          height={900}
+          loading="eager"
+          class="w-full object-cover"
+        />
+      </div>
+
+      <div class="mt-10 grid gap-10 lg:grid-cols-[1.6fr_1fr]">
+        <div>
+          <h2 class="text-xl font-bold text-slate-900">Tentang proyek ini</h2>
+          <p class="mt-3 leading-relaxed text-slate-600">{description}</p>
+
+          <!-- Manfaat bagi pemilik usaha — wajib (riset §3) -->
+          <div class="mt-6 rounded-xl border border-brand-100 bg-brand-50 p-5">
+            <h3 class="text-sm font-bold uppercase tracking-wide text-brand-700">Manfaat bagi pemilik usaha</h3>
+            <p class="mt-2 leading-relaxed text-brand-900">{benefit}</p>
+          </div>
+
+          {
+            features.length > 0 && (
+              <>
+                <h2 class="mt-10 text-xl font-bold text-slate-900">Fitur utama</h2>
+                <ul class="mt-4 grid gap-2.5 sm:grid-cols-2">
+                  {features.map((f) => (
+                    <li class="flex items-start gap-2 text-sm text-slate-700">
+                      <Icon name="check" class="mt-0.5 h-4 w-4 shrink-0 text-brand-600" strokeWidth={2.5} />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )
+          }
+
+          {
+            gallery.length > 0 && (
+              <>
+                <h2 class="mt-10 text-xl font-bold text-slate-900">Galeri</h2>
+                <div class="mt-4 grid gap-4 sm:grid-cols-2">
+                  {galleryImgs.map((img, i) => (
+                    <Image
+                      src={img}
+                      alt={`Screenshot ${i + 1} dari ${title}`}
+                      width={600}
+                      height={450}
+                      loading="lazy"
+                      class="rounded-xl border border-slate-200 object-cover"
+                    />
+                  ))}
+                </div>
+              </>
+            )
+          }
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="h-fit rounded-2xl border border-slate-200 bg-slate-50 p-6 lg:sticky lg:top-24">
+          <h2 class="font-bold text-slate-900">Tertarik dengan hasil serupa?</h2>
+          <p class="mt-2 text-sm text-slate-600">
+            Kami buatkan yang sesuai kebutuhan usaha kamu — mulai dari obrolan ringan, tanpa komitmen.
+          </p>
+          <div class="mt-4">
+            <WaButton
+              context={{ type: "project", projectTitle: title }}
+              label="Diskusikan proyek serupa"
+              class="w-full"
+            />
+          </div>
+
+          <ul class="mt-6 space-y-3 border-t border-slate-200 pt-6 text-sm">
+            {
+              liveUrl && (
+                <li>
+                  <a
+                    href={liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 font-semibold text-brand-700 hover:text-brand-600"
+                  >
+                    <Icon name="external-link" class="h-4 w-4" />
+                    Buka website live
+                  </a>
+                </li>
+              )
+            }
+            {
+              repoUrl && (
+                <li>
+                  <a
+                    href={repoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 font-semibold text-slate-700 hover:text-slate-900"
+                  >
+                    <Icon name="external-link" class="h-4 w-4" />
+                    Lihat source code (GitHub)
+                  </a>
+                </li>
+              )
+            }
+            <li class="text-slate-500">
+              <strong class="font-semibold text-slate-700">Klien:</strong> {client}
+            </li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </article>
+
+  <!-- Proyek lain -->
+  <section class="border-t border-slate-100 bg-slate-50 py-16">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <h2 class="text-2xl font-extrabold tracking-tight text-slate-900">Proyek lainnya</h2>
+      <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {others.map((p) => <ProjectCard project={p} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

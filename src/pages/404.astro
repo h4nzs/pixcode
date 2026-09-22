@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import WaButton from "../components/WaButton.astro";
+---
+
+<BaseLayout title="Halaman Tidak Ditemukan">
+  <section class="flex min-h-[60vh] items-center justify-center px-4 py-20">
+    <div class="text-center">
+      <p class="font-mono text-sm font-bold uppercase tracking-widest text-brand-600">Error 404</p>
+      <h1 class="mt-3 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
+        Halaman tidak ditemukan
+      </h1>
+      <p class="mx-auto mt-4 max-w-md text-slate-600">
+        Alamat yang kamu buka mungkin salah ketik, atau halamannya sudah dipindah.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <a
+          href="/"
+          class="rounded-lg border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 transition-colors hover:border-brand-600 hover:text-brand-700"
+        >
+          Ke Halaman Utama
+        </a>
+        <WaButton context={{ type: "general" }} label="Tanya lewat WhatsApp" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

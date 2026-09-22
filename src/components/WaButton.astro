@@ -1,0 +1,51 @@
+---
+// CTA utama seluruh situs (riset §2: warm action). Nomor & template pesan dari src/data/site.ts.
+import Icon from "./Icon.astro";
+import { waLink } from "../data/site";
+
+type WaContext =
+  | { type: "general" }
+  | { type: "package"; packageName: string }
+  | { type: "project"; projectTitle: string };
+
+interface Props {
+  /** Default: { type: "general" } jika tidak diberikan. */
+  context?: WaContext;
+  variant?: "primary" | "ghost";
+  size?: "normal" | "large";
+  label?: string;
+  /** Pakai redirect terukur /wa/[slug] (pageview analytics, tanpa JS) — default true. */
+  tracked?: boolean;
+  class?: string;
+}
+
+const {
+  context = { type: "general" } as WaContext,
+  variant = "primary",
+  size = "normal",
+  label,
+  tracked = true,
+  class: className = "",
+} = Astro.props;
+
+const directUrl = waLink(context);
+// Halaman vanity /wa/<konteks>/ dibuat saat build (src/pages/wa/[slug].astro) —
+// pageview-nya jadi metrik klik WA di Cloudflare Web Analytics, tanpa JS.
+const trackSlug =
+  context.type === "package"
+    ? `paket-${context.packageName.replace("Paket ", "").toLowerCase().replace(/[^a-z0-9]+/g, "-")}`
+    : null;
+const href = tracked && trackSlug ? `/wa/${trackSlug}/` : directUrl;
+
+const base = "inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600";
+const sizes = size === "large" ? "px-6 py-3.5 text-base" : "px-5 py-2.5 text-sm";
+const variants = {
+  primary: "bg-wa text-white hover:bg-wa-dark shadow-sm",
+  ghost: "border border-wa/40 text-wa-dark hover:bg-wa/10",
+};
+---
+
+<a href={href} target="_blank" rel="noopener noreferrer" class={`${base} ${sizes} ${variants[variant]} ${className}`}>
+  <Icon name="message-circle" class="h-5 w-5" />
+  {label ?? "Tanya via WhatsApp"}
+</a>

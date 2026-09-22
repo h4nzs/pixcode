@@ -1,0 +1,117 @@
+---
+// Layout dasar: <head> SEO lengkap + Header + Footer + reveal-on-scroll (satu-satunya JS di situs).
+import { Font } from "astro:assets";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { site, fullUrl } from "../data/site";
+import "../styles/global.css";
+
+interface Props {
+  title: string; // tanpa suffix — suffix ditambahkan otomatis
+  description?: string;
+  active?: "home" | "layanan" | "portfolio" | "tentang" | "kontak";
+  /** JSON-LD tambahan per halaman (objek atau array objek). */
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const { title, description = site.description, active, schema } = Astro.props;
+const fullTitle = `${title} | ${site.name} — Jasa Website UMKM Bandung`;
+const canonical = fullUrl(Astro.url.pathname);
+const ogImage = fullUrl("/og-image.png");
+const siteOrigin = new URL(site.url).origin;
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Open Graph / WhatsApp / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Font via Astro Fonts API (self-host, fallback + preload otomatis) -->
+    <Font cssVariable="--font-jakarta" preload />
+
+    <!-- JSON-LD: ProfessionalService global (entity: nama/WA/kota/area konsisten — riset §6) -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      name: site.name,
+      description: site.description,
+      url: site.url,
+      image: ogImage,
+      logo: fullUrl("/favicon.svg"),
+      telephone: `+${site.whatsapp}`,
+      email: site.email,
+      foundingDate: String(site.foundedYear),
+      address: { "@type": "PostalAddress", addressLocality: site.city, addressRegion: site.region, addressCountry: "ID" },
+      areaServed: site.areasServed.map((a) => ({ "@type": "City", name: a })),
+      sameAs: [
+        ...(site.instagram ? [`https://instagram.com/${site.instagram}`] : []),
+        "https://github.com/h4nzs",
+      ],
+      priceRange: "Rp 400.000 - Rp 8.000.000",
+    })} />
+
+    {schema && (
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schema)}
+      />
+    )}
+  </head>
+
+  <body>
+    <a
+      href="#konten"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-brand-600 focus:px-4 focus:py-2 focus:text-white"
+    >
+      Lewati ke konten utama
+    </a>
+
+    <Header active={active} />
+
+    <main id="konten">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <!-- Reveal on scroll — satu-satunya JS situs; nonaktif jika prefers-reduced-motion. -->
+    <script>
+      const els = document.querySelectorAll<HTMLElement>(".reveal");
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduced) {
+        els.forEach((el) => el.classList.add("is-visible"));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add("is-visible");
+                io.unobserve(e.target);
+              }
+            }
+          },
+          { threshold: 0.12 },
+        );
+        els.forEach((el) => io.observe(el));
+      }
+    </script>
+  </body>
+</html>
