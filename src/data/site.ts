@@ -16,6 +16,10 @@ export const site = {
   country: "Indonesia",
   areasServed: ["Bandung", "Garut", "Jakarta", "Tasikmalaya"],
   instagram: null as string | null, // TODO(user): isi cth. "pixcode.studio" saat akun jadi.
+  // Cloudflare Web Analytics beacon token — ambil dari:
+  // Dashboard → Analytics & Logs → Web Analytics → Manage site → copy token di snippet.
+  // Token ini memang publik (ikut ke HTML klien by design) — aman di-commit.
+  analyticsToken: "85298d673d3949158890c452810361a7" as string | null,
   foundedYear: 2026,
 } as const;
 

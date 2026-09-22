@@ -76,6 +76,19 @@ const siteOrigin = new URL(site.url).origin;
         set:html={JSON.stringify(schema)}
       />
     )}
+
+    <!-- Cloudflare Web Analytics (cookieless) — aktif saat site.analyticsToken diisi.
+         is:inline agar Astro tidak memproses ulang script beacon pihak CF. -->
+    {
+      site.analyticsToken && (
+        <script
+          is:inline
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={JSON.stringify({ token: site.analyticsToken })}
+        />
+      )
+    }
   </head>
 
   <body>
