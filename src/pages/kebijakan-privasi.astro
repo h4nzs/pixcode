@@ -1,0 +1,76 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const updated = "22 September 2026";
+---
+
+<BaseLayout
+  title="Kebijakan Privasi"
+  description="Kebijakan privasi Pixcode Studio: situs ini tidak mengumpulkan data pribadi, tanpa cookie pelacak, dan komunikasi berlangsung via WhatsApp/email."
+>
+  <section class="py-14 lg:py-20">
+    <div class="mx-auto max-w-3xl px-4 sm:px-6">
+      <p class="text-xs font-bold uppercase tracking-widest text-brand-600">Legal</p>
+      <h1 class="mt-3 text-4xl font-extrabold tracking-tight text-slate-900">Kebijakan Privasi</h1>
+      <p class="mt-2 text-sm text-slate-500">Terakhir diperbarui: {updated}</p>
+
+      <div class="mt-8 space-y-8 leading-relaxed text-slate-600">
+        <div>
+          <h2 class="text-xl font-bold text-slate-900">Ringkasnya</h2>
+          <p class="mt-2">
+            Situs ini hampir tidak menyentuh data kamu sama sekali: tidak ada form penyimpan data, tidak ada
+            cookie pelacak, dan tidak ada login. Data pribadi baru tersentuh saat kamu menghubungi kami secara sukarela
+            lewat WhatsApp atau email.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-slate-900">Data yang kami kumpulkan</h2>
+          <ul class="mt-3 list-disc space-y-2 pl-5">
+            <li>
+              <strong class="font-semibold text-slate-800">Statistik kunjungan anonim</strong> via Cloudflare Web Analytics —
+              tanpa cookie, tanpa fingerprinting, tidak mengidentifikasi siapa kamu (hanya angka agregat: halaman dilihat, negara, perangkat).
+            </li>
+            <li>
+              <strong class="font-semibold text-slate-800">Pesan yang kamu kirim</strong> ke WhatsApp atau email kami —
+              isinya (nama, jenis usaha, kebutuhan) kami gunakan hanya untuk komunikasi proyek.
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-slate-900">Data yang TIDAK kami kumpulkan</h2>
+          <p class="mt-2">
+            Kami tidak memakai iklan, tidak memakai tracker pihak ketiga (Google Analytics/Facebook Pixel/dsb.),
+            dan tidak menjual atau membagikan data ke pihak mana pun.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-slate-900">Data klien saat proyek berjalan</h2>
+          <p class="mt-2">
+            Materi proyek (logo, foto, teks, akses hosting/domain) yang kamu percayakan hanya dipakai untuk mengerjakan
+            proyek kamu, disimpan secukupnya selama kerja, dan dihapus dari perangkat kerja kami setelah handover —
+            kecuali kamu minta disimpan untuk maintenance. Ketentuan lebih rinci ada di proposal/kesepakatan per proyek.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-slate-900">Hak kamu</h2>
+          <p class="mt-2">
+            Mau tahu data apa yang kami pegang tentang kamu, minta dikoreksi, atau dihapus? Cukup pesan ke
+            kontak di bawah — kami proses tanpa drama.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-slate-900">Kontak</h2>
+          <p class="mt-2">
+            Pixcode Studio — Bandung. WhatsApp: +62 815-1313-5408 · Email:
+            <a class="text-brand-700 hover:underline" href="mailto:pixcodestd@gmail.com">pixcodestd@gmail.com</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

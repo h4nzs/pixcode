@@ -1,5 +1,6 @@
 ---
-// Layout dasar: <head> SEO lengkap + Header + Footer + reveal-on-scroll (satu-satunya JS di situs).
+// Layout dasar: <head> SEO lengkap + Header + Footer + reveal-on-scroll (vanilla, ringan —
+// sesuai kebijakan §3 AGENTS.md: zero-JS default, JS boleh jika lebih optimal).
 import { Font } from "astro:assets";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
@@ -93,7 +94,7 @@ const siteOrigin = new URL(site.url).origin;
 
     <Footer />
 
-    <!-- Reveal on scroll — satu-satunya JS situs; nonaktif jika prefers-reduced-motion. -->
+    <!-- Reveal on scroll — vanilla & ringan; nonaktif jika prefers-reduced-motion. -->
     <script>
       const els = document.querySelectorAll<HTMLElement>(".reveal");
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

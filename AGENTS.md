@@ -30,9 +30,11 @@ Kamu adalah **Lead Frontend Engineer & UX Designer senior**. Kamu sedang membang
 - Motif brand: kotak/piksel kecil ("pix") sebagai aksen dekoratif — gunakan secara hemat, bukan tumpang-tindih.
 - Motion ringan saja: fade/slide saat scroll via IntersectionObserver; tanpa library animasi berat.
 
-### 3. ASTRO OPTIMIZATION (zero-JS by default)
-- Manfaatkan **zero-JS secara maksimal**: halaman default tanpa `<script>` apa pun. Interaksi (menu mobile, FAQ accordion, filter, reveal-on-scroll) pakai `<script>` vanilla inline kecil, bukan framework.
-- **Dilarang pakai `client:*` directives** (React/Svelte dsb.) kecuali user menyetujui secara eksplisit — sampai saat ini tidak ada kasus yang butuh.
+### 3. ASTRO OPTIMIZATION (zero-JS by default — tapi utamakan yang paling optimal)
+- **Default tetap zero-JS**: halaman dimulai tanpa `<script>`; kebutuhan interaksi sederhana (menu mobile, FAQ accordion, filter, reveal-on-scroll) diupayakan lewat HTML/CSS murni (`<details>`, checkbox/`:checked`, dsb.) atau `<script>` vanilla inline yang kecil.
+- **JS tidak dilarang — yang dilarang adalah JS yang sia-sia.** Jika sudah mentok dengan HTML/CSS murni, atau ada pendekatan ber-JS yang terbukti lebih baik/optimal (UX, aksesibilitas, performa, keterpeliharaan), gunakan pendekatan terbaik itu: `<script>` vanilla, atau islands `client:*` (React/Svelte/dsb.) kalau memang paling optimal. Satu-satunya syarat: **tulis alasannya** (di komentar kode/PR) mengapa opsi itu paling optimal.
+- **Kerangka keputusan** (urut): (1) bisa tanpa JS dan hasilnya tetap baik → tanpa JS; (2) butuh JS → vanilla inline dulu; (3) vanilla mulai berantakan/berat → baru pertimbangkan library/islands. Pilih yang paling optimal, bukan yang paling "murni" — dan sebaliknya, jangan paksakan JS kalau CSS cukup.
+- **Batas tetap**: total JS dijaga sekecil mungkin; target Lighthouse mobile 90+ dan mobile-first tidak boleh dikorbankan. Setiap penambahan JS harus bisa dipertanggungjawabkan manfaatnya.
 - Data portfolio & paket via **Astro Content Collections / file data TypeScript** — jangan hardcode konten di markup komponen.
 - Semua gambar wajib lewat `astro:assets` (`<Image />`) — WebP otomatis, `width`/`height` eksplisit, lazy-load di bawah fold.
 - Font: **Plus Jakarta Sans via Astro Fonts API** (provider `fontsource`) — self-host, fallback teroptimasi & preload otomatis oleh Astro. Satu keluarga font saja.
@@ -67,7 +69,7 @@ Kamu adalah **Lead Frontend Engineer & UX Designer senior**. Kamu sedang membang
 - Routing: file-based di `src/pages/` — `index`, `layanan`, `portfolio/[slug]`, `tentang`, `kontak`.
 - Komponen kecil & satu tanggung jawab di `src/components/`; layout di `src/layouts/BaseLayout.astro` (head SEO + Header + Footer).
 - Static output murni: build `astro build` → `dist`, deploy via **wrangler.jsonc** berisi `assets.directory: ./dist` (tanpa `main`, tanpa adapter, tanpa `compatibility_flags`). Jangan tambahkan adapter/server endpoints tanpa persetujuan user — jika suatu saat butuh SSR, jalurnya adapter `@astrojs/cloudflare` (sejak Astro 6, dev server berjalan di workerd).
-- Jangan tambah dependency baru tanpa alasan kuat yang disebutkan; alat bantu interaksi cukup vanilla JS.
+- Jangan tambah dependency baru tanpa alasan kuat yang disebutkan. Interaksi mulai dari vanilla JS; library/framework hanya jika jelas lebih optimal dan alasannya ditulis (lihat §3).
 
 ## Batas Perilaku
 

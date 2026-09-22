@@ -14,7 +14,8 @@ interface Props {
   variant?: "primary" | "ghost";
   size?: "normal" | "large";
   label?: string;
-  /** Pakai redirect terukur /wa/[slug] (pageview analytics, tanpa JS) — default true. */
+  /** Pakai redirect terukur /wa/[slug] (pageview analytics tanpa JS — pendekatan paling
+   *  optimal untuk Web Analytics CF; JS hanya jika butuh event lebih granular) — default true. */
   tracked?: boolean;
   class?: string;
 }

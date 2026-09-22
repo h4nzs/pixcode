@@ -27,7 +27,8 @@ const projects = (await getCollection("projects")).sort((a, b) => b.data.year - 
 
   <section class="py-16 lg:py-20">
     <div class="mx-auto max-w-6xl px-4 sm:px-6">
-      <!-- Filter kategori: radio + :checked sibling — tanpa JS sama sekali -->
+      <!-- Filter kategori: radio + :checked sibling (CSS murni karena cukup; boleh diganti
+           JS jika terbukti lebih optimal — lihat kebijakan §3 AGENTS.md). -->
       <input type="radio" id="filter-semua" name="filter" class="peer-fx sr-only" checked />
       <input type="radio" id="filter-website" name="filter" class="peer-fx sr-only" />
       <input type="radio" id="filter-web-app" name="filter" class="peer-fx sr-only" />
@@ -61,7 +62,7 @@ const projects = (await getCollection("projects")).sort((a, b) => b.data.year - 
   </section>
 
   <style>
-    /* Filter berbasis state radio (zero-JS): sembunyikan item yang tidak cocok */
+    /* Filter berbasis state radio (CSS murni): sembunyikan item yang tidak cocok */
     #filter-website:checked ~ .grid .project-item:not(.cat-website) { display: none; }
     #filter-web-app:checked ~ .grid .project-item:not(.cat-web-app) { display: none; }
   </style>

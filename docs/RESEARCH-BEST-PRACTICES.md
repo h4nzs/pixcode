@@ -117,7 +117,7 @@
 1. **Blog di v1** — butuh komitmen konten berkelanjutan; blog mati (postingan terakhir basi) justru jadi sinyal negatif. Jalur lebih murah dengan efek sama: FAQ lengkap + halaman paket yang menjawab pertanyaan nyata. Blog bisa menyusul kalau sudah konsisten jalan.
 2. **Halaman "klien kami" dengan dinding logo** — Pixcode baru punya 3 website klien dari satu grup yang dianonimkan; dinding logo kecil justru memperlihatkan skala. Lebih jujur & kuat: studi kasus mendalam per proyek.
 3. **Testimonial/penghargaan yang belum ada** — DILARANG (aturan AGENTS.md). Testimonial palsu mudah terlihat dan merusak segala hal lain yang jujur dari web ini. Slot tetap disiapkan di skema (field `testimonial`) untuk diisi saat benar-benar ada.
-4. **Live chat / chatbot widget** — redundan dengan WA (kanal utama) dan menambah JS pihak ketiga (melawan prinsip zero-JS & performa).
+4. **Live chat / chatbot widget** — redundan dengan WA (kanal utama) dan menambah beban JS pihak ketiga (payload & UX, bukan sekadar prinsip anti-JS).
 5. **Form kontak backend** — friksi lebih tinggi daripada WA di pasar lokal; disepakati skip (keputusan terkunci).
 6. **Slider/ carousel di hero** — kecenderungan lama yang sudah lama dianggap anti-pattern (pengunjung jarang lihat slide ke-2; memindahkan CTA dari pandangan).
 7. **Animasi berat / parallax / library animasi** — melawan target Lighthouse 90+ dan audiens mobile dengan jaringan variatif.
