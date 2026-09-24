@@ -46,7 +46,8 @@ Ahli Panggilan & Vodatrip ditemukan menyebut "PT. ONO VODA PRO" di footer/izin m
 | `category` | `website` |
 | `package` | `standar` (paling kompleks: ada database & transaksi data) |
 | `year` | 2026 (footer © 2026) |
-| `liveUrl` | `https://ahlipanggilan.id` (saat riset: HTTP 523 — server down sementara; situs terverifikasi aktif via hasil pencarian) |
+| `liveUrl` | `https://ahlipanggilan.id` |
+| `liveStatus` | `temporarily-offline` — **sejak 2026-09-24 sengaja dinonaktifkan klien** (HTTP 523; sebelumnya juga 523 saat riset 2026-09-22). Proyek tetap dipamerkan, UI menampilkan info "nonaktif sementara". |
 | `featured` | ya |
 | Deskripsi | Platform layanan teknisi on-demand (AC, plumbing, listrik, cleaning, CCTV) yang menghubungkan pelanggan dengan teknisi terverifikasi di Jabodetabek & Bandung. Dilengkapi form booking online, katalog layanan, halaman pendaftaran mitra teknisi, FAQ, dan halaman legal (S&K, privasi). |
 | Fitur utama | Form booking layanan; katalog layanan per kategori; pendaftaran mitra/teknisi; halaman legal & FAQ |
@@ -66,6 +67,22 @@ Ahli Panggilan & Vodatrip ditemukan menyebut "PT. ONO VODA PRO" di footer/izin m
 | Deskripsi | Website tour & event organizer: katalog paket wisata, gathering perusahaan, dan outbound dengan harga dinamis ("Mulai dari Rp…"), plus statistik kepercayaan (200+ paket, 500+ event, 1000+ pelanggan) dan CTA konsultasi. |
 | Fitur utama | Katalog paket dengan harga dinamis; filter/pencarian paket; section kepercayaan (statistik); CTA konsultasi custom paket |
 | Sumber riset | Teks lengkap homepage (terbaca penuh saat riset) |
+
+### 3b. Voda Level Up (baru, 2026-09-24)
+| Field | Nilai |
+|---|---|
+| `slug` | `voda-levelup` |
+| `title` | Voda Level Up |
+| `client` (anonim) | Perusahaan event & lifestyle, Indonesia |
+| `category` | `website` |
+| `package` | `standar` (multihalaman, konten sensitif, video) |
+| `year` | 2026 (footer © 2026) |
+| `liveUrl` | `https://vodalevelup.id` ✅ terverifikasi live (HTTP 200) |
+| `featured` | ya |
+| Deskripsi | Situs firma asesmen independen & due diligence organisasi (unit dari PT Ono Voda Pro): 4 pilar layanan, metodologi kerahasiaan, protokol kepatuhan UU PDP, film profil perusahaan, jalur konsultasi rahasia via WhatsApp. |
+| Fitur utama | 4 pilar layanan; metodologi 3 langkah; protokol kerahasiaan (UU PDP); film/video profil perusahaan; halaman layanan per pilar; halaman Perspektif |
+| Stack | TypeScript, Astro, Tailwind CSS (fingerprint `data-astro` ×214 di HTML — terkonfirmasi) |
+| Sumber riset | Full text homepage via read_url + hasil pencarian (5 halaman layanan/perspektif terindeks), 2026-09-24 |
 
 ---
 
@@ -128,10 +145,15 @@ Ahli Panggilan & Vodatrip ditemukan menyebut "PT. ONO VODA PRO" di footer/izin m
 
 ---
 
-## D. Halaman detail per proyek (nanti)
+## D. Struktur studi kasus (aktif 2026-09-23 — usulan teman user, disetujui)
 
-Untuk halaman `/portfolio/[slug]`, konten yang masih perlu diisi user (boleh menyusul):
-- Cerita singkat masalah → solusi (2–4 kalimat per proyek)
-- **Manfaat bagi pemilik usaha** (wajib per riset §3 — bukan cuma teknologi; cth. "form booking online → pelanggan bisa pesan di luar jam operasional")
-- Screenshot/galeri: **desktop + mobile** (mobile proof adalah trust signal; placeholder dulu)
-- Untuk proyek internal: apakah mau menampilkan teknologi stack di halaman detail (bagus untuk kredibilitas teknis)?
+Halaman detail kini berstruktur studi kasus: Tantangan → Sebelum & Sesudah → Manfaat → Fitur → Teknologi & tools. Field baru di skema (`content.config.ts`): `challenge`, `before`, `after`, `stack` — semuanya nullable, section hanya muncul saat diisi.
+
+**Status draft (wajib review user):**
+- `challenge` / `before` / `after` untuk 3 website klien = **DRAFT** — diturunkan dari fitur yang benar-benar ada, bukan wawancara klien. Koreksi langsung di file `.md` (hapus komentar `# DRAFT` setelah OK).
+- `stack` terverifikasi dari user (2026-09-23): Profesional Indonesia = WordPress/PHP + custom functions + plugin; Ahli Panggilan = TS/Astro/Tailwind + custom CMS esensial; Vodatrip = TS/Astro + Directus. Proyek internal = dari riset GitHub.
+- Screenshot before/after **visual** (desktop + mobile) tetap menyusul — slot gallery tersedia; format teks sudah aktif sekarang.
+
+### Halaman detail per proyek (konten yang masih perlu diisi user, boleh menyusul):
+- Thumbnail asli ✅ terpasang untuk semua 6 proyek (4 screenshot PNG + 2 cover SVG mirai). Galeri/screenshot mobile (trust signal tambahan) masih kosong — field `gallery` tersedia bila mau ditambahkan.
+- Testimonial klien bila nanti ada (field sudah tersedia)

@@ -21,10 +21,19 @@ const projects = defineCollection({
     thumbnail: z.string(),
     gallery: z.array(z.string()).default([]),
     liveUrl: z.url().nullable(),
+    /** Status situs live: "temporarily-offline" = dinonaktifkan sementara (UI menampilkan info). */
+    liveStatus: z.enum(["active", "temporarily-offline"]).default("active"),
     repoUrl: z.url().nullable(),
     description: z.string(),
     /** Manfaat bagi pemilik usaha — wajib per riset §3 (bukan cuma teknologi). */
     benefit: z.string(),
+    /** Studi kasus: masalah bisnis di balik proyek. Nullable — tanpa field ini halaman tetap valid. */
+    challenge: z.string().nullable().default(null),
+    /** Before→after berbasis teks (riset T2). Null = section tidak dirender. */
+    before: z.string().nullable().default(null),
+    after: z.string().nullable().default(null),
+    /** Bahasa/tools/framework — sinyal kredibilitas teknis + kutipan AI engine (GEO). */
+    stack: z.array(z.string()).default([]),
     features: z.array(z.string()).default([]),
     testimonial: z
       .object({ text: z.string(), author: z.string() })

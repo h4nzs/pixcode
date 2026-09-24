@@ -7,14 +7,20 @@ export const site = {
   legalName: "Pixcode Studio",
   tagline: "Website untuk UMKM — jelas cakupannya, jelas harganya, jelas prosesnya.",
   description:
-    "Jasa pembuatan website & aplikasi untuk UMKM di Bandung. Harga jelas dari awal, batas revisi tertulis, proses DP 50% → demo → live. Mulai Rp 400.000.",
+    "Jasa pembuatan website & aplikasi untuk UMKM — berbasis di Bandung, melayani seluruh Indonesia. Harga jelas dari awal, batas revisi tertulis, proses DP 50% → demo → live. Mulai Rp 400.000.",
   url: "https://pixcode.my.id", // TODO(user): domain final — ganti saat domain aktif/diubah.
   email: "pixcodestd@gmail.com",
   whatsapp: "6281513135408",
   city: "Bandung",
   region: "Jawa Barat",
   country: "Indonesia",
-  areasServed: ["Bandung", "Garut", "Jakarta", "Tasikmalaya"],
+  // Area layanan: seluruh Indonesia (keputusan 2026-09-23). Basis tim tetap Bandung.
+  // Pola hibrida (riset §6): sinyal lokal lewat kota-kota besar + catch-all "seluruh kota
+  // lainnya" — jangan sebut semua kota (keyword stuffing, sinyal spam).
+  serviceArea: "seluruh Indonesia",
+  // Kota besar untuk JSON-LD areaServed & FAQ (di luar site.city yang selalu ikut).
+  // Jabodetabek lengkap + kota besar pulau — populasi top-10 & satu megaregion ekonomi.
+  majorCities: ["Jakarta", "Bogor", "Depok", "Tangerang", "Bekasi", "Surabaya", "Medan", "Semarang"],
   instagram: null as string | null, // TODO(user): isi cth. "pixcode.studio" saat akun jadi.
   // Cloudflare Web Analytics beacon token — ambil dari:
   // Dashboard → Analytics & Logs → Web Analytics → Manage site → copy token di snippet.

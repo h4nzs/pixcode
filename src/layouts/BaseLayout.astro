@@ -62,7 +62,12 @@ const siteOrigin = new URL(site.url).origin;
       email: site.email,
       foundingDate: String(site.foundedYear),
       address: { "@type": "PostalAddress", addressLocality: site.city, addressRegion: site.region, addressCountry: "ID" },
-      areaServed: site.areasServed.map((a) => ({ "@type": "City", name: a })),
+      // Pola hibrida: daftar City (basis + kota besar) UNTUK sinyal lokal, plus Country
+      // untuk cakupan nasional — keduanya valid sebagai array areaServed (schema.org Place).
+      areaServed: [
+        ...[site.city, ...site.majorCities].map((name) => ({ "@type": "City", name })),
+        { "@type": "Country", name: site.country },
+      ],
       sameAs: [
         ...(site.instagram ? [`https://instagram.com/${site.instagram}`] : []),
         "https://github.com/h4nzs",

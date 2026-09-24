@@ -206,7 +206,7 @@ featured?: boolean            // tampil di Home highlight
 - Meta title/description per halaman + canonical.
 - Open Graph + Twitter card (og-image di `public/`), penting karena link sering dibagikan via WhatsApp.
 - Sitemap (`@astrojs/sitemap`) + `robots.txt`.
-- JSON-LD `ProfessionalService` (nama, WA, kota, layanan) di Home, termasuk **area layanan: Bandung, Garut, Jakarta, Tasikmalaya**; `FAQPage` untuk FAQ; `BreadcrumbList` di detail portfolio; `sameAs` untuk entitas.
+- JSON-LD `ProfessionalService` (nama, WA, kota, layanan) di Home, termasuk **area layanan hibrida: `City` (Bandung + Jabodetabek: Jakarta, Bogor, Depok, Tangerang, Bekasi + Surabaya, Medan, Semarang) + `Country: Indonesia`** — sinyal lokal & nasional sekaligus (revisi 2026-09-23: dari daftar 4 kota → Country → hibrida); plus FAQ "melayani di luar Bandung?" dengan pola "Jabodetabek + kota besar + seluruh kota lainnya di Indonesia". `FAQPage` untuk FAQ; `BreadcrumbList` di detail portfolio; `sameAs` untuk entitas.
 - **GEO answer blocks** (riset §6): jawaban langsung 2–3 kalimat (40–60 kata) di atas section penting; H2/H3 berbentuk pertanyaan di Layanan & FAQ; klaim selalu disertai angka + tanggal.
 - Heading semantik (satu H1 per halaman), alt text semua gambar.
 - Target: skor Lighthouse mobile 90+ (statis + font via Astro Fonts API + gambar WebP = realistis).

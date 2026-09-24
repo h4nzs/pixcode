@@ -14,6 +14,13 @@ benefit: "Menunjukkan kemampuan membangun aplikasi web lengkap (bukan hanya hala
 features:
   - "Arsitektur monorepo TypeScript"
   - "Frontend + backend + shared packages"
+challenge: "Membangun produk AI end-to-end butuh fondasi yang bisa tumbuh: frontend, backend, dan kode bersama harus konsisten dalam satu arsitektur — bukan skrip terpisah yang sulit dirawat."
+before: "Prototipe AI biasanya berhenti di skrip terpisah tanpa struktur yang siap dikembangkan."
+after: "Monorepo TypeScript utuh — frontend, backend, dan shared packages dalam satu arsitektur yang siap tumbuh."
+stack:
+  - "TypeScript"
+  - "Monorepo"
+  - "Frontend + Backend"
 testimonial: null
 featured: false
 ---

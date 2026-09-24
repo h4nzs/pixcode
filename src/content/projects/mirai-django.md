@@ -16,6 +16,17 @@ features:
   - "Integrasi TMDB API"
   - "Dashboard pengguna & watchlist"
   - "Django 5 + PostgreSQL + Tailwind"
+challenge: "Pencarian film konvensional hanya cocok dengan keyword — tidak memahami konteks atau selera yang diekspresikan pengguna secara bebas."
+before: "Cari film = keyword & filter kaku; hasilnya generik."
+after: "Pengguna mendeskripsikan mood/keinginan secara bebas; chatbot Gemini menerjemahkannya jadi rekomendasi dari katalog TMDB, tersimpan di watchlist."
+stack:
+  - "Django 5"
+  - "Python"
+  - "PostgreSQL"
+  - "Google Gemini API"
+  - "TMDB API"
+  - "Tailwind CSS"
+  - "daisyUI"
 testimonial: null
 featured: false
 ---

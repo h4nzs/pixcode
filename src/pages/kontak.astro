@@ -31,7 +31,7 @@ import { site, waLink } from "../data/site";
                 WhatsApp — kanal tercepat
               </h2>
               <p class="mt-1 text-sm text-slate-600">
-                {site.city} & sekitarnya. Konsultasi awal gratis, tanpa DP.
+                Berbasis {site.city} — melayani {site.serviceArea}. Konsultasi awal gratis, tanpa DP.
               </p>
             </div>
             <WaButton size="large" label={`Chat ${site.whatsapp.slice(2).replace(/(\d{3})(\d{3})(\d+)/, "$1-$2-$3")}`} />
@@ -60,7 +60,7 @@ import { site, waLink } from "../data/site";
           <p class="mt-2 text-sm text-slate-600">Senin–Sabtu, 09.00–17.00 WIB</p>
           <p class="mt-1 flex items-start gap-1.5 text-xs text-slate-400">
             <Icon name="map-pin" class="mt-0.5 h-3.5 w-3.5 shrink-0" />
-            Basis {site.city} — melayani {site.areasServed.join(", ")} & sekitarnya.
+            Basis {site.city} — melayani {site.serviceArea}.
           </p>
         </div>
       </div>

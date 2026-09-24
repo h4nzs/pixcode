@@ -4,7 +4,10 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ProjectCard from "../../components/ProjectCard.astro";
 import CtaBanner from "../../components/CtaBanner.astro";
 
-const projects = (await getCollection("projects")).sort((a, b) => b.data.year - a.data.year);
+// Urutan: proyek klien dulu (bukti utama untuk calon klien), lalu tahun terbaru.
+const projects = (await getCollection("projects")).sort(
+  (a, b) => (a.data.internalLabel ? 1 : 0) - (b.data.internalLabel ? 1 : 0) || b.data.year - a.data.year,
+);
 ---
 
 <BaseLayout

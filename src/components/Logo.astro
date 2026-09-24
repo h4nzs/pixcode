@@ -1,20 +1,66 @@
 ---
-// Wordmark sementara — TODO(user): ganti dengan file logo asli saat dikirim (docs/WEBSITE-BRIEF.md checklist #8).
+// Ikon "mark" TANPA background (revisi 2026-09-24): pixel-bracket <PIX/CODE> berdiri sendiri.
+// Dua varian via prop useWhite:
+//   - light (default, Header): bracket+PIX slate-900, CODE brand-600 → kontras di latar putih
+//   - dark (Footer): bracket+PIX putih, CODE brand-300 → kontras di latar gelap
+// Favicon TETAP badge gradient (public/favicon.svg) — dua aset berbeda sesuai fungsi.
+// Letterform: pixel-grid 3×5 per huruf (bukan font) — render identik di semua device.
 interface Props {
   class?: string;
   useWhite?: boolean;
 }
 const { class: className = "h-8 w-auto", useWhite = false } = Astro.props;
 const text = useWhite ? "text-white" : "text-slate-900";
-const squares = useWhite ? "fill-white" : "fill-brand-600";
+const bracket = useWhite ? "#ffffff" : "#0f172a"; // slate-900
+const pix = useWhite ? "#ffffff" : "#0f172a";
+const code = useWhite ? "#5eead4" : "#0d9488"; // brand-300 / brand-600
 ---
 
 <a href="/" class={`inline-flex items-center gap-2 ${className}`} aria-label="Pixcode Studio — beranda">
   <svg viewBox="0 0 28 28" class="h-full w-auto" aria-hidden="true">
-    <rect x="1" y="1" width="12" height="12" rx="2" class={squares} opacity="0.45" />
-    <rect x="15" y="1" width="12" height="12" rx="2" class={squares} opacity="0.75" />
-    <rect x="1" y="15" width="12" height="12" rx="2" class={squares} opacity="0.6" />
-    <rect x="15" y="15" width="12" height="12" rx="2" class={squares} />
+    <path d="M5 8.6 2.6 14l2.4 5.4" fill="none" stroke={bracket} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M23 8.6 25.4 14l-2.4 5.4" fill="none" stroke={bracket} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <!-- PIX — grid 3×5 per huruf (P I X @ kolom 0/4/8) -->
+    <g transform="translate(9.05 9.05) scale(0.9)" fill={pix}>
+      <rect x="0" y="0" width="1" height="1" /><rect x="1" y="0" width="1" height="1" /><rect x="2" y="0" width="1" height="1" />
+      <rect x="0" y="1" width="1" height="1" /><rect x="2" y="1" width="1" height="1" />
+      <rect x="0" y="2" width="1" height="1" /><rect x="1" y="2" width="1" height="1" /><rect x="2" y="2" width="1" height="1" />
+      <rect x="0" y="3" width="1" height="1" />
+      <rect x="0" y="4" width="1" height="1" />
+      <rect x="4" y="0" width="1" height="1" /><rect x="5" y="0" width="1" height="1" /><rect x="6" y="0" width="1" height="1" />
+      <rect x="5" y="1" width="1" height="1" />
+      <rect x="5" y="2" width="1" height="1" />
+      <rect x="5" y="3" width="1" height="1" />
+      <rect x="4" y="4" width="1" height="1" /><rect x="5" y="4" width="1" height="1" /><rect x="6" y="4" width="1" height="1" />
+      <rect x="8" y="0" width="1" height="1" /><rect x="10" y="0" width="1" height="1" />
+      <rect x="9" y="1" width="1" height="1" />
+      <rect x="9" y="2" width="1" height="1" />
+      <rect x="9" y="3" width="1" height="1" />
+      <rect x="8" y="4" width="1" height="1" /><rect x="10" y="4" width="1" height="1" />
+    </g>
+    <!-- CODE — grid 3×5 per huruf (C O D E @ kolom 0/4/8/12) -->
+    <g transform="translate(7.25 14.45) scale(0.9)" fill={code}>
+      <rect x="0" y="0" width="1" height="1" /><rect x="1" y="0" width="1" height="1" /><rect x="2" y="0" width="1" height="1" />
+      <rect x="0" y="1" width="1" height="1" />
+      <rect x="0" y="2" width="1" height="1" />
+      <rect x="0" y="3" width="1" height="1" />
+      <rect x="0" y="4" width="1" height="1" /><rect x="1" y="4" width="1" height="1" /><rect x="2" y="4" width="1" height="1" />
+      <rect x="4" y="0" width="1" height="1" /><rect x="5" y="0" width="1" height="1" /><rect x="6" y="0" width="1" height="1" />
+      <rect x="4" y="1" width="1" height="1" /><rect x="6" y="1" width="1" height="1" />
+      <rect x="4" y="2" width="1" height="1" /><rect x="6" y="2" width="1" height="1" />
+      <rect x="4" y="3" width="1" height="1" /><rect x="6" y="3" width="1" height="1" />
+      <rect x="4" y="4" width="1" height="1" /><rect x="5" y="4" width="1" height="1" /><rect x="6" y="4" width="1" height="1" />
+      <rect x="8" y="0" width="1" height="1" /><rect x="9" y="0" width="1" height="1" />
+      <rect x="8" y="1" width="1" height="1" /><rect x="10" y="1" width="1" height="1" />
+      <rect x="8" y="2" width="1" height="1" /><rect x="10" y="2" width="1" height="1" />
+      <rect x="8" y="3" width="1" height="1" /><rect x="10" y="3" width="1" height="1" />
+      <rect x="8" y="4" width="1" height="1" /><rect x="9" y="4" width="1" height="1" />
+      <rect x="12" y="0" width="1" height="1" /><rect x="13" y="0" width="1" height="1" /><rect x="14" y="0" width="1" height="1" />
+      <rect x="12" y="1" width="1" height="1" />
+      <rect x="12" y="2" width="1" height="1" /><rect x="13" y="2" width="1" height="1" /><rect x="14" y="2" width="1" height="1" />
+      <rect x="12" y="3" width="1" height="1" />
+      <rect x="12" y="4" width="1" height="1" /><rect x="13" y="4" width="1" height="1" /><rect x="14" y="4" width="1" height="1" />
+    </g>
   </svg>
   <span class={`text-lg font-extrabold tracking-tight ${text}`}>
     pix<span class="text-brand-500">code</span><span class={useWhite ? "text-white/60" : "text-slate-400"}>.studio</span>

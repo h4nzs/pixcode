@@ -35,7 +35,7 @@
 
 | Elemen | Terapan di Pixcode |
 |---|---|
-| Sinyal lokal | Nama kota (Bandung) + area layanan (Garut, Jakarta, Tasikmalaya) konsisten di title, konten, JSON-LD `areaServed` |
+| Sinyal lokal | Nama kota (Bandung) + area layanan hibrida (kota besar + "seluruh kota lainnya di Indonesia") konsisten di konten, JSON-LD `areaServed`, dan FAQ |
 | Bukti nyata | Portfolio 3 website live (link bisa diklik & dites) + 3 proyek teknis berlabel "Riset & Pengembangan" |
 | Aksi | Scroll → paket ringkas dengan harga "mulai dari" |
 
@@ -165,7 +165,7 @@
 ### Fondasi SEO (tetap wajib)
 - Meta title/description unik per halaman; title pola: `<Halaman> — Pixcode Studio | Jasa Website UMKM Bandung`.
 - Sitemap + robots.txt + canonical + OG/Twitter card (og-image khusus karena share via WA dominan).
-- JSON-LD: `ProfessionalService` (nama, WA `contactPoint`, kota, `areaServed`: Bandung/Garut/Jakarta/Tasikmalaya, `url`, logo) di Home; `FAQPage` untuk FAQ; `BreadcrumbList` untuk portfolio detail; opsional `CreativeWork`/`WebSite` per proyek.
+- JSON-LD: `ProfessionalService` (nama, WA `contactPoint`, kota, `areaServed`: hibrida — array `City` (Bandung + kota besar) + `Country` "Indonesia" untuk cakupan nasional; jangan mendaftar semua kota = keyword stuffing, `url`, logo) di Home; `FAQPage` untuk FAQ (termasuk cakupan wilayah); `BreadcrumbList` untuk portfolio detail; opsional `CreativeWork`/`WebSite` per proyek.
 
 ### GEO praktis (dari checklist 2026 — 5 poin yang terbukti menghasilkan sitasi AI)
 1. **Answer block 40–60 kata** di atas tiap section/halaman penting: jawab pertanyaan inti langsung ("Berapa biaya buat website UMKM? Di Pixcode mulai Rp 400.000 untuk …"). Lalu detail menyusul. → ini format yang di-retrieval LLM.
