@@ -31,6 +31,8 @@ Kamu adalah **Lead Frontend Engineer & UX Designer senior**. Kamu sedang membang
 - Motion ringan saja: fade/slide saat scroll via IntersectionObserver; tanpa library animasi berat.
 
 ### 3. ASTRO OPTIMIZATION (zero-JS by default — tapi utamakan yang paling optimal)
+
+**Motion/animasi** (kebijakan 2026-09-24): CSS-first di `src/styles/global.css` — reveal/stagger via IntersectionObserver tunggal (re-init pada `astro:page-load`), View Transitions via `<ClientRouter />`, parallax & border-gradient beranimasi dengan `@supports`/`@property` (progressive enhancement). Framer Motion **tidak** dipakai (butuh React islands; CSS murni lebih optimal untuk kebutuhan ini). Semua animasi **wajib** berada di dalam guard `prefers-reduced-motion: reduce`.
 - **Default tetap zero-JS**: halaman dimulai tanpa `<script>`; kebutuhan interaksi sederhana (menu mobile, FAQ accordion, filter, reveal-on-scroll) diupayakan lewat HTML/CSS murni (`<details>`, checkbox/`:checked`, dsb.) atau `<script>` vanilla inline yang kecil.
 - **JS tidak dilarang — yang dilarang adalah JS yang sia-sia.** Jika sudah mentok dengan HTML/CSS murni, atau ada pendekatan ber-JS yang terbukti lebih baik/optimal (UX, aksesibilitas, performa, keterpeliharaan), gunakan pendekatan terbaik itu: `<script>` vanilla, atau islands `client:*` (React/Svelte/dsb.) kalau memang paling optimal. Satu-satunya syarat: **tulis alasannya** (di komentar kode/PR) mengapa opsi itu paling optimal.
 - **Kerangka keputusan** (urut): (1) bisa tanpa JS dan hasilnya tetap baik → tanpa JS; (2) butuh JS → vanilla inline dulu; (3) vanilla mulai berantakan/berat → baru pertimbangkan library/islands. Pilih yang paling optimal, bukan yang paling "murni" — dan sebaliknya, jangan paksakan JS kalau CSS cukup.

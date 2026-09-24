@@ -11,8 +11,8 @@ const { pkg } = Astro.props;
 
 <article
   class:list={[
-    "relative flex flex-col rounded-2xl border bg-white p-6 shadow-sm",
-    pkg.featured ? "border-brand-600 border-2 shadow-md" : "border-slate-200",
+    "card-lift relative flex flex-col rounded-2xl border bg-white p-6 shadow-sm",
+    pkg.featured ? "animated-border border-brand-600 border-2 shadow-md" : "border-slate-200",
   ]}
 >
   {
@@ -49,11 +49,14 @@ const { pkg } = Astro.props;
     }
   </ul>
 
-  <details class="mt-4 text-sm">
-    <summary class="cursor-pointer list-none font-medium text-slate-500 hover:text-slate-700">
+  <details class="group mt-4 text-sm">
+    <summary class="cursor-pointer list-none font-medium text-slate-500 transition-colors hover:text-slate-700">
       Tidak termasuk (add-on berbayar)
     </summary>
-    <ul class="mt-2 space-y-2" aria-label="Tidak termasuk dalam paket">
+    <!-- Panel halus (murni CSS — pola sama dengan FAQ). -->
+    <div class="faq-panel">
+      <div>
+        <ul class="space-y-2 pt-2" aria-label="Tidak termasuk dalam paket">
       {
         pkg.excludes.map((item) => (
           <li class="flex items-start gap-2">
@@ -62,7 +65,9 @@ const { pkg } = Astro.props;
           </li>
         ))
       }
-    </ul>
+          </ul>
+      </div>
+    </div>
   </details>
 
   <div class="mt-6">

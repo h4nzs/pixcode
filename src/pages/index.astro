@@ -102,22 +102,27 @@ const steps = [
 >
   <!-- ============ HERO (riset §3: value + 2 CTA + bukti cepat) ============ -->
   <section class="relative overflow-hidden">
-    <div class="mx-auto grid max-w-6xl gap-10 px-4 pb-16 pt-14 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pb-24 lg:pt-20">
+    <!-- Aurora drift (Tier 2): dua blob teal bergerak sangat lambat — latar terasa bernafas.
+         Catatan: parallax-slow TIDAK di sini — dua animation transform pada satu elemen
+         saling menimpa (shorthand animation). Parallax dipasang di mockup kanan. -->
+    <div class="aurora aurora-1" aria-hidden="true"></div>
+    <div class="aurora aurora-2" aria-hidden="true"></div>
+    <div class="relative mx-auto grid max-w-6xl gap-10 px-4 pb-16 pt-14 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pb-24 lg:pt-20">
       <div>
-        <p class="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
+        <p class="hero-seq inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700" style="--d:0">
           <Icon name="map-pin" class="h-3.5 w-3.5" />
           Studio web lokal dari {site.city} — melayani {site.serviceArea}
         </p>
-        <h1 class="mt-5 text-4xl font-extrabold leading-[1.1] tracking-tight text-slate-900 sm:text-5xl">
+        <h1 class="hero-seq mt-5 text-4xl font-extrabold leading-[1.1] tracking-tight text-slate-900 sm:text-5xl" style="--d:1">
           Website untuk UMKM —
           <span class="text-brand-600">jelas cakupannya, jelas harganya, jelas prosesnya.</span>
         </h1>
-        <p class="mt-5 max-w-xl text-lg leading-relaxed text-slate-600">
+        <p class="hero-seq mt-5 max-w-xl text-lg leading-relaxed text-slate-600" style="--d:2">
           Jasa pembuatan website & aplikasi untuk usaha kecil. Mulai <strong class="font-semibold text-slate-900">Rp 400.000</strong>,
           batas revisi tertulis di proposal, dan demo dulu sebelum lunas — tidak ada tambahan diam-diam.
         </p>
-        <div class="mt-8 flex flex-wrap items-center gap-3">
-          <WaButton context={{ type: "general" }} size="large" label="Tanya-tanya dulu, gratis" />
+        <div class="hero-seq mt-8 flex flex-wrap items-center gap-3" style="--d:3">
+          <WaButton context={{ type: "general" }} size="large" label="Tanya-tanya dulu, gratis" pulse />
           <a
             href="/layanan/"
             class="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-6 py-3.5 text-base font-semibold text-slate-700 transition-colors hover:border-brand-600 hover:text-brand-700"
@@ -126,15 +131,17 @@ const steps = [
             <Icon name="arrow-right" class="h-5 w-5" />
           </a>
         </div>
-        <p class="mt-4 flex items-center gap-2 text-sm text-slate-500">
+        <p class="hero-seq mt-4 flex items-center gap-2 text-sm text-slate-500" style="--d:4">
           <Icon name="clock" class="h-4 w-4 text-brand-600" />
           Balasan cepat di jam kerja — langsung ke orang yang mengerjakan, bukan CS berlapis.
         </p>
       </div>
 
       <!-- Bukti cepat: mini-grid 3 proyek (mobile di dalam mockup browser) -->
-      <div class="reveal relative mx-auto w-full max-w-md lg:max-w-none">
-        <div class="rounded-2xl border border-slate-200 bg-white shadow-lg">
+      <div class="hero-seq relative mx-auto w-full max-w-md lg:max-w-none" style="--d:5">
+        <!-- parallax-slow: mockup bergeser halus saat scroll (progressive, @supports).
+             Elemen ini bebas animation lain sehingga tidak konflik dengan aurora. -->
+        <div class="parallax-slow rounded-2xl border border-slate-200 bg-white shadow-lg">
           <div class="flex items-center gap-1.5 border-b border-slate-100 px-4 py-3">
             <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
             <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
@@ -166,7 +173,47 @@ const steps = [
     </div>
   </section>
 
-  <!-- ============ UNTUK SIAPA ============ -->
+  <!-- ============ TICKER (Tier 2): layanan berjalan — situs terasa bernafas ============ -->
+  <section class="border-y border-slate-100 bg-white py-5" aria-hidden="true">
+    <div class="marquee">
+      <div class="marquee-track">
+        {
+          [
+            "Website Profil Usaha",
+            "Katalog & Harga Dinamis",
+            "Form Booking Online",
+            "Dashboard Admin",
+            "Aplikasi Kasir (POS)",
+            "Landing Page Kampanye",
+            "Maintenance & Support",
+            "SEO & Google Business",
+          ].map((label) => (
+            <span class="mr-10 flex items-center gap-3 whitespace-nowrap text-sm font-semibold text-slate-400">
+              <span class="text-brand-400">◆</span>
+              {label}
+            </span>
+          ))
+        }
+        {
+          [
+            "Website Profil Usaha",
+            "Katalog & Harga Dinamis",
+            "Form Booking Online",
+            "Dashboard Admin",
+            "Aplikasi Kasir (POS)",
+            "Landing Page Kampanye",
+            "Maintenance & Support",
+            "SEO & Google Business",
+          ].map((label) => (
+            <span class="mr-10 flex items-center gap-3 whitespace-nowrap text-sm font-semibold text-slate-400">
+              <span class="text-brand-400">◆</span>
+              {label}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </section>
   <section class="border-y border-slate-100 bg-slate-50 py-16">
     <div class="mx-auto max-w-6xl px-4 sm:px-6">
       <SectionHeading
@@ -175,10 +222,10 @@ const steps = [
         subtitle="Kalau usaha kamu masuk salah satu kategori ini, website akan langsung terasa manfaatnya."
         center
       />
-      <ul class="reveal mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+      <ul class="stagger mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
         {
-          umkmTypes.map((t) => (
-            <li class="flex flex-col items-center gap-3 rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm">
+          umkmTypes.map((t, i) => (
+            <li class="stagger-child card-lift flex flex-col items-center gap-3 rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm" style={`--i:${i}`}>
               <Icon name={t.icon} class="h-7 w-7 text-brand-600" strokeWidth={1.75} />
               <span class="text-sm font-semibold text-slate-800">{t.label}</span>
             </li>
@@ -197,10 +244,10 @@ const steps = [
         subtitle={'Tidak ada "hubungi kami untuk tahu harga". Pilih yang sesuai anggaran, tanya sisanya via WhatsApp.'}
         center
       />
-      <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <div class="stagger mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         {
-          packages.map((pkg) => (
-            <div class={pkg.featured ? "reveal xl:-mt-4" : "reveal"}>
+          packages.map((pkg, i) => (
+            <div class={`stagger-child ${pkg.featured ? "xl:-mt-4" : ""}`} style={`--i:${i}`}>
               <PackageCard pkg={pkg} />
             </div>
           ))
@@ -227,8 +274,8 @@ const steps = [
           <Icon name="arrow-right" class="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
         </a>
       </div>
-      <div class="reveal mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {featuredProjects.map((p) => <ProjectCard project={p} />)}
+      <div class="stagger mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {featuredProjects.map((p, i) => <ProjectCard project={p} index={i} />)}
       </div>
     </div>
   </section>
@@ -242,10 +289,10 @@ const steps = [
         subtitle="Proses ini tertulis di setiap proposal — bukan janji lisan."
         center
       />
-      <ol class="reveal mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <ol class="stagger mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {
-          steps.map((s) => (
-            <li class="relative rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          steps.map((s, i) => (
+            <li class="stagger-child card-lift relative rounded-2xl border border-slate-200 bg-white p-6 shadow-sm" style={`--i:${i}`}>
               <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-600 text-base font-extrabold text-white">
                 {s.n}
               </span>

@@ -42,10 +42,11 @@ const projects = (await getCollection("projects")).sort(
         <label for="filter-web-app" class="filter-btn cursor-pointer rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 transition-colors hover:border-brand-500 hover:text-brand-700 has-[:checked]:border-brand-600 has-[:checked]:bg-brand-600 has-[:checked]:text-white">Web App</label>
       </div>
 
-      <div class="reveal mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="stagger mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {
-          projects.map((p) => (
+          projects.map((p, i) => (
             <div
+              style={`--i:${i}`}
               class:list={[
                 "project-item",
                 p.data.category === "website" && "cat-website",

@@ -20,6 +20,9 @@
   /* WhatsApp */
   --color-wa: #25d366;
   --color-wa-dark: #1da851;
+
+  /* Gerak — durasi & easing terpadu (identitas motion situs) */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* ---------- Base ---------- */
@@ -32,12 +35,7 @@ body {
   @apply bg-white text-slate-600 antialiased;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   @apply text-slate-900;
 }
 
@@ -45,25 +43,329 @@ h6 {
   @apply bg-brand-100 text-brand-900;
 }
 
-/* ---------- Reveal on scroll (vanilla, tanpa library) ----------
-   .reveal diberi .is-visible oleh IntersectionObserver di BaseLayout. */
+/* =========================================================
+   MOTION SYSTEM (0 KB JS — semua CSS murni + 1 script IO)
+   Semua animasi dimatikan bila prefers-reduced-motion.
+   ========================================================= */
+
+/* ---------- Reveal on scroll ----------
+   .reveal → .is-visible oleh IntersectionObserver di BaseLayout
+   (di-init ulang pada astro:page-load untuk View Transitions). */
 .reveal {
   opacity: 0;
   transform: translateY(16px);
   transition:
-    opacity 0.6s ease,
-    transform 0.6s ease;
+    opacity 0.6s var(--ease-out-soft),
+    transform 0.6s var(--ease-out-soft);
 }
-
 .reveal.is-visible {
   opacity: 1;
   transform: none;
 }
 
+/* ---------- Stagger (Tier 1) ----------
+   Pola: <el class="stagger"> <child style="--i:0"> ... </el>
+   Anak-anak muncul berurutan 60ms — kartu grid terasa "berjalan". */
+.stagger .stagger-child {
+  opacity: 0;
+  transform: translateY(16px) scale(0.98);
+  transition:
+    opacity 0.55s var(--ease-out-soft),
+    transform 0.55s var(--ease-out-soft);
+  transition-delay: calc(var(--i, 0) * 60ms);
+}
+.stagger.is-visible .stagger-child {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Hero entrance (Tier 1) ----------
+   Sequence sekali jalan saat halaman dibuka: badge → judul →
+   subjudul → CTA → catatan; visual kanan paling akhir. */
+.hero-seq {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: hero-in 0.7s var(--ease-out-soft) forwards;
+  animation-delay: calc(var(--d, 0) * 120ms);
+}
+@keyframes hero-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* Elemen pertama hero harus terlihat tanpa menunggu JS/CSS lambat:
+   fallback — jika animation tidak jalan (reduced-motion), state akhir diterapkan. */
+
+/* ---------- FAQ accordion halus (Tier 1) ---------- */
+.faq-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s var(--ease-out-soft);
+}
+details[open] > .faq-panel {
+  grid-template-rows: 1fr;
+}
+.faq-panel > div {
+  overflow: hidden;
+}
+
+/* ---------- Micro-interactions (Tier 1) ---------- */
+/* Kartu terangkat halus */
+.card-lift {
+  transition:
+    transform 0.3s var(--ease-out-soft),
+    box-shadow 0.3s var(--ease-out-soft),
+    border-color 0.3s var(--ease-out-soft);
+}
+.card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 12px 24px -8px rgb(15 23 42 / 0.12),
+    0 4px 8px -4px rgb(15 23 42 / 0.06);
+}
+
+/* Tombol menekan — transition mencakup warna juga, supaya deklarasi ini tidak
+   menimpa utility transition-colors Tailwind (unlayered CSS menang atas @layer). */
+.btn-press {
+  transition:
+    transform 0.15s ease,
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.btn-press:active {
+  transform: scale(0.96);
+}
+
+/* Underline nav melukis dari kiri */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 4px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-brand-500);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s var(--ease-out-soft);
+}
+.nav-link:hover::after,
+.nav-link[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+/* ---------- Border gradient beranimasi — kartu UMKM (Tier 2) ---------- */
+.animated-border {
+  position: relative;
+  isolation: isolate;
+}
+.animated-border::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    #0d9488,
+    #2dd4bf,
+    #99f6e4,
+    #14b8a6,
+    #0d9488
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: border-spin 6s linear infinite;
+  z-index: -1;
+}
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes border-spin {
+  to {
+    --angle: 360deg;
+  }
+}
+
+/* ---------- Pulse ring — CTA WhatsApp utama (Tier 2) ---------- */
+.pulse-wa {
+  position: relative;
+}
+.pulse-wa::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid var(--color-wa);
+  opacity: 0;
+  animation: pulse-ring 2.6s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  70% {
+    transform: scale(1.12);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.12);
+    opacity: 0;
+  }
+}
+
+/* ---------- Marquee ticker (Tier 2) ---------- */
+.marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---------- Aurora drift — latar hero (Tier 2) ---------- */
+.aurora {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(72px);
+  opacity: 0.35;
+  pointer-events: none;
+  will-change: transform;
+}
+.aurora-1 {
+  width: 34rem;
+  height: 34rem;
+  background: var(--color-brand-200);
+  top: -10rem;
+  right: -8rem;
+  animation: aurora-a 18s ease-in-out infinite alternate;
+}
+.aurora-2 {
+  width: 26rem;
+  height: 26rem;
+  background: var(--color-brand-100);
+  bottom: -12rem;
+  left: -6rem;
+  animation: aurora-b 22s ease-in-out infinite alternate;
+}
+@keyframes aurora-a {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(-4rem, 3rem) scale(1.12);
+  }
+}
+@keyframes aurora-b {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(3rem, -2rem) scale(1.08);
+  }
+}
+
+/* ---------- Scroll-driven parallax (Tier 3, progressive) ---------- */
+@supports (animation-timeline: scroll()) {
+  .parallax-slow {
+    animation: parallax linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 100vh;
+  }
+  @keyframes parallax {
+    to {
+      transform: translateY(-6%) scale(1.02);
+    }
+  }
+}
+
+/* ---------- View Transitions: morph halus antar halaman ---------- */
+::view-transition-old(root) {
+  animation: vt-out 0.18s ease-out both;
+}
+::view-transition-new(root) {
+  animation: vt-in 0.24s var(--ease-out-soft) 0.1s both;
+}
+@keyframes vt-out {
+  to {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+@keyframes vt-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* ---------- Penghormatan penuh terhadap reduced-motion ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal,
+  .stagger .stagger-child {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+  .hero-seq {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+  .faq-panel {
+    transition: none;
+  }
+  .card-lift,
+  .card-lift:hover {
+    transform: none;
+  }
+  .animated-border::before {
+    animation: none;
+  }
+  .pulse-wa::after {
+    animation: none;
+    display: none;
+  }
+  /* Track tetap satu baris & terpotong parent — jangan wrap (set duplikat akan terlihat). */
+  .marquee-track {
+    animation: none;
+  }
+  .aurora {
+    animation: none;
+  }
+  .parallax-slow {
+    animation: none;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
   }
 }

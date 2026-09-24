@@ -62,7 +62,7 @@ const values = [
   <section class="border-y border-slate-100 bg-slate-50 py-16 lg:py-20">
     <div class="mx-auto max-w-4xl px-4 sm:px-6">
       <h2 class="text-center text-2xl font-extrabold tracking-tight text-slate-900">Dua orang, peran jelas</h2>
-      <div class="mt-10 grid gap-6 sm:grid-cols-2">
+      <div class="stagger mt-10 grid gap-6 sm:grid-cols-2">
         {
           [
             {
@@ -77,8 +77,8 @@ const values = [
               role: "Client Relations & Marketing",
               desc: "Closing, komunikasi progress, dan revisi request. Yang kamu chat pertama kali — dan yang memastikan kebutuhan kamu tersampaikan.",
             },
-          ].map((p) => (
-            <div class="reveal rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          ].map((p, idx) => (
+            <div class="stagger-child card-lift rounded-2xl border border-slate-200 bg-white p-6 shadow-sm" style={`--i:${idx}`}>
               <span class="flex h-14 w-14 items-center justify-center rounded-lg bg-brand-600 text-xl font-extrabold text-white">
                 {p.initial}
               </span>

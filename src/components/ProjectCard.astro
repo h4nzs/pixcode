@@ -6,8 +6,10 @@ import { projectImage } from "../utils/projectImage";
 
 interface Props {
   project: CollectionEntry<"projects">;
+  /** Index dalam grid stagger — mengatur delay animasi masuk (opsional). */
+  index?: number;
 }
-const { project } = Astro.props;
+const { project, index } = Astro.props;
 const { title, client, category, package: pkgId, internalLabel, year, thumbnail } = project.data;
 const thumb = projectImage(thumbnail);
 
@@ -17,7 +19,8 @@ const categoryLabel = { website: "Website", "web-app": "Web App", pos: "POS" }[c
 
 <a
   href={`/portfolio/${project.id}/`}
-  class="group block overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md"
+  style={index !== undefined ? `--i:${index}` : undefined}
+  class:list={["group block overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm", "card-lift stagger-child"]}
 >
   <div class="overflow-hidden">
     <Image

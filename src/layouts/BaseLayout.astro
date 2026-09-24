@@ -2,6 +2,7 @@
 // Layout dasar: <head> SEO lengkap + Header + Footer + reveal-on-scroll (vanilla, ringan —
 // sesuai kebijakan §3 AGENTS.md: zero-JS default, JS boleh jika lebih optimal).
 import { Font } from "astro:assets";
+import { ClientRouter } from "astro:transitions";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { site, fullUrl } from "../data/site";
@@ -28,6 +29,8 @@ const siteOrigin = new URL(site.url).origin;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- View Transitions: morph halus antar halaman (0 KB custom JS — bawaan Astro). -->
+    <ClientRouter />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -112,13 +115,18 @@ const siteOrigin = new URL(site.url).origin;
 
     <Footer />
 
-    <!-- Reveal on scroll — vanilla & ringan; nonaktif jika prefers-reduced-motion. -->
+    <!-- Reveal + stagger on scroll — vanilla & ringan; di-init ulang pada navigasi
+         View Transitions (astro:page-load). Nonaktif jika prefers-reduced-motion. -->
     <script>
-      const els = document.querySelectorAll<HTMLElement>(".reveal");
-      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (reduced) {
-        els.forEach((el) => el.classList.add("is-visible"));
-      } else {
+      const prefersReduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      function initReveal() {
+        // Amati keduanya: .reveal (elemen tunggal) & .stagger (container — anaknya yang dianimasikan).
+        const els = document.querySelectorAll<HTMLElement>(".reveal:not([data-rv]), .stagger:not([data-rv])");
+        if (prefersReduced()) {
+          els.forEach((el) => el.classList.add("is-visible"));
+          return;
+        }
         const io = new IntersectionObserver(
           (entries) => {
             for (const e of entries) {
@@ -130,8 +138,14 @@ const siteOrigin = new URL(site.url).origin;
           },
           { threshold: 0.12 },
         );
-        els.forEach((el) => io.observe(el));
+        els.forEach((el) => {
+          el.dataset.rv = "1";
+          io.observe(el);
+        });
       }
+
+      initReveal();
+      document.addEventListener("astro:page-load", initReveal);
     </script>
   </body>
 </html>

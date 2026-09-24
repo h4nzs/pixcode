@@ -17,6 +17,8 @@ interface Props {
   /** Pakai redirect terukur /wa/[slug] (pageview analytics tanpa JS — pendekatan paling
    *  optimal untuk Web Analytics CF; JS hanya jika butuh event lebih granular) — default true. */
   tracked?: boolean;
+  /** Pulse ring halus — hanya untuk 1 CTA utama per halaman (jangan lebih). */
+  pulse?: boolean;
   class?: string;
 }
 
@@ -26,6 +28,7 @@ const {
   size = "normal",
   label,
   tracked = true,
+  pulse = false,
   class: className = "",
 } = Astro.props;
 
@@ -38,7 +41,7 @@ const trackSlug =
     : null;
 const href = tracked && trackSlug ? `/wa/${trackSlug}/` : directUrl;
 
-const base = "inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600";
+const base = "btn-press inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600";
 const sizes = size === "large" ? "px-6 py-3.5 text-base" : "px-5 py-2.5 text-sm";
 const variants = {
   primary: "bg-wa text-white hover:bg-wa-dark shadow-sm",
@@ -46,7 +49,7 @@ const variants = {
 };
 ---
 
-<a href={href} target="_blank" rel="noopener noreferrer" class={`${base} ${sizes} ${variants[variant]} ${className}`}>
+<a href={href} target="_blank" rel="noopener noreferrer" class={`${base} ${sizes} ${variants[variant]} ${pulse ? "pulse-wa" : ""} ${className}`}>
   <Icon name="message-circle" class="h-5 w-5" />
   {label ?? "Tanya via WhatsApp"}
 </a>
