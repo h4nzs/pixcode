@@ -14,7 +14,7 @@ export interface Package {
   includes: string[];
   excludes: string[]; // add-on berbayar
   maxRevisions: string;
-  /** TODO(user): estimasi pengerjaan per paket — masih placeholder. */
+  /** Estimasi pengerjaan sejak materi (foto, teks) lengkap — final per 2026-10-27. */
   duration: string;
 }
 
@@ -26,15 +26,16 @@ export const packages: Package[] = [
     priceNote: "Harga flat, paling terjangkau untuk mulai hadir di Google.",
     tier: "dasar",
     featured: true,
-    // TODO(user): detail fitur/add-on/revisi Paket UMKM belum ditetapkan — isi sebelum launch.
+    // Keputusan 2026-10-27: Paket UMKM = template siap pakai (pembeda dari Hemat yang desainnya disesuaikan).
     includes: [
-      "1 halaman profil usaha",
+      "1 halaman profil usaha dari template siap pakai",
+      "Subdomain bawaan",
       "Tombol WhatsApp & lokasi Maps",
       "SEO dasar agar ditemukan di Google",
     ],
-    excludes: ["Custom domain", "Halaman tambahan"],
+    excludes: ["Desain custom", "Custom domain", "Halaman tambahan"],
     maxRevisions: "1x revisi",
-    duration: "3–7 hari kerja (placeholder)",
+    duration: "3–7 hari kerja",
   },
   {
     id: "hemat",
@@ -44,12 +45,13 @@ export const packages: Package[] = [
     tier: "dasar",
     includes: [
       "1 halaman",
+      "Desain disesuaikan dengan identitas usaha (logo, warna)",
       "Tombol WhatsApp & Maps",
       "SEO dasar",
     ],
     excludes: ["Halaman tambahan", "Custom domain"],
     maxRevisions: "1x revisi",
-    duration: "3–7 hari kerja (placeholder)",
+    duration: "3–7 hari kerja",
   },
   {
     id: "hemat-plus",
@@ -57,10 +59,14 @@ export const packages: Package[] = [
     price: "Rp 650.000 – 1.500.000",
     priceNote: "Tergantung jumlah konten & kebutuhan desain.",
     tier: "dasar",
-    includes: ["2–3 halaman", "Custom domain + SSL", "SEO dasar"],
+    includes: [
+      "2–3 halaman",
+      "Pemasangan custom domain + SSL (biaya domain dibayar terpisah)",
+      "SEO dasar",
+    ],
     excludes: ["Fitur dinamis", "Form dengan database"],
     maxRevisions: "2x revisi",
-    duration: "1–2 minggu (placeholder)",
+    duration: "1–2 minggu",
   },
   {
     id: "standar",
@@ -78,7 +84,7 @@ export const packages: Package[] = [
       "Role user lebih dari 1 tingkat",
     ],
     maxRevisions: "2x revisi, revisi besar dihitung ulang",
-    duration: "2–4 minggu (placeholder)",
+    duration: "2–4 minggu",
   },
   {
     id: "pos",
@@ -93,7 +99,7 @@ export const packages: Package[] = [
     ],
     excludes: ["Sinkronisasi multi-device", "Integrasi e-commerce online"],
     maxRevisions: "2x revisi",
-    duration: "3–6 minggu (placeholder)",
+    duration: "3–6 minggu",
   },
 ];
 

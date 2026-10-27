@@ -97,7 +97,7 @@
 
 | Paket | Harga | Termasuk | Tidak termasuk (add-on berbayar) | Revisi maks |
 |---|---|---|---|---|
-| **UMKM** ⭐ *(highlight)* | **Rp 400.000** | ❓ menunggu detail dari user | ❓ | ❓ |
+| **UMKM** ⭐ *(highlight)* | **Rp 400.000** | 1 halaman dari template siap pakai, subdomain bawaan, tombol WA/Maps, SEO dasar *(final 2026-10-27)* | Desain custom, custom domain, halaman tambahan | 1x |
 | **Hemat** | Rp 500.000 – 800.000 | 1 halaman, tombol WA/Maps, SEO dasar | Halaman tambahan, custom domain | 1x |
 | **Hemat Plus** | Rp 650.000 – 1.500.000 | 2–3 halaman, custom domain, SSL | Fitur dinamis, form dengan database | 2x |
 | **Standar / Dynamic** | Rp 1.000.000 – 3.000.000 | Login admin, CRUD data, 1 modul laporan | Modul tambahan (integrasi pembayaran, multi-cabang), role user > 1 tingkat | 2x, revisi besar dihitung ulang |
@@ -253,7 +253,7 @@ Catatan: situs ini full static sehingga tidak perlu adapter/Worker code. Jika na
 | 3 | Email bisnis | ✅ `pixcodestd@gmail.com` |
 | 4 | Kota/basis operasional | ✅ Bandung |
 | 5 | Harga paket | ✅ Final per 2026-09-22: UMKM Rp 400rb (highlight), Hemat 500–800rb, Hemat Plus 650rb–1,5jt, Standar 1–3jt, POS 2,5–8jt. Detail fitur Paket UMKM ⬜ |
-| 6 | Estimasi lama pengerjaan per paket | ⬜ placeholder dulu (keputusan user) |
+| 6 | Estimasi lama pengerjaan per paket | ✅ Final 2026-10-27: UMKM & Hemat 3–7 hari kerja, Hemat Plus 1–2 minggu, Standar 2–4 minggu, POS 3–6 minggu (sejak materi lengkap). Biaya domain di luar harga paket, dicantumkan terpisah di proposal. |
 | 7 | Domain final | ✅ `pixcode.my.id` (sementara — tinggal ganti 1 nilai di `site.ts` nanti) |
 | 8 | Logo (file SVG/PNG) | ⬜ pakai logo sendiri, file menunggu dikirim |
 | 9 | Aset portfolio | ✅ 6 proyek terkumpul → detail di `docs/PORTFOLIO-DATA.md` (foto placeholder, klien dianonimkan) |
