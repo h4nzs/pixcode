@@ -42,11 +42,11 @@ const categoryLabel = { website: "Website", "web-app": "Web App", pos: "POS" }[c
           )
         }
       </div>
-      <span class="text-slate-400">{year}</span>
+      <span class="text-slate-500">{year}</span>
     </div>
     <h3 class="mt-3 font-bold text-slate-900 group-hover:text-brand-700">{title}</h3>
     <p class="mt-1 text-sm text-slate-500">
-      {internalLabel ? <span class="italic text-slate-400">{internalLabel}</span> : client}
+      {internalLabel ? <span class="italic text-slate-500">{internalLabel}</span> : client}
       {pkgName && <span class="mx-1.5 text-slate-300">·</span>}
       {pkgName && <span>Paket {pkgName}</span>}
     </p>

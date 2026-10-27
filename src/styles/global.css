@@ -10,12 +10,13 @@
   --color-brand-200: #99f6e4;
   --color-brand-300: #5eead4;
   --color-brand-400: #2dd4bf;
+  /* 600+ digelapkan agar teks/putih di atasnya lolos kontras WCAG AA (Lighthouse 2026-10-27). */
   --color-brand-500: #14b8a6;
-  --color-brand-600: #0d9488;
-  --color-brand-700: #0f766e;
-  --color-brand-800: #115e59;
-  --color-brand-900: #134e4a;
-  --color-brand-950: #042f2e;
+  --color-brand-600: #0f766e;
+  --color-brand-700: #115e59;
+  --color-brand-800: #134e4a;
+  --color-brand-900: #042f2e;
+  --color-brand-950: #021716;
 
   /* WhatsApp */
   --color-wa: #25d366;
@@ -30,13 +31,15 @@ html {
   scroll-behavior: smooth;
 }
 
-body {
-  font-family: var(--font-sans);
-  @apply bg-white text-slate-600 antialiased;
-}
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    @apply bg-white text-slate-600 antialiased;
+  }
 
-h1, h2, h3, h4, h5, h6 {
-  @apply text-slate-900;
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-slate-900;
+  }
 }
 
 ::selection {

@@ -4,77 +4,89 @@ import Icon from "./Icon.astro";
 import { site, waLink, waDisplay } from "../data/site";
 
 const year = new Date().getFullYear();
+
+const columns = [
+  {
+    title: "Layanan",
+    links: [
+      { label: "Paket & Harga", href: "/layanan/" },
+      { label: "Portfolio", href: "/portfolio/" },
+      { label: "Konsultasi", href: "/kontak/" },
+    ],
+  },
+  {
+    title: "Studio",
+    links: [
+      { label: "Tentang", href: "/tentang/" },
+      { label: "Kebijakan Privasi", href: "/kebijakan-privasi/" },
+      { label: "Syarat & Ketentuan", href: "/syarat-ketentuan/" },
+    ],
+  },
+];
 ---
 
-<footer class="bg-slate-900 text-slate-300">
-  <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-    <div class="grid gap-10 md:grid-cols-3">
+<footer class="border-t border-slate-200 bg-slate-50">
+  <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:py-16">
+    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1.3fr]">
       <div>
-        <Logo class="h-8" useWhite />
-        <p class="mt-4 max-w-xs text-sm leading-relaxed text-slate-400">
+        <Logo class="h-8" />
+        <p class="mt-4 max-w-xs text-sm leading-relaxed text-slate-600">
           {site.tagline}
+        </p>
+        <p class="mt-4 inline-flex items-center gap-2 text-sm text-slate-600">
+          <Icon name="map-pin" class="h-4 w-4 shrink-0 text-brand-600" />
+          {site.city}, {site.region}
         </p>
       </div>
 
-      <nav aria-label="Navigasi footer">
-        <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400">Navigasi</h3>
-        <ul class="mt-4 space-y-2 text-sm">
-          <li><a class="hover:text-white" href="/">Home</a></li>
-          <li><a class="hover:text-white" href="/layanan/">Layanan & Harga</a></li>
-          <li><a class="hover:text-white" href="/portfolio/">Portfolio</a></li>
-          <li><a class="hover:text-white" href="/tentang/">Tentang</a></li>
-          <li><a class="hover:text-white" href="/kontak/">Kontak</a></li>
-        </ul>
-        <ul class="mt-6 space-y-2 border-t border-white/10 pt-4 text-xs text-slate-500">
-          <li><a class="hover:text-slate-300" href="/kebijakan-privasi/">Kebijakan Privasi</a></li>
-          <li><a class="hover:text-slate-300" href="/syarat-ketentuan/">Syarat & Ketentuan</a></li>
-        </ul>
-      </nav>
+      {
+        columns.map((col) => (
+          <nav aria-label={`Navigasi ${col.title}`}>
+            <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-600">{col.title}</h2>
+            <ul class="mt-4 space-y-2.5 text-sm">
+              {col.links.map((link) => (
+                <li>
+                  <a class="text-slate-600 transition-colors hover:text-brand-700" href={link.href}>
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))
+      }
 
       <div>
-        <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400">Kontak</h3>
+        <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-600">Hubungi</h2>
         <ul class="mt-4 space-y-3 text-sm">
           <li>
             <a
-              class="inline-flex items-center gap-2 font-medium text-brand-300 hover:text-brand-200"
+              class="inline-flex items-center gap-2 font-semibold text-brand-700 transition-colors hover:text-brand-800"
               href={waLink({ type: "general" })}
               target="_blank"
               rel="noopener noreferrer"
             >
               <Icon name="message-circle" class="h-4 w-4" />
-              {waDisplay} (WhatsApp)
+              {waDisplay}
             </a>
           </li>
           <li>
-            <a class="inline-flex items-center gap-2 hover:text-white" href={`mailto:${site.email}`}>
+            <a class="inline-flex items-center gap-2 text-slate-600 hover:text-brand-700" href={`mailto:${site.email}`}>
               <Icon name="mail" class="h-4 w-4" />
               {site.email}
             </a>
           </li>
-          <li class="inline-flex items-center gap-2">
-            <Icon name="map-pin" class="h-4 w-4" />
-            {site.city}, {site.region} — melayani {site.serviceArea}
+          <li class="flex items-start gap-2 text-slate-600">
+            <Icon name="clock" class="mt-0.5 h-4 w-4 shrink-0" />
+            Senin–Sabtu, 09.00–17.00 WIB
           </li>
-          {
-            site.instagram && (
-              <li>
-                <a
-                  class="inline-flex items-center gap-2 hover:text-white"
-                  href={`https://instagram.com/${site.instagram}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Instagram: @{site.instagram}
-                </a>
-              </li>
-            )
-          }
         </ul>
       </div>
     </div>
 
-    <div class="mt-12 border-t border-white/10 pt-6 text-xs text-slate-500">
-      © {year} {site.name}. Dibuat dengan Astro — cepat di jaringan apapun.
+    <div class="mt-12 flex flex-col gap-2 border-t border-slate-200 pt-6 text-xs text-slate-600 sm:flex-row sm:items-center sm:justify-between">
+      <p>© {year} {site.name}. Semua hak dilindungi.</p>
+      <p>Dibuat dan dirawat dari {site.city}, melayani {site.serviceArea}.</p>
     </div>
   </div>
 </footer>

@@ -42,7 +42,7 @@ const nav = [
         href={waLink({ type: "general" })}
         target="_blank"
         rel="noopener noreferrer"
-        class="inline-flex items-center gap-2 rounded-lg bg-wa px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-wa-dark"
+        class="inline-flex items-center gap-2 rounded-lg bg-wa px-4 py-2 text-sm font-semibold text-slate-900 shadow-sm transition-colors hover:bg-wa-dark"
       >
         <Icon name="message-circle" class="h-4 w-4" />
         Konsultasi Gratis
@@ -55,8 +55,8 @@ const nav = [
     <label
       for="nav-toggle"
       class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-600 md:hidden"
-      aria-label="Buka menu navigasi"
     >
+      <span class="sr-only">Buka menu navigasi</span>
       <Icon name="menu" class="h-6 w-6" />
     </label>
 
@@ -80,7 +80,7 @@ const nav = [
         href={waLink({ type: "general" })}
         target="_blank"
         rel="noopener noreferrer"
-        class="mt-2 inline-flex items-center justify-center gap-2 rounded-lg bg-wa px-4 py-3 text-base font-semibold text-white"
+        class="mt-2 inline-flex items-center justify-center gap-2 rounded-lg bg-wa px-4 py-3 text-base font-semibold text-slate-900"
       >
         <Icon name="message-circle" class="h-5 w-5" />
         Konsultasi Gratis
