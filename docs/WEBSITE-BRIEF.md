@@ -1,7 +1,7 @@
 # Website Brief — Pixcode Studio
 
-> Dokumen acuan sebelum development. Semua keputusan yang sudah disepakati tercatat di sini.
-> Status: **Draft untuk review — belum ada kode yang ditulis.**
+> Dokumen acuan proyek. Semua keputusan yang sudah disepakati tercatat di sini.
+> Status: **Aktif — situs sudah dibangun dengan Astro 7 + Tailwind v4; dokumen ini disinkronkan dengan kodebase per 2026-10-27.**
 
 ---
 
@@ -46,66 +46,73 @@
 
 ```
 /                    Home (landing utama)
-/layanan             Detail 4 paket + add-on + FAQ harga
+/layanan             Detail 5 paket + batas revisi + FAQ harga
 /portfolio           Grid semua proyek
-/portfolio/[slug]    Detail per proyek (studi kasus singkat)
+/portfolio/[slug]    Detail per proyek (studi kasus)
 /tentang             Cerita studio + tim
-/kontak              CTA WhatsApp, IG, info kontak
-/faq                 (opsional, bisa digabung ke Home & Layanan)
+/kontak              CTA WhatsApp, email, jam respons
+/kebijakan-privasi   Kebijakan privasi
+/syarat-ketentuan    Syarat & ketentuan
+/wa/[slug]           Pengalih klik WhatsApp (noindex, tidak masuk sitemap)
+404                  Halaman tidak ditemukan
 ```
+
+Halaman `/faq` terpisah tidak dibuat — FAQ digabung ke Home dan Layanan.
 
 ### 3.1 Home — urutan section
 1. **Hero** — headline value prop + subteks + 2 CTA (WhatsApp / Lihat Paket) + visual mockup browser HP. Badge kecil: "Balas cepat via WhatsApp". **Plus bukti cepat di atas fold** (riset §3): 3 thumbnail portfolio atau 1 kalimat bukti — kredibilitas harus terlihat sebelum scroll.
-2. **Untuk siapa** — strip kategori UMKM yang dilayani (toko, klinik, jasa, F&B, …).
-3. **Paket ringkas** — 5 kartu paket (Hemat, Hemat Plus, Standar/Dynamic, Desktop POS) dengan rentang harga + **Paket UMKM (Rp 400.000) di-highlight** sebagai kartu unggulan + CTA per kartu.
+2. **Ticker layanan** — strip dekoratif berisi jenis pekerjaan (website profil, katalog, booking, POS, maintenance).
+3. **Untuk siapa** — strip kategori UMKM yang dilayani (toko, klinik, jasa, F&B, …).
+4. **Paket ringkas** — 5 kartu paket (UMKM, Hemat, Hemat Plus, Standar/Dynamic, Desktop POS) dengan rentang harga + **Paket UMKM (Rp 400.000) di-highlight** sebagai kartu unggulan + CTA per kartu.
    - **Gaya highlight (terkunci)**: badge **"Paling Laris"** warna teal di kartu UMKM + border lebih tebal + posisi paling depan di antara kartu paket.
-4. **Portfolio highlight** — 3–4 proyek terbaru + link "lihat semua".
-5. **Cara kerja** — versi klien dari SOP (4 langkah: Konsultasi → Penawaran & DP → Pengerjaan & Demo → Live + Support). Tambahkan catatan kecil tentang batas revisi.
-6. **Kenapa Pixcode** — 4 poin pembeda (transparansi, batas revisi, proses rapi, support).
-7. **FAQ singkat** — 5–6 pertanyaan umum (berapa lama?, sudah termasuk domain?, cara bayar?, bisa revisi?).
+5. **Portfolio highlight** — 3 proyek unggulan (proyek aktif diprioritaskan) + link "lihat semua".
+6. **Cara kerja** — versi klien dari SOP (4 langkah: Konsultasi & pilih paket → DP 50% → Demo staging & revisi → Approve, live & support). Tambahkan catatan kecil tentang batas revisi.
+7. **FAQ** — 7 pertanyaan umum (biaya, luar Bandung, pembayaran, durasi, revisi, domain/hosting, maintenance).
 8. **CTA akhir** — ajakan konsultasi gratis via WA.
-9. **Footer** — navigasi, IG, WA, copyright.
+9. **Footer** — navigasi, WA, email, jam respons, tautan legal, copyright.
+
+Poin "kenapa Pixcode" tidak menjadi section terpisah di Home; nilai kerja ditampilkan di halaman Tentang.
 
 ### 3.2 Halaman Layanan
-- Tabel/kartu detail per paket (**5 paket, UMKM paling menonjol**): harga, daftar **termasuk**, daftar **tidak termasuk (add-on)**, batas revisi, estimasi pengerjaan.
+- Answer block + kartu detail per paket (**5 paket, UMKM paling menonjol**): harga, daftar **termasuk**, daftar **tidak termasuk (add-on)**, batas revisi, lama pengerjaan.
 - **Trust line tepat di bawah grid harga** (riset §7): "DP 50%, lunas setelah kamu approve demo" — pengurangan risiko di titik keputusan.
-- **Mini-FAQ harga** dengan H2 berbentuk pertanyaan + jawaban 2–3 kalimat (GEO answer blocks, riset §6): kenapa ada rentang harga, apa yang bikin harga naik, biaya revisi lewat batas.
-- Section add-on berbayar (halaman tambahan, custom domain, fitur dinamis, dll).
-- Catatan alur pembayaran (DP 50% / pelunasan 50% setelah approve staging).
+- Catatan di bawah trust line: lama pengerjaan dihitung sejak materi (foto, teks) lengkap; biaya domain terpisah dan dicantumkan di proposal.
+- **Mini-FAQ harga** dengan H2 berbentuk pertanyaan + jawaban 2–3 kalimat (GEO answer blocks, riset §6): kenapa ada rentang harga, apa yang bikin harga naik, biaya revisi lewat batas, domain/hosting, maintenance, add-on.
+- Add-on tampil sebagai daftar "tidak termasuk" di tiap kartu — tidak ada section add-on terpisah.
 
 ### 3.3 Halaman Portfolio
-- Grid kartu: thumbnail, label proyek (klien **dianonimkan**, cth. "Toko F&B — Bandung"), kategori, tag paket.
-- Filter sederhana per kategori (website / web-app / POS).
-- **Halaman detail per proyek**: ringkasan masalah → solusi → fitur utama → **manfaat bagi pemilik usaha** (bukan cuma teknologi) → screenshot **desktop + mobile** dalam mockup frame → link live (jika ada) → testimonial klien (jika ada).
+- Grid kartu: thumbnail, label proyek (klien **dianonimkan**, cth. "Toko F&B — Bandung"), kategori, tag paket, status live.
+- Filter CSS-only saat ini: **Semua / Website / Web App**. Kategori `pos` didukung skema, tetapi belum ada proyek POS.
+- **Halaman detail per proyek**: breadcrumb → Tantangan → Sebelum & Sesudah → **Manfaat bagi pemilik usaha** → Fitur utama → Teknologi & tools → link live/repo. `gallery` opsional dan section-nya hanya muncul jika diisi; screenshot before/after visual belum diisi (masih narasi teks).
 - Kategori portfolio final: `website | web-app | pos` — proyek internal/repo GitHub tampil dengan label **"Riset & Pengembangan"** (keputusan user).
 
 ### 3.4 Halaman Tentang
 - Cerita singkat studio (kenapa fokus UMKM).
-- Tim: Dehans & Destra — nama, peran, foto/avatar.
+- Tim: Dehans & Destra — nama, peran, foto asli (crop square, WebP via Astro `<Image>`) dari `src/assets/team/`.
 - Nilai kerja (transparan, tepat waktu, komunikatif).
 
 ### 3.5 Halaman Kontak
-- Tombol WA besar (deep link `wa.me` dengan teks template otomatis).
-- Instagram, email (opsional), jam operasional, kota basis.
+- Tombol WA besar melalui halaman terukur `/wa/umum/` → `wa.me` dengan teks template otomatis.
+- Email, jam respons (**Senin–Sabtu, 09.00–17.00 WIB**), kota basis. Instagram belum aktif (`site.instagram` masih `null`).
 - Tanpa form backend dulu — jika nanti perlu form, jalur upgrade-nya adapter `@astrojs/cloudflare` (Workers) atau Worker terpisah sebagai API.
 
 ---
 
 ## 4. Data Paket (sumber: dokumen SOP v2)
 
-> Diperbarui 2026-09-22: **harga final dari user** (bukan placeholder lagi — kecuali estimasi pengerjaan). Catatan: harga Standar/Dynamic di SOP v2 (Rp3,5jt–8jt) sudah usang; angka di bawah yang berlaku. Semua harga nanti disimpan di `src/data/packages.ts` (satu file, semua halaman ikut berubah).
+> Diperbarui 2026-10-27: **harga dan lama pengerjaan final dari user** (bukan placeholder). Catatan: harga Standar/Dynamic di SOP v2 (Rp3,5jt–8jt) sudah usang; angka di bawah yang berlaku. Semua harga, fitur, dan durasi disimpan di `src/data/packages.ts` (satu file, semua halaman ikut berubah).
 
-| Paket | Harga | Termasuk | Tidak termasuk (add-on berbayar) | Revisi maks |
-|---|---|---|---|---|
-| **UMKM** ⭐ *(highlight)* | **Rp 400.000** | 1 halaman dari template siap pakai, subdomain bawaan, tombol WA/Maps, SEO dasar *(final 2026-10-27)* | Desain custom, custom domain, halaman tambahan | 1x |
-| **Hemat** | Rp 500.000 – 800.000 | 1 halaman, tombol WA/Maps, SEO dasar | Halaman tambahan, custom domain | 1x |
-| **Hemat Plus** | Rp 650.000 – 1.500.000 | 2–3 halaman, custom domain, SSL | Fitur dinamis, form dengan database | 2x |
-| **Standar / Dynamic** | Rp 1.000.000 – 3.000.000 | Login admin, CRUD data, 1 modul laporan | Modul tambahan (integrasi pembayaran, multi-cabang), role user > 1 tingkat | 2x, revisi besar dihitung ulang |
-| **Desktop POS** | Rp 2.500.000 – 8.000.000 | Kasir + stok dasar, cetak struk thermal, laporan harian | Sinkronisasi multi-device, integrasi e-commerce online | 2x |
+| Paket | Harga | Termasuk | Tidak termasuk (add-on berbayar) | Revisi maks | Lama pengerjaan |
+|---|---|---|---|---|---|
+| **UMKM** ⭐ *(highlight)* | **Rp 400.000** | 1 halaman dari template siap pakai, subdomain bawaan, tombol WA/Maps, SEO dasar | Desain custom, custom domain, halaman tambahan | 1x | 3–7 hari kerja |
+| **Hemat** | Rp 500.000 – 800.000 | 1 halaman, tombol WA/Maps, SEO dasar | Halaman tambahan, custom domain | 1x | 3–7 hari kerja |
+| **Hemat Plus** | Rp 650.000 – 1.500.000 | 2–3 halaman, pemasangan custom domain + SSL (biaya domain terpisah) | Fitur dinamis, form dengan database | 2x | 1–2 minggu |
+| **Standar / Dynamic** | Rp 1.000.000 – 3.000.000 | Login admin, CRUD data, 1 modul laporan | Modul tambahan (integrasi pembayaran, multi-cabang), role user > 1 tingkat | 2x, revisi besar dihitung ulang | 2–4 minggu |
+| **Desktop POS** | Rp 2.500.000 – 8.000.000 | Kasir + stok dasar, cetak struk thermal, laporan harian | Sinkronisasi multi-device, integrasi e-commerce online | 2x | 3–6 minggu |
 
-> **Paket UMKM** adalah paket baru (tidak ada di SOP v2) dan menjadi **paket unggulan yang di-highlight** di halaman Home & Layanan. Gaya highlight: badge "Paling Laris" (teal) + border tebal + posisi paling depan. Detail fitur/revisi menyusul dari user.
+> **Paket UMKM** adalah paket baru (tidak ada di SOP v2) dan menjadi **paket unggulan yang di-highlight** di halaman Home & Layanan. Gaya highlight: badge "Paling Laris" (teal) + border tebal + posisi paling depan. Detail fitur, revisi, dan durasi sudah final per 2026-10-27.
 
-Aturan yang diwarisi dari SOP (tetap berlaku di web): biaya revisi di luar batas dicantumkan di proposal, bukan dikejutkan belakangan. Di web cukup tampilkan "revisi maks" + "detail lengkap dijelaskan saat konsultasi".
+Aturan yang diwarisi dari SOP (tetap berlaku di web): biaya revisi di luar batas dicantumkan di proposal, bukan dikejutkan belakangan. Di web cukup tampilkan "revisi maks" + "detail lengkap dijelaskan saat konsultasi". Lama pengerjaan dihitung sejak materi (foto, teks) lengkap; biaya domain di luar harga paket.
 
 ---
 
@@ -119,8 +126,8 @@ Aturan yang diwarisi dari SOP (tetap berlaku di web): biaya revisi di luar batas
 | Motif | Grid piksel kecil sebagai dekor (hero, section divider), sudut kotak tidak terlalu bulat |
 | Font | **Plus Jakarta Sans** (body & heading, identitas Indonesia) via **Astro Fonts API** (Fontsource) — 1 keluarga font saja agar ringan |
 | Ikon | Lucide (stroke, konsisten, ringan) |
-| Komponen UI | Kartu dengan border tipis + shadow halus; tombol primary solid indigo; tombol WA hijau (#25D366) agar dikenali |
-| Motion | Ringan saja: fade/slide saat scroll (IntersectionObserver), tanpa library berat |
+| Komponen UI | Kartu dengan border tipis + shadow halus; tombol primary solid **teal** (`brand-600`/`brand-700`); tombol WA hijau `#25D366` dengan teks `slate-900` agar kontras |
+| Motion | CSS-first + satu IntersectionObserver untuk reveal/stagger, View Transitions (`ClientRouter`), border animasi & pulse via CSS. Tanpa Framer Motion/library berat; semua animasi dimatikan pada `prefers-reduced-motion` |
 | Responsive | Mobile-first; nav jadi drawer di HP |
 
 ### Style token (Tailwind v4 `@theme` di `global.css`)
@@ -128,15 +135,23 @@ Aturan yang diwarisi dari SOP (tetap berlaku di web): biaya revisi di luar batas
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --color-brand-50:  #f0fdfa;  /* teal scale */
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --color-brand-50:  #f0fdfa;
+  --color-brand-100: #ccfbf1;
+  --color-brand-200: #99f6e4;
+  --color-brand-300: #5eead4;
+  --color-brand-400: #2dd4bf;
   --color-brand-500: #14b8a6;
-  --color-brand-600: #0d9488;
-  --color-brand-700: #0f766e;
+  --color-brand-600: #0f766e;  /* 600+ digelapkan agar lolos WCAG AA */
+  --color-brand-700: #115e59;
+  --color-brand-800: #134e4a;
+  --color-brand-900: #042f2e;
+  --color-brand-950: #021716;
   --color-wa: #25d366;
+  --color-wa-dark: #1da851;
 }
 ```
-*(Tanpa `tailwind.config.js` — konfigurasi lewat CSS, sesuai Tailwind v4.)*
+*(Tanpa `tailwind.config.js` — konfigurasi lewat CSS, sesuai Tailwind v4. Skala 600–950 digelapkan pada audit Lighthouse 2026-10-27 agar teks putih di atas teal lolos kontras.)*
 
 ---
 
@@ -153,23 +168,30 @@ pixcode-studio/
 │   ├── og-image.png          # gambar share WhatsApp/sosmed
 │   └── robots.txt
 ├── src/
-│   ├── assets/               # foto portfolio & tim (dioptimalkan Astro <Image>)
-│   ├── components/           # Header, Footer, Hero, PackageCard, ProjectCard,
-│   │                         # CtaBanner, FaqItem, SectionHeading, dst.
+│   ├── assets/
+│   │   ├── projects/         # thumbnail portfolio (5 PNG + 2 SVG)
+│   │   └── team/             # foto tim (dehan.jpg, destra.jpg)
+│   ├── components/           # Header, Footer, PackageCard, ProjectCard, WaButton,
+│   │                         # CtaBanner, FaqItem, SectionHeading, AnalyticsBeacon, dst.
 │   ├── content/
 │   │   └── projects/         # 1 file .md per proyek (content collections)
 │   ├── data/
-│   │   ├── site.ts           # WA number, IG, email, kota, url — SINGLE SOURCE
-│   │   └── packages.ts       # data 4 paket (dipakai Home & Layanan)
+│   │   ├── site.ts           # WA, email, IG, kota, url, token analytics — SINGLE SOURCE
+│   │   └── packages.ts       # data 5 paket (dipakai Home & Layanan)
 │   ├── layouts/
-│   │   └── BaseLayout.astro  # <head> SEO, Header, Footer
+│   │   └── BaseLayout.astro  # <head> SEO, Header, Footer, beacon analytics
 │   ├── pages/
 │   │   ├── index.astro
 │   │   ├── layanan.astro
 │   │   ├── portfolio/index.astro
 │   │   ├── portfolio/[slug].astro
 │   │   ├── tentang.astro
-│   │   └── kontak.astro
+│   │   ├── kontak.astro
+│   │   ├── kebijakan-privasi.astro
+│   │   ├── syarat-ketentuan.astro
+│   │   ├── wa/[slug].astro   # pengalih klik WA (noindex)
+│   │   └── 404.astro
+│   ├── utils/projectImage.ts # resolve nama file → ImageMetadata (astro:assets)
 │   └── styles/global.css     # Tailwind v4 + @theme tokens
 ```
 
@@ -179,17 +201,26 @@ pixcode-studio/
 title: string
 client: string          // label anonim, cth. "Toko F&B — Bandung" (keputusan: klien tidak ditampilkan apa adanya)
 category: "website" | "web-app" | "pos"   // "web-app" ditambahkan untuk proyek internal
-package: "hemat" | "hemat-plus" | "standar" | "pos"
+package: "hemat" | "hemat-plus" | "standar" | "pos" | null
+internalLabel: string | null  // "Riset & Pengembangan" untuk proyek internal
 year: number
-thumbnail: ImageMetadata      // wajib
-gallery?: ImageMetadata[]     // 2–6 screenshot
-liveUrl?: string              // link website live klien
-repoUrl?: string              // link GitHub (untuk proyek internal/riset)
+thumbnail: string             // nama file di src/assets/projects/
+gallery: string[]             // default []; nama file di src/assets/projects/
+liveUrl: string | null        // link website live klien
+liveStatus: "active" | "temporarily-offline"  // default "active"
+repoUrl: string | null        // link GitHub (untuk proyek internal/riset)
 description: string           // 2–3 kalimat ringkasan
-features?: string[]           // fitur utama
-testimonial?: { text: string; author: string }
-featured?: boolean            // tampil di Home highlight
+benefit: string               // manfaat bagi pemilik usaha (wajib)
+challenge: string | null      // masalah bisnis
+before: string | null         // narasi sebelum (teks)
+after: string | null          // narasi sesudah (teks)
+stack: string[]               // default []
+features: string[]            // default []
+testimonial: { text: string; author: string } | null
+featured: boolean             // tampil di Home highlight
 ```
+
+`thumbnail` dan `gallery` disimpan sebagai **nama file**, lalu diresolve ke `ImageMetadata` oleh `src/utils/projectImage.ts` (`import.meta.glob`) — Astro 7 menghapus helper `image()` dari content config.
 
 ### 6.3 Keputusan teknis
 - **Full static, tanpa adapter Cloudflare** — cukup `astro build` → folder `dist`.
@@ -197,7 +228,8 @@ featured?: boolean            // tampil di Home highlight
 - **Astro 7**: Rust compiler default (build lebih cepat), wajib Node ≥ 22.12 lokal & CI; font via Astro Fonts API (Fontsource), Zod 4 untuk skema content collection.
 - Harga & kontak diatur di `src/data/` agar ganti angka/nomor cukup 1 tempat.
 - Optimasi gambar pakai `astro:assets` (WebP otomatis, lazy-load).
-- Form kontak **tidak dulu** — CTA ke `wa.me/<nomor>?text=…` (template pesan otomatis).
+- Form kontak **tidak dulu** — CTA ke halaman terukur `/wa/<konteks>/`, lalu redirect ke `wa.me/<nomor>?text=…` (template pesan otomatis).
+- Analytics: Cloudflare Web Analytics via `src/components/AnalyticsBeacon.astro`, dipakai di `BaseLayout` dan halaman `/wa`.
 
 ---
 
@@ -210,7 +242,8 @@ featured?: boolean            // tampil di Home highlight
 - **GEO answer blocks** (riset §6): jawaban langsung 2–3 kalimat (40–60 kata) di atas section penting; H2/H3 berbentuk pertanyaan di Layanan & FAQ; klaim selalu disertai angka + tanggal.
 - Heading semantik (satu H1 per halaman), alt text semua gambar.
 - Target: skor Lighthouse mobile 90+ (statis + font via Astro Fonts API + gambar WebP = realistis).
-- Analytics opsional: Cloudflare Web Analytics (gratis, tanpa cookie).
+- **Analytics:** Cloudflare Web Analytics aktif (cookieless, manual JS snippet via `src/components/AnalyticsBeacon.astro`; token di `site.analyticsToken`). Token **terikat hostname** — token staging `workers.dev` tidak menerima data dari `pixcode.my.id`; ganti token setelah custom domain aktif.
+- **Tracking CTA WhatsApp:** semua CTA mengarah ke halaman `/wa/<konteks>/` (`umum`, `portfolio`, `paket-*`) yang mengirim pageview ke CWA, lalu redirect ke `wa.me` setelah event `load` + ~400 ms. `/wa` `noindex` dan tidak masuk sitemap. Angka yang terbaca = **percobaan klik**, bukan pesan WhatsApp terkirim; pengguna dengan adblock/tanpa JS tidak terhitung. Tracking portfolio saat ini agregat di `/wa/portfolio/`.
 
 ---
 
