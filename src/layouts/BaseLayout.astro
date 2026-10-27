@@ -5,6 +5,7 @@ import { Font } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import AnalyticsBeacon from "../components/AnalyticsBeacon.astro";
 import { site, fullUrl } from "../data/site";
 import "../styles/global.css";
 
@@ -85,18 +86,8 @@ const siteOrigin = new URL(site.url).origin;
       />
     )}
 
-    <!-- Cloudflare Web Analytics (cookieless) — aktif saat site.analyticsToken diisi.
-         is:inline agar Astro tidak memproses ulang script beacon pihak CF. -->
-    {
-      site.analyticsToken && (
-        <script
-          is:inline
-          defer
-          src="https://static.cloudflareinsights.com/beacon.min.js"
-          data-cf-beacon={JSON.stringify({ token: site.analyticsToken })}
-        />
-      )
-    }
+    <!-- Cloudflare Web Analytics (cookieless) — juga dipakai halaman /wa. -->
+    <AnalyticsBeacon />
   </head>
 
   <body>

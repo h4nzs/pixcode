@@ -14,8 +14,7 @@ interface Props {
   variant?: "primary" | "ghost";
   size?: "normal" | "large";
   label?: string;
-  /** Pakai redirect terukur /wa/[slug] (pageview analytics tanpa JS — pendekatan paling
-   *  optimal untuk Web Analytics CF; JS hanya jika butuh event lebih granular) — default true. */
+  /** Pakai redirect terukur /wa/[slug] (pageview Web Analytics CF) — default true. */
   tracked?: boolean;
   /** Pulse ring halus — hanya untuk 1 CTA utama per halaman (jangan lebih). */
   pulse?: boolean;
@@ -34,12 +33,14 @@ const {
 
 const directUrl = waLink(context);
 // Halaman vanity /wa/<konteks>/ dibuat saat build (src/pages/wa/[slug].astro) —
-// pageview-nya jadi metrik klik WA di Cloudflare Web Analytics, tanpa JS.
+// pageview-nya jadi metrik klik WA di Cloudflare Web Analytics.
 const trackSlug =
   context.type === "package"
     ? `paket-${context.packageName.replace("Paket ", "").toLowerCase().replace(/[^a-z0-9]+/g, "-")}`
-    : null;
-const href = tracked && trackSlug ? `/wa/${trackSlug}/` : directUrl;
+    : context.type === "project"
+      ? "portfolio"
+      : "umum";
+const href = tracked ? `/wa/${trackSlug}/` : directUrl;
 
 const base = "btn-press inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600";
 const sizes = size === "large" ? "px-6 py-3.5 text-base" : "px-5 py-2.5 text-sm";

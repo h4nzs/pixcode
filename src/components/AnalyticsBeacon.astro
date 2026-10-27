@@ -1,0 +1,15 @@
+---
+// Cloudflare Web Analytics (cookieless) — satu sumber untuk halaman biasa & /wa.
+import { site } from "../data/site";
+---
+
+{
+  site.analyticsToken && (
+    <script
+      is:inline
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon={JSON.stringify({ token: site.analyticsToken })}
+    />
+  )
+}

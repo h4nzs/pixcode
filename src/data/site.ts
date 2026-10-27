@@ -8,7 +8,7 @@ export const site = {
   tagline: "Website untuk UMKM — jelas cakupannya, jelas harganya, jelas prosesnya.",
   description:
     "Jasa pembuatan website & aplikasi untuk UMKM — berbasis di Bandung, melayani seluruh Indonesia. Harga jelas dari awal, batas revisi tertulis, proses DP 50% → demo → live. Mulai Rp 400.000.",
-  url: "https://pixcode.my.id", // TODO(user): domain final — ganti saat domain aktif/diubah.
+  url: "https://pixcode.my.id", // Domain final — aktifkan custom domain di Cloudflare.
   email: "pixcodestd@gmail.com",
   whatsapp: "6281513135408",
   city: "Bandung",
@@ -25,6 +25,8 @@ export const site = {
   // Cloudflare Web Analytics beacon token — ambil dari:
   // Dashboard → Analytics & Logs → Web Analytics → Manage site → copy token di snippet.
   // Token ini memang publik (ikut ke HTML klien by design) — aman di-commit.
+  // Token terikat hostname: token staging workers.dev TIDAK menerima data dari pixcode.my.id.
+  // TODO(user): setelah pixcode.my.id aktif, ganti dengan token dari site domain final.
   analyticsToken: "85298d673d3949158890c452810361a7" as string | null,
   foundedYear: 2026,
 } as const;

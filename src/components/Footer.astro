@@ -1,7 +1,7 @@
 ---
 import Logo from "./Logo.astro";
 import Icon from "./Icon.astro";
-import { site, waLink, waDisplay } from "../data/site";
+import { site, waDisplay } from "../data/site";
 
 const year = new Date().getFullYear();
 
@@ -62,7 +62,7 @@ const columns = [
           <li>
             <a
               class="inline-flex items-center gap-2 font-semibold text-brand-700 transition-colors hover:text-brand-800"
-              href={waLink({ type: "general" })}
+              href="/wa/umum/"
               target="_blank"
               rel="noopener noreferrer"
             >
