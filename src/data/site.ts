@@ -21,6 +21,8 @@ export const site = {
   // Kota besar untuk JSON-LD areaServed & FAQ (di luar site.city yang selalu ikut).
   // Jabodetabek lengkap + kota besar pulau — populasi top-10 & satu megaregion ekonomi.
   majorCities: ["Jakarta", "Bogor", "Depok", "Tangerang", "Bekasi", "Surabaya", "Medan", "Semarang"],
+  // Jam respons — satu sumber untuk Footer dan halaman Kontak.
+  hours: "Senin–Sabtu, 09.00–17.00 WIB",
   instagram: null as string | null, // TODO(user): isi cth. "pixcode.studio" saat akun jadi.
   // Cloudflare Web Analytics beacon token — ambil dari:
   // Dashboard → Analytics & Logs → Web Analytics → Manage site → copy token di snippet.

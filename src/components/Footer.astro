@@ -78,8 +78,22 @@ const columns = [
           </li>
           <li class="flex items-start gap-2 text-slate-600">
             <Icon name="clock" class="mt-0.5 h-4 w-4 shrink-0" />
-            Senin–Sabtu, 09.00–17.00 WIB
+            {site.hours}
           </li>
+          {
+            site.instagram && (
+              <li>
+                <a
+                  class="inline-flex items-center gap-2 text-slate-600 hover:text-brand-700"
+                  href={`https://instagram.com/${site.instagram}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Instagram: @{site.instagram}
+                </a>
+              </li>
+            )
+          }
         </ul>
       </div>
     </div>

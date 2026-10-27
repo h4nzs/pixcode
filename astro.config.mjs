@@ -17,7 +17,9 @@ export default defineConfig({
       name: "Plus Jakarta Sans",
       cssVariable: "--font-jakarta",
       provider: fontProviders.fontsource(),
-      // Variabel font + italic tidak dipakai — subset latin saja agar ringan.
+      // Italic tidak dipakai — bawaan Astro memuat normal + italic (5 bobot jadi 10 file font),
+      // jadi dibatasi ke normal saja. Subset latin saja agar ringan.
+      styles: ["normal"],
       subsets: ["latin"],
       weights: [400, 500, 600, 700, 800],
     },
