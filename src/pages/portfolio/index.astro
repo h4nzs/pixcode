@@ -12,7 +12,7 @@ const projects = (await getCollection("projects")).sort(
 
 <BaseLayout
   title="Portfolio — Website & Aplikasi yang Telah Dibuat"
-  description="Contoh karya Pixcode Studio: website jasa, platform booking, katalog tour, hingga aplikasi chat berenkripsi. Semua proyek klien menyertakan link yang bisa dibuka langsung."
+  description="Contoh karya Pixcode Studio: website jasa, platform booking, katalog tour, hingga aplikasi chat berenkripsi. Website klien yang sedang aktif bisa dibuka langsung lewat link-nya."
   active="portfolio"
 >
   <section class="border-b border-slate-100 bg-slate-50 py-14 lg:py-16">
@@ -22,8 +22,8 @@ const projects = (await getCollection("projects")).sort(
         Karya yang bisa kamu buka sendiri
       </h1>
       <p class="mt-4 max-w-3xl text-lg leading-relaxed text-slate-600">
-        Enam proyek terpilih — dari website company profile sampai aplikasi web berenkripsi end-to-end.
-        Nama klien kami jaga privasinya, tapi semua website klien ada link live-nya untuk dites langsung.
+        {projects.length} proyek terpilih — dari website company profile sampai aplikasi web berenkripsi end-to-end.
+        Nama klien kami jaga privasinya; website klien yang sedang aktif bisa kamu buka langsung lewat link-nya.
       </p>
     </div>
   </section>

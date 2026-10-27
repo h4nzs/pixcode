@@ -1,7 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../data/site";
 
-const updated = "22 September 2026";
+const updated = "27 Oktober 2026";
+// Format tampilan nomor WA dari site.whatsapp (62815... → +62 815-1313-5408), agar tidak ter-hardcode.
+const waDisplay = `+${site.whatsapp.slice(0, 2)} ${site.whatsapp.slice(2).replace(/(\d{3})(\d{4})(\d+)/, "$1-$2-$3")}`;
 ---
 
 <BaseLayout
@@ -31,7 +34,7 @@ const updated = "22 September 2026";
             <li>DP sudah digunakan untuk memulai pengerjaan sehingga tidak dikembalikan setelah pengerjaan berjalan.</li>
             <li>
               Revisi melebihi batas paket dikenakan biaya per revisi sesuai rate yang tercantum di proposal
-              sejak awal (Paket Hemat Rp 100.000; Hemat Plus Rp 150.000; Standar/Dynamic & POS Rp 300.000–500.000
+              sejak awal (Paket UMKM dan Hemat Rp 100.000; Hemat Plus Rp 150.000; Standar/Dynamic & POS Rp 300.000–500.000
               tergantung kompleksitas).
             </li>
             <li>
@@ -45,14 +48,19 @@ const updated = "22 September 2026";
           <p class="mt-2">
             Kami menyarankan domain & hosting didaftarkan atas nama/email kamu sendiri — kami bantu prosesnya.
             Jika sementara memakai akun kami, kepemilikan ditransfer ke kamu setelah pelunasan, sesuai prosedur
-            yang dijelaskan tertulis di awal.
+            yang dijelaskan tertulis di awal. Biaya domain tidak termasuk dalam harga paket dan dicantumkan
+            terpisah di proposal. Hosting dan maintenance juga di luar harga paket; maintenance bersifat opsional,
+            biaya dan ketentuannya dijelaskan di proposal.
           </p>
         </div>
 
         <div>
           <h2 class="text-xl font-bold text-slate-900">4. Hak cipta & materi</h2>
           <p class="mt-2">
-            Source code & desain website berpindah menjadi milik kamu setelah pelunasan penuh. Kami berhak
+            Source code & desain website berpindah menjadi milik kamu setelah pelunasan penuh. Pengecualian:
+            Paket UMKM memakai template siap pakai milik Pixcode Studio — kamu memiliki konten dan website
+            yang tayang, sedangkan template tetap hak Pixcode Studio dan kamu diberi hak pakai untuk
+            website tersebut. Kami berhak
             menampilkan proyek di portfolio kami (dengan detail yang disepakati) kecuali kamu meminta sebaliknya
             secara tertulis. Materi yang kamu berikan (logo, foto, teks) dipastikan kamu memiliki hak untuk
             menggunakannya.
@@ -79,8 +87,8 @@ const updated = "22 September 2026";
         <div>
           <h2 class="text-xl font-bold text-slate-900">7. Kontak</h2>
           <p class="mt-2">
-            Pertanyaan soal ketentuan ini? WhatsApp +62 815-1313-5408 atau email
-            <a class="text-brand-700 hover:underline" href="mailto:pixcodestd@gmail.com">pixcodestd@gmail.com</a>.
+            Pertanyaan soal ketentuan ini? WhatsApp {waDisplay} atau email
+            <a class="text-brand-700 hover:underline" href={`mailto:${site.email}`}>{site.email}</a>.
           </p>
         </div>
       </div>
