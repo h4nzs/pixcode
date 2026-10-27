@@ -13,10 +13,15 @@ import { site, waLink } from "../data/site";
 import { packages } from "../data/packages";
 import { projectImage } from "../utils/projectImage";
 
-// Top-3 Home: proyek klien dulu, lalu tahun terbaru (selaras dengan halaman portfolio).
+// Top-3 Home: situs yang sedang aktif dulu (hero berjanji "sedang dipakai usaha nyata"),
+// lalu proyek klien, lalu tahun terbaru. Proyek yang nonaktif sementara tetap ada di /portfolio.
+const isOffline = (p: { data: { liveStatus: string } }) => (p.data.liveStatus === "temporarily-offline" ? 1 : 0);
 const featuredProjects = (await getCollection("projects", ({ data }) => data.featured))
   .sort(
-    (a, b) => (a.data.internalLabel ? 1 : 0) - (b.data.internalLabel ? 1 : 0) || b.data.year - a.data.year,
+    (a, b) =>
+      isOffline(a) - isOffline(b) ||
+      (a.data.internalLabel ? 1 : 0) - (b.data.internalLabel ? 1 : 0) ||
+      b.data.year - a.data.year,
   )
   .slice(0, 3);
 

@@ -10,7 +10,7 @@ interface Props {
   index?: number;
 }
 const { project, index } = Astro.props;
-const { title, client, category, package: pkgId, internalLabel, year, thumbnail } = project.data;
+const { title, client, category, package: pkgId, internalLabel, year, thumbnail, liveStatus } = project.data;
 const thumb = projectImage(thumbnail);
 
 const pkgName = pkgId ? packages.find((p) => p.id === pkgId)?.name : undefined;
@@ -34,7 +34,14 @@ const categoryLabel = { website: "Website", "web-app": "Web App", pos: "POS" }[c
   </div>
   <div class="p-5">
     <div class="flex items-center justify-between gap-2 text-xs">
-      <span class="rounded-md bg-brand-50 px-2 py-0.5 font-semibold text-brand-700">{categoryLabel}</span>
+      <div class="flex items-center gap-1.5">
+        <span class="rounded-md bg-brand-50 px-2 py-0.5 font-semibold text-brand-700">{categoryLabel}</span>
+        {
+          liveStatus === "temporarily-offline" && (
+            <span class="rounded-md bg-amber-50 px-2 py-0.5 font-semibold text-amber-700">Nonaktif sementara</span>
+          )
+        }
+      </div>
       <span class="text-slate-400">{year}</span>
     </div>
     <h3 class="mt-3 font-bold text-slate-900 group-hover:text-brand-700">{title}</h3>
