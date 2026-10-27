@@ -1,8 +1,11 @@
 ---
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CtaBanner from "../components/CtaBanner.astro";
 import Icon from "../components/Icon.astro";
 import { site } from "../data/site";
+import dehan from "../assets/team/dehan.jpg";
+import destra from "../assets/team/destra.jpg";
 
 const values = [
   {
@@ -66,22 +69,29 @@ const values = [
         {
           [
             {
-              initial: "D",
+              photo: dehan,
               name: "Dehans",
               role: "Delivery Teknis",
               desc: "Menulis kode, deploy, testing, dan maintenance teknis. Yang kamu chat kalau ada perubahan teknis di website kamu.",
             },
             {
-              initial: "D",
+              photo: destra,
               name: "Destra",
               role: "Client Relations & Marketing",
               desc: "Closing, komunikasi progress, dan revisi request. Yang kamu chat pertama kali — dan yang memastikan kebutuhan kamu tersampaikan.",
             },
           ].map((p, idx) => (
             <div class="stagger-child card-lift rounded-2xl border border-slate-200 bg-white p-6 shadow-sm" style={`--i:${idx}`}>
-              <span class="flex h-14 w-14 items-center justify-center rounded-lg bg-brand-600 text-xl font-extrabold text-white">
-                {p.initial}
-              </span>
+              <Image
+                src={p.photo}
+                alt={`Foto ${p.name}`}
+                width={112}
+                height={112}
+                fit="cover"
+                position="top"
+                loading="lazy"
+                class="h-14 w-14 rounded-lg object-cover"
+              />
               <h3 class="mt-4 text-lg font-bold text-slate-900">{p.name}</h3>
               <p class="text-sm font-semibold text-brand-700">{p.role}</p>
               <p class="mt-3 text-sm leading-relaxed text-slate-600">{p.desc}</p>
@@ -89,7 +99,6 @@ const values = [
           ))
         }
       </div>
-      <!-- TODO(user): foto asli tim menyusul — ganti avatar inisial saat foto siap (docs checklist #10). -->
     </div>
   </section>
 
