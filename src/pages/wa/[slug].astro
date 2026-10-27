@@ -32,6 +32,8 @@ const baseUrl = new URL(`/wa/${slug}/`, Astro.site).toString();
     <meta charset="utf-8" />
     <title>Mengalihkan ke WhatsApp…</title>
     <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <!-- Halaman pengalih bukan konten: jangan diindeks (dan dikeluarkan dari sitemap di astro.config). -->
+    <meta name="robots" content="noindex, nofollow" />
     <link rel="canonical" href={baseUrl} />
     <style>
       body {
@@ -44,6 +46,10 @@ const baseUrl = new URL(`/wa/${slug}/`, Astro.site).toString();
     </style>
   </head>
   <body>
-    <p>Membuka WhatsApp…</p>
+    <p>
+      Membuka WhatsApp…
+      <!-- Cadangan jika meta refresh diblokir browser: pengunjung tidak terjebak di halaman ini. -->
+      <a href={target} style="color:#0f766e">Klik di sini kalau tidak terbuka otomatis</a>
+    </p>
   </body>
 </html>

@@ -1,10 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { site } from "../data/site";
+import { site, waDisplay } from "../data/site";
 
 const updated = "27 Oktober 2026";
-// Format tampilan nomor WA dari site.whatsapp (62815... → +62 815-1313-5408), agar tidak ter-hardcode.
-const waDisplay = `+${site.whatsapp.slice(0, 2)} ${site.whatsapp.slice(2).replace(/(\d{3})(\d{4})(\d+)/, "$1-$2-$3")}`;
 ---
 
 <BaseLayout

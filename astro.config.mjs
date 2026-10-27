@@ -7,7 +7,8 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   // TODO(user): domain final — ganti 1 nilai ini saat pixcode.my.id aktif atau diganti domain lain.
   site: "https://pixcode.my.id",
-  integrations: [sitemap()],
+  // Halaman pengalih WhatsApp (/wa/*) bukan konten — keluarkan dari sitemap.
+  integrations: [sitemap({ filter: (page) => !new URL(page).pathname.startsWith("/wa/") })],
   vite: {
     plugins: [tailwindcss()],
   },

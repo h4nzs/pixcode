@@ -1,7 +1,7 @@
 ---
 import Logo from "./Logo.astro";
 import Icon from "./Icon.astro";
-import { site, waLink } from "../data/site";
+import { site, waLink, waDisplay } from "../data/site";
 
 const year = new Date().getFullYear();
 ---
@@ -42,7 +42,7 @@ const year = new Date().getFullYear();
               rel="noopener noreferrer"
             >
               <Icon name="message-circle" class="h-4 w-4" />
-              +62 815-1313-5408 (WhatsApp)
+              {waDisplay} (WhatsApp)
             </a>
           </li>
           <li>

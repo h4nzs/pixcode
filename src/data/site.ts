@@ -31,6 +31,9 @@ export const site = {
 
 export const fullUrl = (path = "/") => new URL(path, site.url).toString();
 
+/** Nomor WA untuk tampilan manusia, mis. "+62 815-1313-5408" — diturunkan dari site.whatsapp. */
+export const waDisplay = `+${site.whatsapp.slice(0, 2)} ${site.whatsapp.slice(2).replace(/(\d{3})(\d{4})(\d+)/, "$1-$2-$3")}`;
+
 /** Template pesan WhatsApp per konteks — lead masuk langsung terkualifikasi. */
 export function waLink(
   context:
