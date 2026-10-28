@@ -38,16 +38,21 @@ export const fullUrl = (path = "/") => new URL(path, site.url).toString();
 /** Nomor WA untuk tampilan manusia, mis. "+62 815-1313-5408" — diturunkan dari site.whatsapp. */
 export const waDisplay = `+${site.whatsapp.slice(0, 2)} ${site.whatsapp.slice(2).replace(/(\d{3})(\d{4})(\d+)/, "$1-$2-$3")}`;
 
+export type WaContext =
+  | { type: "general" }
+  | { type: "package"; packageName: string }
+  | { type: "project"; projectTitle: string }
+  /** Contoh template Paket UMKM (/template/*) — slug dipakai untuk pelacakan /wa/template-<slug>/. */
+  | { type: "template"; slug: string; templateName: string };
+
 /** Template pesan WhatsApp per konteks — lead masuk langsung terkualifikasi. */
-export function waLink(
-  context:
-    | { type: "general" }
-    | { type: "package"; packageName: string }
-    | { type: "project"; projectTitle: string },
-): string {
+export function waLink(context: WaContext): string {
   const base = `https://wa.me/${site.whatsapp}`;
   let text: string;
   switch (context.type) {
+    case "template":
+      text = `Halo Pixcode Studio! Saya lihat contoh template "${context.templateName}" di Paket UMKM. Jenis usaha saya: ___. Boleh tanya-tanya dulu?`;
+      break;
     case "package":
       text = `Halo Pixcode Studio! Saya tertarik dengan ${context.packageName}. Jenis usaha saya: ___, kebutuhan: ___, domisili: ___. Boleh tanya-tanya dulu?`;
       break;

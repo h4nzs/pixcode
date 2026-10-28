@@ -1,0 +1,82 @@
+---
+// Galeri contoh template Paket UMKM. Halaman ini diindeks; tiap contoh (/template/<slug>/) noindex karena usahanya fiktif.
+import { Image } from "astro:assets";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CtaBanner from "../../components/CtaBanner.astro";
+import WaButton from "../../components/WaButton.astro";
+import { templates } from "../../data/templates";
+import { templateImage } from "../../utils/templateImage";
+---
+
+<BaseLayout
+  title="Contoh Template Website Paket UMKM"
+  description="Tiga contoh tampilan website Paket UMKM Pixcode Studio (Rp 400.000): kedai kopi, bengkel, dan toko tanaman. Buka contohnya langsung, lalu pilih yang paling dekat dengan usahamu."
+  active="layanan"
+>
+  <section class="border-b border-slate-100 bg-slate-50 py-14 lg:py-16">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <h1 class="max-w-3xl text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
+        Tiga contoh tampilan Paket UMKM
+      </h1>
+      <p class="mt-4 max-w-3xl text-lg leading-relaxed text-slate-600">
+        Paket UMKM (Rp 400.000) dibuat dari template. Di bawah ini tiga contohnya, masing-masing dengan gaya, huruf, dan
+        gerak sendiri. Semua usaha di contoh fiktif; nama, menu, harga, foto, dan jam buka diganti dengan milikmu.
+        Seberapa jauh tampilan boleh diubah dibahas di proposal.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-16 lg:py-20">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <h2 class="sr-only">Daftar template</h2>
+      <ul class="grid gap-8 lg:grid-cols-3">
+        {
+          templates.map((t) => (
+            <li class="flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+              <a href={`/template/${t.slug}/`} class="group block overflow-hidden" aria-label={`Buka contoh ${t.name}: ${t.business}`}>
+                <Image
+                  src={templateImage(t.image)}
+                  alt={`Tampilan contoh ${t.name} untuk usaha fiktif ${t.business}`}
+                  width={640}
+                  height={480}
+                  loading="lazy"
+                  class="aspect-[4/3] w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]"
+                />
+              </a>
+              <div class="flex flex-1 flex-col p-6">
+                <h3 class="text-xl font-bold text-slate-900">{t.name}</h3>
+                <p class="mt-1 text-sm text-slate-600">Cocok untuk: {t.suitableFor}.</p>
+                <p class="mt-4 text-slate-700">{t.idea}</p>
+                <ul class="mt-4 space-y-1.5 text-sm text-slate-600">
+                  {t.highlights.map((h) => (
+                    <li class="flex gap-2">
+                      <span class="mt-2 h-1.5 w-1.5 flex-none rounded-sm bg-brand-500" aria-hidden="true" />
+                      {h}
+                    </li>
+                  ))}
+                </ul>
+                <div class="mt-auto flex flex-wrap items-center gap-3 pt-6">
+                  <a
+                    href={`/template/${t.slug}/`}
+                    class="btn-press inline-flex items-center justify-center rounded-lg bg-brand-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
+                  >
+                    Buka contoh
+                  </a>
+                  <WaButton context={{ type: "template", slug: t.slug, templateName: t.name }} variant="ghost" label="Pakai template ini" />
+                </div>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-8 max-w-2xl text-sm text-slate-500">
+        Belum ada yang pas dengan usahamu? Ceritakan usahamu lewat WhatsApp. Kalau jenisnya beda, kami sampaikan jujur
+        apakah Paket UMKM cukup atau paket lain lebih sesuai.
+      </p>
+    </div>
+  </section>
+
+  <section class="pb-20">
+    <CtaBanner title="Sudah ada gambaran?" subtitle="Sebut jenis usahamu, kami bantu pilih template yang paling dekat. Belum ada komitmen, belum ada DP." />
+  </section>
+</BaseLayout>

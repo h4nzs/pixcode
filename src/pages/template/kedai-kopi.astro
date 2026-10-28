@@ -1,0 +1,465 @@
+---
+// CONTOH template Paket UMKM: "Kedai Kopi" (usaha FIKTIF: Kopi Teras).
+// Konsep: nota warung. Momen gerak utama = nota tercetak di hero (satu kali, saat halaman dibuka).
+// Warna: biru enamel (cangkir enamel khas warung) + putih dingin + gula aren sebagai bintik aksen.
+import { Font } from "astro:assets";
+import TemplateLayout from "../../layouts/TemplateLayout.astro";
+import { getTemplate, hoursAttr, weekRows } from "../../data/templates";
+
+const t = getTemplate("kedai-kopi");
+const wa = `/wa/template-${t.slug}/`;
+const jam = weekRows(t.hours);
+
+type Item = { nama: string; desc?: string; harga: number; favorit?: boolean; habis?: boolean };
+
+const rupiah = (n: number) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+const kopi: Item[] = [
+  { nama: "Kopi tubruk", desc: "Bubuk diseduh langsung di gelas, ampas ikut turun.", harga: 8000 },
+  { nama: "Kopi susu gula aren", desc: "Espresso, susu segar, gula aren cair.", harga: 18000, favorit: true },
+  { nama: "Kopi jahe", desc: "Tubruk dengan jahe geprek.", harga: 11000 },
+  { nama: "Americano", desc: "Panas atau es.", harga: 15000 },
+  { nama: "Es kopi pandan", desc: "Susu, sirup pandan, satu shot espresso.", harga: 19000 },
+  { nama: "Kopi saring manual", desc: "Satu gelas satu seduhan, pilih bijinya di kasir.", harga: 22000 },
+];
+const bukanKopi: Item[] = [
+  { nama: "Es teh tarik", harga: 12000, favorit: true },
+  { nama: "Cokelat panas", harga: 16000 },
+  { nama: "Wedang jahe", harga: 9000 },
+  { nama: "Es jeruk peras", harga: 10000 },
+];
+const teman: Item[] = [
+  { nama: "Pisang goreng", desc: "5 potong, pakai taburan keju atau cokelat.", harga: 10000 },
+  { nama: "Roti bakar cokelat keju", harga: 14000 },
+  { nama: "Mi instan telur", desc: "Kuah atau goreng.", harga: 15000 },
+  { nama: "Tahu isi", desc: "4 potong, plus cabai rawit.", harga: 8000, habis: true },
+];
+
+// Isi nota di hero = lima pesanan contoh. Total dihitung, bukan diketik, supaya tidak salah.
+const nota = [
+  { nama: "Kopi tubruk", harga: 8000 },
+  { nama: "Kopi susu gula aren", harga: 18000 },
+  { nama: "Es teh tarik", harga: 12000 },
+  { nama: "Pisang goreng (5)", harga: 10000 },
+  { nama: "Roti bakar cokelat", harga: 14000 },
+];
+const total = nota.reduce((a, b) => a + b.harga, 0);
+const bayar = 70000;
+
+const langkah = [
+  "Kirim daftar pesananmu lewat WhatsApp.",
+  "Kami balas dengan jam siap, biasanya 10 sampai 15 menit.",
+  "Ambil di teras, atau pesan ojek online untuk dibawa pulang.",
+];
+---
+
+<TemplateLayout
+  template={t}
+  description="Contoh template Paket UMKM untuk kedai kopi dan warung makan: menu bergaya nota, status buka otomatis, dan tombol pesan lewat WhatsApp."
+>
+  <Fragment slot="head">
+    <Font cssVariable="--font-bricolage" preload={[{ weight: 800, style: "normal" }]} />
+    <Font cssVariable="--font-courier-prime" />
+  </Fragment>
+
+  <div class="kt" data-hours={hoursAttr(t.hours)}>
+    <main id="isi">
+      <!-- ===================== HERO ===================== -->
+      <section class="hero">
+        <div class="wrap hero-grid">
+          <div class="hero-teks">
+            <h1 class="nama-usaha">Kopi Teras</h1>
+            <p class="tagline">
+              Kopi hitam, kopi susu, dan gorengan hangat. Duduk di teras, pesan seperlunya.
+            </p>
+
+            <p class="status">
+              <span class="titik" aria-hidden="true"></span>
+              <span data-open-label>Jam buka ada di bawah</span>
+            </p>
+
+            <div class="aksi">
+              <a class="tombol tombol-putih" href={wa} target="_blank" rel="noopener noreferrer">Pesan lewat WhatsApp</a>
+              <a class="tautan-hero" href="#menu">Lihat menu</a>
+            </div>
+
+            <div class="alamat">
+              <svg class="cangkir" viewBox="0 0 80 84" width="56" height="59" aria-hidden="true">
+                <g class="uap" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round">
+                  <path class="u1" d="M29 22c-5-5 4-8-1-14" />
+                  <path class="u2" d="M40 22c-5-5 4-8-1-14" />
+                  <path class="u3" d="M51 22c-5-5 4-8-1-14" />
+                </g>
+                <path d="M14 32h46v24a15 15 0 0 1-15 15H29a15 15 0 0 1-15-15z" fill="#f5f7fa" />
+                <rect x="12" y="29" width="50" height="7" rx="3.5" fill="#13286f" />
+                <path d="M60 40h5a9 9 0 0 1 0 18h-5" fill="none" stroke="#f5f7fa" stroke-width="5" stroke-linecap="round" />
+                <g fill="#c4cde8">
+                  <circle cx="24" cy="48" r="1.1" /><circle cx="33" cy="58" r="1" /><circle cx="44" cy="46" r="1.2" />
+                  <circle cx="50" cy="60" r="1" /><circle cx="28" cy="65" r="1" />
+                </g>
+              </svg>
+              <p>
+                Jl. Contoh No. 12, Bandung<br />
+                <span class="redup">Alamat contoh, bukan usaha nyata</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Nota yang tercetak: dekoratif (isinya sama dengan menu), disembunyikan dari pembaca layar -->
+          <div class="printer" aria-hidden="true">
+            <div class="slit"></div>
+            <div class="window">
+              <div class="receipt">
+                <p class="r-judul">KOPI TERAS</p>
+                <p class="r-kecil">Jl. Contoh No. 12, Bandung</p>
+                <hr />
+                <div class="r-baris r-kecil"><span>Selasa 14.32</span><span>Meja 3</span></div>
+                <hr />
+                {nota.map((n) => (
+                  <div class="r-baris"><span>{n.nama}</span><span>{rupiah(n.harga)}</span></div>
+                ))}
+                <hr />
+                <div class="r-baris r-tebal"><span>TOTAL</span><span>{rupiah(total)}</span></div>
+                <div class="r-baris"><span>Tunai</span><span>{rupiah(bayar)}</span></div>
+                <div class="r-baris"><span>Kembali</span><span>{rupiah(bayar - total)}</span></div>
+                <div class="r-ruang"><div class="stempel">Sudah<br />dibayar</div></div>
+                <hr />
+                <p class="r-kecil r-tengah">Terima kasih. Mampir lagi.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== MENU ===================== -->
+      <section id="menu" class="menu">
+        <div class="wrap">
+          <h2>Menu hari ini</h2>
+          <p class="pengantar">Harga dalam rupiah. Semua bisa dipesan lewat WhatsApp.</p>
+
+          <div class="menu-grid">
+            <div>
+              <h3>Kopi</h3>
+              <ul class="daftar">
+                {kopi.map((m) => (
+                  <li class:list={["item", { habis: m.habis }]}>
+                    <div class="baris">
+                      <span class="nama">{m.nama}</span>
+                      {m.favorit && <span class="lencana">Favorit</span>}
+                      <span class="titik-isi" aria-hidden="true"></span>
+                      <span class="harga">{rupiah(m.harga)}</span>
+                    </div>
+                    {m.desc && <p class="desc">{m.desc}</p>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="kolom-kanan">
+              <div>
+                <h3>Bukan kopi</h3>
+                <ul class="daftar">
+                  {bukanKopi.map((m) => (
+                    <li class="item">
+                      <div class="baris">
+                        <span class="nama">{m.nama}</span>
+                        {m.favorit && <span class="lencana">Favorit</span>}
+                        <span class="titik-isi" aria-hidden="true"></span>
+                        <span class="harga">{rupiah(m.harga)}</span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h3>Teman ngopi</h3>
+                <ul class="daftar">
+                  {teman.map((m) => (
+                    <li class:list={["item", { habis: m.habis }]}>
+                      <div class="baris">
+                        <span class="nama">{m.nama}</span>
+                        {m.habis && <span class="lencana lencana-habis">Habis hari ini</span>}
+                        <span class="titik-isi" aria-hidden="true"></span>
+                        <span class="harga">{rupiah(m.harga)}</span>
+                      </div>
+                      {m.desc && <p class="desc">{m.desc}</p>}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== CARA PESAN + JAM ===================== -->
+      <section class="info">
+        <div class="wrap info-grid">
+          <div>
+            <h2>Cara pesan</h2>
+            <ol class="langkah">
+              {langkah.map((l) => <li>{l}</li>)}
+            </ol>
+
+            <h2 class="h2-jam">Jam buka</h2>
+            <p class="status status-terang">
+              <span class="titik" aria-hidden="true"></span>
+              <span data-open-label>Jam buka ada di bawah</span>
+            </p>
+            <ul class="jam">
+              {jam.map((j) => (
+                <li data-day={j.index} class:list={{ tutup: j.range === "Tutup" }}>
+                  <span>{j.name}</span>
+                  <span class="rentang">{j.range}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <figure class="peta">
+            <svg viewBox="0 0 420 320" role="img" aria-label="Peta contoh: Kopi Teras berada di pertigaan Jl. Contoh">
+              <rect width="420" height="320" fill="#e6ebf6" />
+              <g fill="#d7deef">
+                <rect x="22" y="24" width="120" height="86" rx="10" /><rect x="170" y="24" width="86" height="86" rx="10" />
+                <rect x="290" y="24" width="108" height="86" rx="10" /><rect x="22" y="146" width="120" height="70" rx="10" />
+                <rect x="290" y="146" width="108" height="150" rx="10" /><rect x="22" y="250" width="228" height="46" rx="10" />
+              </g>
+              <g fill="none" stroke="#fff" stroke-linecap="round">
+                <path d="M0 128H420" stroke-width="16" />
+                <path d="M156 0V320" stroke-width="16" />
+                <path d="M272 0V320" stroke-width="12" />
+                <path d="M156 128 272 232" stroke-width="10" />
+              </g>
+              <g class="pin">
+                <circle cx="156" cy="128" r="30" fill="#1f3fb8" opacity=".14" class="pin-gema" />
+                <circle cx="156" cy="128" r="17" fill="#1f3fb8" />
+                <path d="M148 124h16v7a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6z" fill="#fff" />
+                <path d="M164 126h2.5a2.5 2.5 0 0 1 0 5H164" fill="none" stroke="#fff" stroke-width="1.6" />
+              </g>
+              <text x="182" y="106" font-size="15" font-weight="800" fill="#13286f">Kopi Teras</text>
+              <text x="22" y="122" font-size="11" fill="#5a6890">Jl. Contoh</text>
+            </svg>
+            <figcaption>Peta contoh. Di websitemu, bagian ini menampilkan lokasi usahamu.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ===================== PENUTUP ===================== -->
+      <section class="penutup">
+        <div class="wrap penutup-isi">
+          <h2>Mau dibawa pulang?</h2>
+          <p>Kirim pesananmu lewat WhatsApp, kami siapkan sebelum kamu sampai.</p>
+          <a class="tombol tombol-putih" href={wa} target="_blank" rel="noopener noreferrer">Pesan lewat WhatsApp</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="kaki">
+      <div class="wrap">
+        <p>Kopi Teras adalah usaha fiktif untuk contoh template.</p>
+        <p><a href="/template/">Lihat template lain dari Pixcode Studio</a></p>
+      </div>
+    </footer>
+  </div>
+</TemplateLayout>
+
+<style>
+  .kt {
+    --biru: #1f3fb8;
+    --biru-tua: #13286f;
+    --putih: #f5f7fa;
+    --kertas: #fdfdfb;
+    --tinta: #1d1a17;
+    --redup: #4b5160;
+    --gula: #e8a33d;
+    font-family: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+    color: var(--tinta);
+    background: #fff;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+  :where(.kt) :where(h1, h2, h3) {
+    font-family: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: inherit;
+    margin: 0;
+  }
+  :where(.kt) :where(p, ul, ol) { margin: 0; }
+  .wrap { max-width: 72rem; margin: 0 auto; padding: 0 1.25rem; }
+
+  /* ---------- Tombol ---------- */
+  .tombol {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 0.85rem 1.4rem; border-radius: 999px;
+    font-weight: 700; text-decoration: none;
+    transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .tombol-putih { background: var(--putih); color: var(--biru-tua); box-shadow: 0 3px 0 var(--biru-tua); }
+  .tombol-putih:hover { background: #fff; transform: translateY(-1px); box-shadow: 0 4px 0 var(--biru-tua); }
+  .tombol-putih:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--biru-tua); }
+  .kt a:focus-visible { outline: 3px solid var(--gula); outline-offset: 3px; }
+
+  /* ---------- Hero ---------- */
+  .hero { background: var(--biru); color: #fff; overflow: hidden; }
+  .hero-grid { display: grid; gap: 2.5rem; padding-top: 3rem; padding-bottom: 3.5rem; align-items: center; }
+  .nama-usaha {
+    font-size: clamp(3.9rem, 15vw, 9rem); line-height: 0.86; letter-spacing: -0.05em;
+  }
+  .tagline { margin-top: 1.9rem; max-width: 26rem; font-size: 1.2rem; line-height: 1.5; color: #e8ecfb; }
+
+  .status {
+    display: inline-flex; align-items: center; gap: 0.6rem; margin-top: 1.6rem;
+    padding: 0.4rem 0.9rem 0.4rem 0.75rem; border-radius: 999px;
+    background: rgb(255 255 255 / 0.12); font-weight: 600; font-size: 0.95rem;
+  }
+  .status .titik { width: 0.65rem; height: 0.65rem; border-radius: 50%; background: #aab6e6; }
+  .kt[data-state="open"] .titik { background: #5ee28b; box-shadow: 0 0 0 4px rgb(94 226 139 / 0.25); }
+  .kt[data-state="closed"] .titik { background: #ffb4a8; }
+  .status-terang { background: var(--putih); color: var(--tinta); margin-top: 0.8rem; }
+  .status-terang .titik { background: #8d97b8; }
+  .kt[data-state="open"] .status-terang .titik { background: #16a34a; box-shadow: 0 0 0 4px rgb(22 163 74 / 0.2); }
+  .kt[data-state="closed"] .status-terang .titik { background: #dc2626; }
+
+  .aksi { margin-top: 1.6rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1.1rem 1.6rem; }
+  .tautan-hero { color: #fff; font-weight: 600; text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 2px; }
+  .tautan-hero:hover { text-decoration-color: var(--gula); }
+
+  .alamat { margin-top: 2.2rem; display: flex; align-items: center; gap: 1rem; font-size: 0.95rem; line-height: 1.45; }
+  .redup { color: #cdd5f3; }
+
+  /* Uap dari cangkir: gerak ambient kecil, bukan pusat perhatian */
+  .uap path { opacity: 0; animation: naik 3.6s ease-in-out infinite; }
+  .uap .u2 { animation-delay: 1.2s; }
+  .uap .u3 { animation-delay: 2.4s; }
+  @keyframes naik {
+    0% { opacity: 0; transform: translateY(6px); }
+    35% { opacity: 0.85; }
+    100% { opacity: 0; transform: translateY(-7px); }
+  }
+
+  /* ---------- Nota yang tercetak (momen gerak utama) ---------- */
+  .printer {
+    position: relative; width: min(100%, 21rem); margin: 0 auto; padding-top: 0.5rem;
+    transform: rotate(-1.4deg);
+    filter: drop-shadow(0 22px 22px rgb(8 20 80 / 0.38));
+  }
+  .slit {
+    position: relative; z-index: 2; height: 1rem; border-radius: 0.5rem;
+    margin: 0 -0.7rem; background: var(--biru-tua);
+    box-shadow: inset 0 3px 4px rgb(0 0 0 / 0.45), 0 1px 0 rgb(255 255 255 / 0.18);
+  }
+  .window { position: relative; overflow: hidden; margin-top: -0.55rem; padding-bottom: 1.2rem; }
+  .receipt {
+    position: relative; background: var(--kertas); color: var(--tinta);
+    padding: 1.6rem 1.35rem 1.4rem;
+    font-family: var(--font-courier-prime), "Courier New", monospace; font-size: 0.9rem; line-height: 1.5;
+    animation: cetak 3.6s steps(34, end) 0.5s both;
+  }
+  /* Tepi bawah bergerigi seperti disobek */
+  .receipt::after {
+    content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 0.75rem;
+    background:
+      linear-gradient(135deg, var(--kertas) 50%, transparent 50%) 0 0 / 1.1rem 0.75rem repeat-x,
+      linear-gradient(225deg, var(--kertas) 50%, transparent 50%) 0 0 / 1.1rem 0.75rem repeat-x;
+  }
+  .receipt hr { border: 0; border-top: 2px dashed #b9b6ae; margin: 0.7rem 0; }
+  .r-judul { text-align: center; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.22em; }
+  .r-kecil { font-size: 0.8rem; color: #5b574f; }
+  .r-tengah { text-align: center; }
+  .receipt > .r-kecil:nth-of-type(2) { text-align: center; }
+  .r-baris { display: flex; justify-content: space-between; gap: 1rem; }
+  .r-baris span:last-child { font-variant-numeric: tabular-nums; }
+  .r-tebal { font-weight: 700; font-size: 1.05rem; }
+
+  .r-ruang { position: relative; height: 4.6rem; }
+  .stempel {
+    position: absolute; left: 0.2rem; top: 0.4rem; width: 4.8rem; height: 4.8rem;
+    display: grid; place-items: center; text-align: center;
+    border: 3px double var(--biru); border-radius: 50%; color: var(--biru);
+    font-weight: 700; font-size: 0.8rem; line-height: 1.15; letter-spacing: 0.08em; text-transform: uppercase;
+    transform: rotate(-14deg); opacity: 0.88; mix-blend-mode: multiply;
+    animation: cap 0.4s cubic-bezier(0.2, 1.5, 0.4, 1) 4.2s both;
+  }
+  /* Tinta turun dari atas: tepi bawah bergerigi baru terlihat di akhir (inset negatif = ruang untuk gerigi). */
+  @keyframes cetak {
+    from { clip-path: inset(0 0 100% 0); }
+    to { clip-path: inset(0 0 -1rem 0); }
+  }
+  @keyframes cap {
+    from { opacity: 0; transform: rotate(-14deg) scale(1.8); }
+    to { opacity: 0.88; transform: rotate(-14deg) scale(1); }
+  }
+
+  /* ---------- Menu ---------- */
+  .menu { background: var(--putih); padding: 4.5rem 0; }
+  .menu h2, .info h2 { font-size: clamp(2.2rem, 6vw, 3.2rem); line-height: 1; }
+  .pengantar { margin-top: 0.8rem; color: var(--redup); }
+  .menu-grid { margin-top: 2.6rem; display: grid; gap: 3rem; }
+  .kolom-kanan { display: grid; gap: 2.6rem; align-content: start; }
+  .menu h3 { font-size: 1.6rem; letter-spacing: -0.02em; margin-bottom: 0.6rem; color: var(--biru); }
+  .daftar { list-style: none; padding: 0; }
+  .item { padding: 0.7rem 0; border-radius: 0.5rem; transition: background-color 0.2s ease; }
+  .item:hover { background: rgb(31 63 184 / 0.06); }
+  .baris { display: flex; align-items: baseline; gap: 0.55rem; }
+  .nama { font-weight: 700; }
+  .titik-isi { flex: 1; min-width: 1rem; border-bottom: 2px dotted rgb(29 26 23 / 0.35); transform: translateY(-0.28em); }
+  .harga { font-weight: 700; font-variant-numeric: tabular-nums; transition: color 0.2s ease; }
+  .item:hover .harga { color: var(--biru); }
+  .desc { margin-top: 0.15rem; font-size: 0.95rem; line-height: 1.45; color: var(--redup); max-width: 30rem; }
+  .lencana {
+    align-self: center; padding: 0.05rem 0.55rem; border-radius: 999px;
+    background: var(--biru); color: #fff; font-size: 0.75rem; font-weight: 700;
+  }
+  .lencana-habis { background: #3b3732; }
+  .habis .nama, .habis .harga { text-decoration: line-through; text-decoration-thickness: 2px; color: #6b665e; }
+  .habis .desc { color: #6b665e; }
+
+  /* ---------- Info ---------- */
+  .info { padding: 4.5rem 0; background: #fff; }
+  .info-grid { display: grid; gap: 3rem; align-items: start; }
+  .langkah { margin-top: 1.4rem; padding: 0; list-style: none; counter-reset: l; display: grid; gap: 0.9rem; max-width: 30rem; }
+  .langkah li { counter-increment: l; display: grid; grid-template-columns: 2.4rem 1fr; align-items: baseline; }
+  .langkah li::before { content: counter(l); font-weight: 800; font-size: 1.6rem; color: var(--biru); line-height: 1; }
+  .h2-jam { margin-top: 3rem; }
+  .jam { list-style: none; padding: 0; margin-top: 1.1rem; max-width: 22rem; }
+  .jam li { display: flex; justify-content: space-between; padding: 0.45rem 0.8rem; border-left: 4px solid transparent; }
+  .jam li + li { border-top: 1px solid #e5e8ef; }
+  .jam .rentang { font-variant-numeric: tabular-nums; }
+  .jam .tutup { color: #5e6370; }
+  .jam [aria-current="date"], .jam li[aria-current="date"] { border-left-color: var(--biru); background: var(--putih); font-weight: 700; }
+
+  .peta { margin: 0; }
+  .peta svg { width: 100%; height: auto; border-radius: 1rem; display: block; }
+  .peta figcaption { margin-top: 0.7rem; font-size: 0.9rem; color: var(--redup); }
+  .pin-gema { transform-origin: 156px 128px; animation: gema 3.2s ease-out infinite; }
+  @keyframes gema { 0% { transform: scale(0.6); opacity: 0.35; } 100% { transform: scale(1.6); opacity: 0; } }
+
+  /* ---------- Penutup ---------- */
+  .penutup { background: var(--biru); color: #fff; padding: 4.5rem 0; }
+  .penutup-isi { display: grid; gap: 1rem; justify-items: start; }
+  .penutup h2 { font-size: clamp(2.2rem, 6vw, 3.4rem); line-height: 1; }
+  .penutup p { max-width: 28rem; color: #e8ecfb; }
+  .penutup .tombol { margin-top: 0.6rem; }
+
+  .kaki { background: var(--biru-tua); color: #d8def5; padding: 1.6rem 0; font-size: 0.9rem; }
+  .kaki .wrap { display: flex; flex-wrap: wrap; gap: 0.4rem 2rem; justify-content: space-between; }
+  .kaki a { color: #fff; text-underline-offset: 4px; }
+
+  /* ---------- Layar lebar ---------- */
+  @media (min-width: 900px) {
+    .hero-grid { grid-template-columns: 1.15fr 0.85fr; padding-top: 4.5rem; padding-bottom: 5.5rem; }
+    .printer { margin-right: 0; }
+    .menu-grid { grid-template-columns: 1.15fr 1fr; gap: 4.5rem; }
+    .info-grid { grid-template-columns: 1fr 1fr; gap: 4.5rem; }
+  }
+
+  /* ---------- Gerak dikurangi: tampilkan keadaan akhir tanpa animasi ---------- */
+  @media (prefers-reduced-motion: reduce) {
+    .receipt, .stempel, .uap path, .pin-gema { animation: none; }
+    .uap path { opacity: 0.8; }
+    .stempel { opacity: 0.88; }
+    .pin-gema { opacity: 0.2; }
+    .tombol, .item, .harga { transition: none; }
+  }
+</style>

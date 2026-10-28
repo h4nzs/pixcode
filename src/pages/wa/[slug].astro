@@ -9,6 +9,7 @@ import type { GetStaticPaths } from "astro";
 import AnalyticsBeacon from "../../components/AnalyticsBeacon.astro";
 import { waLink } from "../../data/site";
 import { packages } from "../../data/packages";
+import { templates } from "../../data/templates";
 
 export const getStaticPaths = (() => {
   // CATATAN: getStaticPaths diekstrak saat build — semua nilai harus dihitung DI DALAM fungsi
@@ -19,6 +20,10 @@ export const getStaticPaths = (() => {
     ...packages.map((p) => ({
       slug: `paket-${p.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
       target: waLink({ type: "package", packageName: `Paket ${p.name}` }),
+    })),
+    ...templates.map((t) => ({
+      slug: `template-${t.slug}`,
+      target: waLink({ type: "template", slug: t.slug, templateName: t.name }),
     })),
   ];
   return contexts.map(({ slug, target }) => ({ params: { slug }, props: { target } }));

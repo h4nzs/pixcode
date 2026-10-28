@@ -1,12 +1,7 @@
 ---
 // CTA utama seluruh situs (riset §2: warm action). Nomor & template pesan dari src/data/site.ts.
 import Icon from "./Icon.astro";
-import { waLink } from "../data/site";
-
-type WaContext =
-  | { type: "general" }
-  | { type: "package"; packageName: string }
-  | { type: "project"; projectTitle: string };
+import { waLink, type WaContext } from "../data/site";
 
 interface Props {
   /** Default: { type: "general" } jika tidak diberikan. */
@@ -39,7 +34,9 @@ const trackSlug =
     ? `paket-${context.packageName.replace("Paket ", "").toLowerCase().replace(/[^a-z0-9]+/g, "-")}`
     : context.type === "project"
       ? "portfolio"
-      : "umum";
+      : context.type === "template"
+        ? `template-${context.slug}`
+        : "umum";
 const href = tracked ? `/wa/${trackSlug}/` : directUrl;
 
 const base = "btn-press inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600";

@@ -1,0 +1,410 @@
+---
+// CONTOH template Paket UMKM: "Toko Tanaman & Katalog" (usaha FIKTIF: Pucuk).
+// Konsep: katalog tanaman. Motif khas = panel berbentuk lengkung (seperti jendela rumah kaca) dan
+// bayangan daun yang bergoyang pelan di hero. Katalog difilter lewat cahaya (tanpa JavaScript).
+// Warna: putih dingin, hijau daun tua, merah muda keladi. Ilustrasi tanaman digambar sebagai SVG.
+import { Font } from "astro:assets";
+import TemplateLayout from "../../layouts/TemplateLayout.astro";
+import { getTemplate, hoursAttr, weekRows } from "../../data/templates";
+import { site } from "../../data/site";
+
+const t = getTemplate("toko-tanaman");
+const jam = weekRows(t.hours);
+const rupiah = (n: number) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+type Bentuk = "lidah" | "koin" | "sirih" | "aglaonema" | "keladi" | "monstera" | "euphorbia" | "aloe";
+type Tanaman = {
+  latin: string;
+  nama: string;
+  pot: string;
+  harga: number;
+  cahaya: "teduh" | "terang";
+  stok: number;
+  bentuk: Bentuk;
+  glasir: string;
+  catatan: string;
+};
+
+// Harga dan stok FIKTIF.
+const katalog: Tanaman[] = [
+  { latin: "Dracaena trifasciata", nama: "Lidah mertua", pot: "Pot 15 cm", harga: 35000, cahaya: "teduh", stok: 12, bentuk: "lidah", glasir: "#2b3a33", catatan: "Siram dua minggu sekali. Tahan lupa." },
+  { latin: "Pilea peperomioides", nama: "Pilea koin", pot: "Pot 10 cm", harga: 45000, cahaya: "teduh", stok: 5, bentuk: "koin", glasir: "#f1eee6", catatan: "Putar potnya tiap minggu supaya tumbuh rata." },
+  { latin: "Epipremnum aureum", nama: "Sirih gading", pot: "Pot gantung 12 cm", harga: 25000, cahaya: "teduh", stok: 20, bentuk: "sirih", glasir: "#e7a9b9", catatan: "Bisa tumbuh di air. Potong sulurnya untuk bibit baru." },
+  { latin: "Aglaonema", nama: "Sri rejeki", pot: "Pot 20 cm", harga: 85000, cahaya: "teduh", stok: 3, bentuk: "aglaonema", glasir: "#2b3a33", catatan: "Suka lembap, jangan ditaruh dekat AC." },
+  { latin: "Caladium bicolor", nama: "Keladi hias", pot: "Pot 15 cm", harga: 40000, cahaya: "terang", stok: 8, bentuk: "keladi", glasir: "#f1eee6", catatan: "Rontok saat musim kering, tumbuh lagi dari umbi." },
+  { latin: "Monstera deliciosa", nama: "Janda bolong", pot: "Pot 20 cm", harga: 120000, cahaya: "terang", stok: 4, bentuk: "monstera", glasir: "#e7a9b9", catatan: "Daun makin berlubang kalau cahayanya cukup." },
+  { latin: "Euphorbia milii", nama: "Euphorbia", pot: "Pot 15 cm", harga: 30000, cahaya: "terang", stok: 0, bentuk: "euphorbia", glasir: "#2b3a33", catatan: "Berbunga hampir sepanjang tahun. Getahnya iritan." },
+  { latin: "Aloe vera", nama: "Lidah buaya", pot: "Pot 15 cm", harga: 20000, cahaya: "terang", stok: 9, bentuk: "aloe", glasir: "#f1eee6", catatan: "Siram setelah tanah benar-benar kering." },
+];
+
+const pesan = (p: Tanaman) =>
+  `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
+    p.stok > 0
+      ? `Halo Pixcode Studio! Saya mencoba contoh template "${t.business}" (Paket UMKM). Di halaman contoh, saya bertanya stok ${p.nama} (${p.latin}). Jenis usaha saya: ___. Boleh tanya-tanya dulu?`
+      : `Halo Pixcode Studio! Saya mencoba contoh template "${t.business}" (Paket UMKM). Di halaman contoh, ${p.nama} ditandai habis, saya ingin tahu cara kerja tombol kabari restock. Jenis usaha saya: ___.`,
+  )}`;
+
+const langkah = [
+  "Pilih tanaman di katalog, lalu tekan tombol tanya stok.",
+  "Kami balas dengan foto tanaman yang sebenarnya, hari itu juga.",
+  "Ambil di toko, atau kami kirim lewat kurir untuk tanaman yang kecil.",
+];
+---
+
+<TemplateLayout
+  template={t}
+  description="Contoh template Paket UMKM untuk toko tanaman dan toko katalog: filter tanpa JavaScript, penanda stok, dan tombol tanya WhatsApp yang sudah berisi nama barang."
+>
+  <Fragment slot="head">
+    <Font cssVariable="--font-newsreader" preload={[{ weight: 500, style: "normal" }]} />
+    <Font cssVariable="--font-onest" preload={[{ weight: 400, style: "normal" }]} />
+  </Fragment>
+
+  <div class="pk" data-hours={hoursAttr(t.hours)}>
+    <!-- Bentuk daun dipakai ulang di bayangan hero dan ilustrasi -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+      <defs>
+        <path id="daun" d="M0 0C-15 -18 -15 -50 0 -74C15 -50 15 -18 0 0Z" />
+        <path id="ha" transform="rotate(180) translate(0 45)" d="M0 0C-32 -10 -36 -44 -15 -54C-7 -58 0 -52 0 -45C0 -52 7 -58 15 -54C36 -44 32 -10 0 0Z" />
+        <path id="koin" d="M0 0A19 19 0 1 0 0.01 0Z" />
+      </defs>
+    </svg>
+
+    <main id="isi">
+      <!-- ===================== HERO ===================== -->
+      <section class="hero">
+        <div class="bayangan" aria-hidden="true">
+          <svg viewBox="0 0 600 600" class="by by1">
+            <g fill="currentColor">
+              <use href="#ha" transform="translate(300 620) rotate(-4) scale(8.5)" />
+              <use href="#daun" transform="translate(300 620) rotate(-46) scale(6.5 7)" />
+              <use href="#daun" transform="translate(300 620) rotate(40) scale(6 6.5)" />
+            </g>
+          </svg>
+          <svg viewBox="0 0 600 600" class="by by2">
+            <g fill="currentColor">
+              <use href="#daun" transform="translate(120 600) rotate(-30) scale(6)" />
+              <use href="#daun" transform="translate(120 600) rotate(-8) scale(7)" />
+              <use href="#daun" transform="translate(120 600) rotate(14) scale(6)" />
+              <use href="#daun" transform="translate(120 600) rotate(36) scale(5)" />
+            </g>
+          </svg>
+          <svg viewBox="0 0 600 600" class="by by3"><g fill="currentColor"><use href="#ha" transform="translate(240 600) rotate(16) scale(7.5)" /></g></svg>
+        </div>
+
+        <div class="wrap hero-isi">
+          <h1 class="nama">pucuk</h1>
+          <p class="tagline">Tanaman hias untuk rumah yang sedikit cahaya, dan rumah yang banyak.</p>
+          <p class="status">
+            <span class="titik" aria-hidden="true"></span>
+            <span data-open-label>Jam buka ada di bawah</span>
+          </p>
+          <div class="aksi">
+            <a class="tombol" href="#katalog">Lihat katalog</a>
+            <a class="tautan" href="#info">Jam buka dan alamat</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== KATALOG ===================== -->
+      <section class="katalog" id="katalog">
+        <div class="wrap">
+          <h2>Katalog minggu ini</h2>
+          <p class="lead">Foto dan harga di sini contoh. Stok berubah, jadi tanya dulu sebelum datang.</p>
+
+          <div class="filter" role="radiogroup" aria-label="Filter berdasarkan cahaya">
+            <input type="radio" name="cahaya" id="f-semua" checked />
+            <label for="f-semua">Semua</label>
+            <input type="radio" name="cahaya" id="f-teduh" />
+            <label for="f-teduh">Teduh, sedikit cahaya</label>
+            <input type="radio" name="cahaya" id="f-terang" />
+            <label for="f-terang">Terang, banyak cahaya</label>
+
+            <ul class="grid">
+              {katalog.map((p) => (
+                <li class={`kartu ${p.stok === 0 ? "habis" : ""}`} data-cahaya={p.cahaya}>
+                  <div class="lengkung" style={`--glasir:${p.glasir}`}>
+                    <svg viewBox="0 0 200 220" role="img" aria-label={`Gambar ${p.nama}`}>
+                      {/* Pot */}
+                      <path d="M62 170h76l-8 42a6 6 0 0 1-6 5H76a6 6 0 0 1-6-5z" fill="var(--glasir)" stroke="rgba(0,0,0,.14)" />
+                      <rect x="58" y="164" width="84" height="12" rx="3" fill="var(--glasir)" />
+                      <rect x="58" y="164" width="84" height="12" rx="3" fill="#000" opacity="0.08" />
+
+                      {p.bentuk === "lidah" && (
+                        <g class="goyang" fill="#2f6b43" stroke="#a9c56b" stroke-width="2.5" stroke-linejoin="round">
+                          <use href="#daun" transform="translate(100 168) rotate(-24) scale(1.1 1.9)" />
+                          <use href="#daun" transform="translate(100 168) rotate(-9) scale(1.2 2.2)" />
+                          <use href="#daun" transform="translate(100 168) rotate(6) scale(1.2 2)" />
+                          <use href="#daun" transform="translate(100 168) rotate(22) scale(1.1 1.7)" />
+                        </g>
+                      )}
+                      {p.bentuk === "koin" && (
+                        <g class="goyang" stroke="#4d8a52" stroke-width="3" stroke-linecap="round">
+                          <path d="M100 168V110M100 168L64 118M100 168L136 120M100 168L78 90M100 168L124 84" fill="none" />
+                          <g fill="#6aa66a" stroke="none">
+                            <use href="#koin" transform="translate(100 108) scale(1.1)" />
+                            <use href="#koin" transform="translate(64 116) scale(0.95)" />
+                            <use href="#koin" transform="translate(137 118) scale(0.95)" />
+                            <use href="#koin" transform="translate(77 88) scale(0.85)" />
+                            <use href="#koin" transform="translate(125 82) scale(0.85)" />
+                          </g>
+                        </g>
+                      )}
+                      {p.bentuk === "sirih" && (
+                        <g class="goyang">
+                          <path d="M100 168C70 150 62 126 78 108S128 96 130 128 148 176 152 198" fill="none" stroke="#4d8a52" stroke-width="3" stroke-linecap="round" />
+                          <g fill="#4f9a55" stroke="#d7e07a" stroke-width="1.5">
+                            <use href="#ha" transform="translate(80 130) rotate(-70) scale(0.7)" />
+                            <use href="#ha" transform="translate(70 112) rotate(-30) scale(0.7)" />
+                            <use href="#ha" transform="translate(104 98) rotate(10) scale(0.75)" />
+                            <use href="#ha" transform="translate(129 112) rotate(60) scale(0.7)" />
+                            <use href="#ha" transform="translate(131 140) rotate(110) scale(0.65)" />
+                            <use href="#ha" transform="translate(146 176) rotate(160) scale(0.6)" />
+                            <use href="#ha" transform="translate(100 160) rotate(-95) scale(0.6)" />
+                          </g>
+                        </g>
+                      )}
+                      {p.bentuk === "aglaonema" && (
+                        <g class="goyang" stroke-linejoin="round">
+                          <g fill="#2f6b43">
+                            <use href="#daun" transform="translate(100 168) rotate(-34) scale(1.6 1.35)" />
+                            <use href="#daun" transform="translate(100 168) rotate(34) scale(1.6 1.3)" />
+                            <use href="#daun" transform="translate(100 168) rotate(-12) scale(1.7 1.6)" />
+                            <use href="#daun" transform="translate(100 168) rotate(12) scale(1.7 1.5)" />
+                          </g>
+                          <g stroke="#e2879f" stroke-width="2.5" stroke-linecap="round" fill="none">
+                            <path d="M100 166L70 80M100 166L130 84M100 166L100 60" />
+                          </g>
+                        </g>
+                      )}
+                      {p.bentuk === "keladi" && (
+                        <g class="goyang">
+                          <path d="M100 168V118M100 168L70 132M100 168L132 136" stroke="#5a8a4e" stroke-width="3" stroke-linecap="round" fill="none" />
+                          <g stroke="#3f7a47" stroke-width="3" stroke-linejoin="round" fill="#e7849f">
+                            <use href="#ha" transform="translate(100 118) scale(1.3)" />
+                            <use href="#ha" transform="translate(70 132) rotate(-35) scale(1)" />
+                            <use href="#ha" transform="translate(132 136) rotate(35) scale(1)" />
+                          </g>
+                          <g stroke="#fbe3ea" stroke-width="2" stroke-linecap="round" fill="none">
+                            <path d="M100 118V62M100 100L78 84M100 100L122 84" />
+                            <path d="M70 132L52 92M132 136L150 98" />
+                          </g>
+                        </g>
+                      )}
+                      {p.bentuk === "monstera" && (
+                        <g class="goyang">
+                          <path d="M100 168V116M100 168L64 132" stroke="#3e7c4a" stroke-width="3.5" stroke-linecap="round" fill="none" />
+                          <g fill="#2a6a3f">
+                            <use href="#ha" transform="translate(100 116) scale(1.7)" />
+                            <use href="#ha" transform="translate(64 132) rotate(-38) scale(1.05)" />
+                          </g>
+                          <g stroke="#fff" stroke-width="3.5" stroke-linecap="round" fill="none">
+                            <path d="M100 116V36" stroke-width="2" opacity="0.5" />
+                            <path d="M92 104L68 98M108 104L132 98M92 84L72 72M108 84L128 72" />
+                          </g>
+                          <g fill="#fff"><ellipse cx="84" cy="116" rx="2.5" ry="7" transform="rotate(-20 84 116)" /><ellipse cx="116" cy="116" rx="2.5" ry="7" transform="rotate(20 116 116)" /></g>
+                        </g>
+                      )}
+                      {p.bentuk === "euphorbia" && (
+                        <g class="goyang">
+                          <path d="M92 168L88 110M104 168L112 96M98 168L100 130" stroke="#7a6a52" stroke-width="5" stroke-linecap="round" fill="none" />
+                          <g fill="#6aa66a">
+                            <use href="#daun" transform="translate(88 112) rotate(-60) scale(0.35)" />
+                            <use href="#daun" transform="translate(90 130) rotate(60) scale(0.3)" />
+                            <use href="#daun" transform="translate(112 98) rotate(50) scale(0.35)" />
+                            <use href="#daun" transform="translate(110 118) rotate(-60) scale(0.3)" />
+                          </g>
+                          <g fill="#c8344a">
+                            <circle cx="88" cy="104" r="5" /><circle cx="95" cy="100" r="4" />
+                            <circle cx="112" cy="90" r="5" /><circle cx="119" cy="95" r="4" /><circle cx="105" cy="94" r="3.5" />
+                          </g>
+                        </g>
+                      )}
+                      {p.bentuk === "aloe" && (
+                        <g class="goyang" fill="#6fae7a" stroke="#d9f0c4" stroke-width="2" stroke-linejoin="round">
+                          <use href="#daun" transform="translate(100 168) rotate(-62) scale(1 1.1)" />
+                          <use href="#daun" transform="translate(100 168) rotate(62) scale(1 1.1)" />
+                          <use href="#daun" transform="translate(100 168) rotate(-36) scale(1.2 1.3)" />
+                          <use href="#daun" transform="translate(100 168) rotate(36) scale(1.2 1.3)" />
+                          <use href="#daun" transform="translate(100 168) rotate(-12) scale(1.3 1.45)" />
+                          <use href="#daun" transform="translate(100 168) rotate(12) scale(1.3 1.45)" />
+                        </g>
+                      )}
+                    </svg>
+                    <span class={`stok ${p.stok === 0 ? "stok-habis" : p.stok <= 5 ? "stok-sedikit" : ""}`}>
+                      {p.stok === 0 ? "Habis" : p.stok <= 5 ? `Sisa ${p.stok}` : "Tersedia"}
+                    </span>
+                  </div>
+                  <div class="kartu-isi">
+                    <h3>{p.nama}</h3>
+                    <p class="latin">{p.latin}</p>
+                    <p class="spek">{p.pot}. {p.cahaya === "teduh" ? "Cocok di tempat teduh." : "Butuh cahaya terang."}</p>
+                    <p class="catatan">{p.catatan}</p>
+                    <div class="beli">
+                      <p class="harga"><small>Rp</small> {rupiah(p.harga)}</p>
+                      <a href={pesan(p)} target="_blank" rel="noopener noreferrer" aria-label={`${p.stok > 0 ? "Tanya stok" : "Kabari saya"} ${p.nama}`}>
+                        {p.stok > 0 ? "Tanya stok" : "Kabari saya"}
+                      </a>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== INFO ===================== -->
+      <section class="info" id="info">
+        <div class="wrap info-grid">
+          <div>
+            <h2>Cara belinya</h2>
+            <ol class="langkah">
+              {langkah.map((l) => <li>{l}</li>)}
+            </ol>
+          </div>
+          <div>
+            <h2>Jam buka</h2>
+            <p class="status status-besar">
+              <span class="titik" aria-hidden="true"></span>
+              <span data-open-label>Jam buka ada di bawah</span>
+            </p>
+            <ul class="jam">
+              {jam.map((j) => (
+                <li data-day={j.index}><span>{j.name}</span><span>{j.range}</span></li>
+              ))}
+            </ul>
+            <p class="alamat">Jl. Contoh Hijau No. 3, Bandung<br /><span>Alamat contoh, bukan usaha nyata.</span></p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="kaki">
+      <div class="wrap kaki-isi">
+        <p>Pucuk adalah usaha fiktif untuk contoh template.</p>
+        <a href="/template/">Lihat template lain dari Pixcode Studio</a>
+      </div>
+    </footer>
+  </div>
+</TemplateLayout>
+
+<style>
+  .pk {
+    --putih: #fbfcfa;
+    --daun: #1f5a3a;
+    --daun-tua: #123524;
+    --muda: #e4eee3;
+    --pink: #e6849f;
+    --pink-muda: #fbe3ea;
+    --pink-tua: #8f2447;
+    --redup: #51605a;
+    background: var(--putih);
+    color: #16241c;
+    font-family: var(--font-onest), ui-sans-serif, system-ui, sans-serif;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+  :where(.pk) :where(p, ul, ol) { margin: 0; padding: 0; }
+  :where(.pk) :where(h1, h2, h3) {
+    font-family: var(--font-newsreader), Georgia, "Times New Roman", serif;
+    font-weight: 500;
+    margin: 0;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+  .pk h2 { font-size: clamp(2rem, 4.5vw, 3rem); }
+  .wrap { max-width: 72rem; margin: 0 auto; padding: 0 1.25rem; }
+  .pk a:focus-visible, .pk input:focus-visible + label { outline: 3px solid var(--daun); outline-offset: 3px; }
+
+  .status { display: inline-flex; align-items: center; gap: 0.6rem; font-weight: 600; font-size: 0.95rem; }
+  .titik { width: 0.7rem; height: 0.7rem; border-radius: 50%; background: var(--redup); flex: none; }
+  [data-state="open"] .titik { background: #1f8a4a; }
+  [data-state="closed"] .titik { background: var(--pink-tua); }
+
+  /* HERO: bayangan daun bergoyang di dinding putih */
+  .hero { position: relative; overflow: hidden; min-height: min(38rem, 84vh); display: grid; align-items: end; background: linear-gradient(180deg, #f1f6ef, var(--putih)); }
+  .bayangan { position: absolute; inset: 0; color: var(--daun-tua); pointer-events: none; mask-image: linear-gradient(#000 45%, transparent 98%); }
+  .by { position: absolute; width: min(48rem, 90vw); opacity: 0.09; filter: blur(1.5px); transform-origin: 50% 100%; }
+  .by1 { right: -6%; bottom: -8%; animation: goyang-a 11s ease-in-out infinite alternate; }
+  .by2 { right: 18%; bottom: -14%; width: min(40rem, 80vw); animation: goyang-b 14s ease-in-out -4s infinite alternate; }
+  .by3 { right: -22%; top: -22%; transform-origin: 50% 80%; animation: goyang-a 17s ease-in-out -8s infinite alternate; }
+  @keyframes goyang-a { from { transform: rotate(-2.5deg) translateX(-0.5rem); } to { transform: rotate(2.5deg) translateX(0.7rem); } }
+  @keyframes goyang-b { from { transform: rotate(2deg) translateY(0.4rem); } to { transform: rotate(-3deg) translateY(-0.5rem); } }
+
+  .hero-isi { position: relative; width: 100%; padding-top: 5rem; padding-bottom: 3.5rem; }
+  .nama { font-size: clamp(6rem, 24vw, 15rem); font-weight: 500; letter-spacing: -0.045em; line-height: 0.82; color: var(--daun-tua); margin-left: -0.04em; }
+  .tagline { margin-top: 1.8rem; max-width: 27rem; font-size: 1.2rem; }
+  .hero .status { margin-top: 1.4rem; }
+  .aksi { margin-top: 1.6rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem 1.6rem; }
+  .tombol { background: var(--daun); color: #fff; padding: 0.85rem 1.5rem; border-radius: 99px; text-decoration: none; font-weight: 600; transition: background-color 0.2s ease, transform 0.2s ease; }
+  .tombol:hover { background: var(--daun-tua); transform: translateY(-2px); }
+  .tautan { color: var(--daun-tua); font-weight: 600; text-underline-offset: 5px; }
+
+  /* KATALOG */
+  .katalog { padding: 4.5rem 0 5rem; }
+  .lead { margin-top: 0.9rem; max-width: 34rem; color: var(--redup); }
+
+  .filter { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .filter input { position: absolute; opacity: 0; pointer-events: none; }
+  .filter label { padding: 0.55rem 1.1rem; border: 1.5px solid var(--daun); border-radius: 99px; color: var(--daun-tua); font-weight: 500; cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease; }
+  .filter label:hover { background: var(--muda); }
+  .filter input:checked + label { background: var(--daun); color: #fff; }
+
+  .grid { list-style: none; flex-basis: 100%; margin-top: 1.4rem; display: grid; gap: 2.6rem 1.6rem; grid-template-columns: repeat(auto-fill, minmax(15.5rem, 1fr)); }
+  .filter:has(#f-teduh:checked) .kartu:not([data-cahaya="teduh"]),
+  .filter:has(#f-terang:checked) .kartu:not([data-cahaya="terang"]) { display: none; }
+  .kartu { display: grid; align-content: start; gap: 1rem; animation: muncul 0.45s cubic-bezier(0.2, 0.8, 0.3, 1) both; }
+  .kartu:nth-child(3n+2) { animation-delay: 0.05s; }
+  .kartu:nth-child(3n+3) { animation-delay: 0.1s; }
+  @keyframes muncul { from { opacity: 0; transform: translateY(0.8rem) scale(0.98); } }
+
+  .lengkung { position: relative; background: var(--muda); border-radius: 999px 999px 0.4rem 0.4rem; padding: 2.2rem 1rem 0.4rem; overflow: hidden; }
+  .kartu:nth-child(3n+2) .lengkung { background: #eaf0e6; }
+  .kartu:nth-child(3n+3) .lengkung { background: #e7efea; }
+  .lengkung svg { display: block; width: 100%; height: auto; max-height: 14rem; margin: 0 auto; }
+  .goyang { transform-box: fill-box; transform-origin: 50% 100%; animation: goyang-daun 6s ease-in-out infinite alternate; }
+  .kartu:nth-child(even) .goyang { animation-duration: 7.5s; animation-delay: -2s; }
+  @keyframes goyang-daun { from { transform: rotate(-1.4deg); } to { transform: rotate(1.4deg); } }
+  .kartu:hover .goyang { animation-duration: 2.4s; }
+
+  .stok { position: absolute; top: 0.9rem; left: 50%; translate: -50% 0; font-size: 0.8rem; font-weight: 600; padding: 0.15rem 0.7rem; border-radius: 99px; background: #fff; color: var(--daun-tua); }
+  .stok-sedikit { background: var(--pink-muda); color: var(--pink-tua); }
+  .stok-habis { background: #3a4540; color: #fff; }
+  .habis .lengkung svg { filter: grayscale(0.85); opacity: 0.7; }
+
+  .kartu-isi h3 { font-size: 1.7rem; }
+  .latin { font-family: var(--font-newsreader), Georgia, serif; font-style: italic; color: var(--redup); font-size: 1.05rem; }
+  .spek { margin-top: 0.6rem; font-size: 0.95rem; font-weight: 600; }
+  .catatan { margin-top: 0.2rem; font-size: 0.95rem; color: var(--redup); }
+  .beli { margin-top: 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; padding-top: 0.8rem; border-top: 1px solid #cfdccf; }
+  .harga { font-family: var(--font-newsreader), Georgia, serif; font-size: 1.6rem; font-weight: 500; }
+  .harga small { font: 400 0.85rem var(--font-onest), sans-serif; color: var(--redup); }
+  .beli a { color: var(--daun-tua); font-weight: 600; padding: 0.45rem 0.95rem; border: 1.5px solid var(--daun); border-radius: 99px; text-decoration: none; transition: background-color 0.2s ease, color 0.2s ease; }
+  .beli a:hover { background: var(--daun); color: #fff; }
+
+  /* INFO */
+  .info { background: var(--daun-tua); color: #eef5ec; padding: 4.5rem 0; }
+  .info-grid { display: grid; gap: 3rem; }
+  @media (min-width: 900px) { .info-grid { grid-template-columns: 1fr 1fr; gap: 5rem; } }
+  .info .status { color: #fff; }
+  .info [data-state="open"] .titik, .info .titik { background: #7ccf98; }
+  .info [data-state="closed"] .titik { background: #f2a3b8; }
+  .status-besar { margin-top: 1rem; }
+  .langkah { margin-top: 1.4rem; padding-left: 1.4rem; display: grid; gap: 0.9rem; max-width: 26rem; }
+  .langkah li::marker { font-family: var(--font-newsreader), Georgia, serif; font-size: 1.3rem; color: #f2a3b8; }
+  .jam { list-style: none; margin-top: 1.2rem; max-width: 24rem; }
+  .jam li { display: flex; justify-content: space-between; padding: 0.55rem 0.75rem; border-bottom: 1px solid #2f5744; }
+  .jam li[aria-current="date"] { background: #1f4a35; font-weight: 600; }
+  .alamat { margin-top: 1.6rem; }
+  .alamat span { color: #cfe0d3; font-size: 0.95rem; }
+
+  .kaki { background: #0c2518; color: #cfe0d3; }
+  .kaki-isi { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem; padding-top: 1.4rem; padding-bottom: 1.4rem; font-size: 0.92rem; }
+  .kaki a { color: #fff; text-underline-offset: 4px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .by, .goyang, .kartu { animation: none !important; }
+    .tombol, .filter label, .beli a { transition: none; }
+  }
+</style>

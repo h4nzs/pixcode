@@ -53,6 +53,8 @@
 /kontak              CTA WhatsApp, email, jam respons
 /kebijakan-privasi   Kebijakan privasi
 /syarat-ketentuan    Syarat & ketentuan
+/template            Galeri 3 contoh template Paket UMKM (diindeks, masuk sitemap)
+/template/[slug]     Contoh template: kedai-kopi, bengkel, toko-tanaman (noindex, tidak masuk sitemap)
 /wa/[slug]           Pengalih klik WhatsApp (noindex, tidak masuk sitemap)
 404                  Halaman tidak ditemukan
 ```
@@ -79,6 +81,7 @@ Poin "kenapa Pixcode" tidak menjadi section terpisah di Home; nilai kerja ditamp
 - Catatan di bawah trust line: lama pengerjaan dihitung sejak materi (foto, teks) lengkap; biaya domain terpisah dan dicantumkan di proposal.
 - **Mini-FAQ harga** dengan H2 berbentuk pertanyaan + jawaban 2–3 kalimat (GEO answer blocks, riset §6): kenapa ada rentang harga, apa yang bikin harga naik, biaya revisi lewat batas, domain/hosting, maintenance, add-on.
 - Add-on tampil sebagai daftar "tidak termasuk" di tiap kartu — tidak ada section add-on terpisah.
+- Di bawah catatan harga ada tautan ke galeri `/template/` (contoh tampilan Paket UMKM).
 
 ### 3.3 Halaman Portfolio
 - Grid kartu: thumbnail, label proyek (klien **dianonimkan**, cth. "Toko F&B — Bandung"), kategori, tag paket, status live.
@@ -230,6 +233,15 @@ featured: boolean             // tampil di Home highlight
 - Optimasi gambar pakai `astro:assets` (WebP otomatis, lazy-load).
 - Form kontak **tidak dulu** — CTA ke halaman terukur `/wa/<konteks>/`, lalu redirect ke `wa.me/<nomor>?text=…` (template pesan otomatis).
 - Analytics: Cloudflare Web Analytics via `src/components/AnalyticsBeacon.astro`, dipakai di `BaseLayout` dan halaman `/wa`.
+- **Template Paket UMKM** (`/template/*`, keputusan 2026-10-28): 3 contoh halaman milik Pixcode — Kedai Kopi "Kopi Teras" (menu bergaya nota yang tercetak), Bengkel "Bengkel Km 0" (pilih servis, total estimasi, kirim rincian ke WhatsApp), Toko Tanaman "Pucuk" (katalog difilter cahaya, tombol tanya per barang). Aturan:
+  - Semua usaha, alamat, harga, dan stok di contoh **fiktif** dan dilabeli di bar demo, di footer tiap contoh, dan di teks galeri. Tidak ada testimoni atau angka klien palsu.
+  - Tiap contoh punya `noindex` dan tidak masuk sitemap (hanya galeri `/template/` yang diindeks). Filter ada di `astro.config.mjs`.
+  - Data di `src/data/templates.ts`; kerangka bar demo di `src/layouts/TemplateLayout.astro`; tiap contoh bergaya sendiri (CSS ter-scope di file halamannya), bukan memakai tema situs utama.
+  - Tombol WhatsApp di contoh mengarah ke Pixcode lewat `/wa/template-<slug>/` (terhitung di Web Analytics). Pengecualian: estimator Bengkel dan tombol tanya per tanaman membuka `wa.me` langsung agar pesannya memuat pilihan pengunjung.
+  - JS hanya dua tempat, keduanya beralasan: `src/scripts/open-status.ts` (±1 KB, status buka/tutup menurut jam WIB, tanpa JS teks bawaan tetap benar) dan estimator di `bengkel.astro`. Filter toko tanaman murni CSS (`:has`).
+  - Huruf per contoh (OFL, file lokal di `src/assets/fonts/`): Bricolage Grotesque + Courier Prime, Big Shoulders Display + IBM Plex Sans, Newsreader + Onest. Hanya diunduh browser di halaman yang memakainya.
+  - Animasi semua di bawah guard `prefers-reduced-motion`; kondisi akhir tetap ditampilkan.
+  - Thumbnail galeri = screenshot halaman demo di `src/assets/templates/` (buat ulang kalau tampilan demo berubah).
 
 ---
 

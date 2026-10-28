@@ -1,0 +1,393 @@
+---
+// CONTOH template Paket UMKM: "Bengkel & Jasa Servis" (usaha FIKTIF: Bengkel Km 0).
+// Konsep: papan servis bengkel. Momen gerak utama = jarum speedometer menyapu + odometer berputar
+// di hero (sekali, saat halaman dibuka). Fitur khas = pilih servis → total estimasi → pesan WhatsApp.
+// Warna: kuning rambu, beton, hitam oli. Merah hanya untuk status "tutup" dan lampu peringatan.
+import { Font } from "astro:assets";
+import TemplateLayout from "../../layouts/TemplateLayout.astro";
+import { getTemplate, hoursAttr, weekRows } from "../../data/templates";
+import { site } from "../../data/site";
+
+const t = getTemplate("bengkel");
+const wa = `/wa/template-${t.slug}/`;
+const jam = weekRows(t.hours);
+
+const rupiah = (n: number) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+// Harga = jasa saja (FIKTIF). Suku cadang dan oli dihitung terpisah setelah dicek.
+const layanan = [
+  { id: "oli", nama: "Ganti oli dan cek rantai", menit: 20, harga: 45000 },
+  { id: "ringan", nama: "Servis ringan", menit: 45, harga: 85000 },
+  { id: "tuneup", nama: "Tune-up injeksi atau karburator", menit: 90, harga: 150000 },
+  { id: "cvt", nama: "Servis CVT (motor matic)", menit: 90, harga: 120000 },
+  { id: "rem", nama: "Ganti kampas rem", menit: 30, harga: 35000 },
+  { id: "tambal", nama: "Tambal ban tubeless", menit: 15, harga: 20000 },
+  { id: "ban", nama: "Ganti ban luar dan dalam", menit: 40, harga: 30000 },
+  { id: "aki", nama: "Cek aki dan kelistrikan", menit: 30, harga: 25000 },
+];
+
+const alur = [
+  { judul: "Kabari lewat WhatsApp", isi: "Sebut jenis kendaraan dan keluhannya. Foto atau video singkat membantu." },
+  { judul: "Datang dan dicek", isi: "Montir memeriksa di depanmu, lalu menyebut kerusakan dan biayanya." },
+  { judul: "Kamu setuju dulu", isi: "Tidak ada pekerjaan tambahan tanpa persetujuanmu." },
+  { judul: "Dikerjakan", isi: "Suku cadang lama dikembalikan kalau kamu minta." },
+  { judul: "Ambil dan bayar", isi: "Rincian biaya sama dengan yang disepakati di langkah tiga." },
+];
+
+// Odometer: tiap kolom berhenti di angka ini.
+const odo = [0, 0, 2, 0, 0, 0];
+---
+
+<TemplateLayout
+  template={t}
+  description="Contoh template Paket UMKM untuk bengkel dan jasa servis: daftar servis dengan estimasi, hitung total, lalu kirim rinciannya lewat WhatsApp."
+>
+  <Fragment slot="head">
+    <Font cssVariable="--font-big-shoulders" preload={[{ weight: 900, style: "normal" }]} />
+    <Font cssVariable="--font-plex-sans" preload={[{ weight: 400, style: "normal" }]} />
+  </Fragment>
+
+  <div class="bk" data-hours={hoursAttr(t.hours)}>
+    <main id="isi">
+      <!-- ===================== HERO ===================== -->
+      <section class="hero">
+        <div class="wrap hero-grid">
+          <div class="hero-teks">
+            <h1 class="nama">Bengkel<br />Km 0</h1>
+            <p class="tagline">Servis motor dan ban. Biaya disebut sebelum dikerjakan, bukan sesudahnya.</p>
+
+            <p class="status">
+              <span class="lampu" aria-hidden="true"></span>
+              <span data-open-label>Jam buka ada di bawah</span>
+            </p>
+
+            <div class="aksi">
+              <a class="tombol tombol-hitam" href={wa} target="_blank" rel="noopener noreferrer">Tanya lewat WhatsApp</a>
+              <a class="tautan" href="#servis">Hitung biaya servis</a>
+            </div>
+            <p class="alamat">Jl. Contoh Raya No. 7, Bandung. <span>Alamat contoh, bukan usaha nyata.</span></p>
+          </div>
+
+          <!-- Dekoratif: informasi yang sama ada di teks. -->
+          <div class="panel" aria-hidden="true">
+            <svg class="dial" viewBox="0 0 300 190" width="420" height="266">
+              <path d="M30 160a120 120 0 0 1 240 0" fill="none" stroke="#1a1917" stroke-width="10" stroke-linecap="round" />
+              <path d="M30 160a120 120 0 0 1 40-89" fill="none" stroke="#1f7a3d" stroke-width="10" stroke-linecap="round" />
+              <path d="M230 71a120 120 0 0 1 40 89" fill="none" stroke="#a31f18" stroke-width="10" stroke-linecap="round" />
+              <g stroke="#1a1917" stroke-width="3" stroke-linecap="round">
+                {Array.from({ length: 13 }).map((_, i) => {
+                  const a = Math.PI - (i * Math.PI) / 12;
+                  const x1 = 150 + Math.cos(a) * 100;
+                  const y1 = 160 - Math.sin(a) * 100;
+                  const x2 = 150 + Math.cos(a) * 86;
+                  const y2 = 160 - Math.sin(a) * 86;
+                  return <line x1={x1.toFixed(1)} y1={y1.toFixed(1)} x2={x2.toFixed(1)} y2={y2.toFixed(1)} />;
+                })}
+              </g>
+              <g class="jarum">
+                <path d="M150 160L146 156L52 160L146 164Z" fill="#a31f18" />
+                <circle cx="150" cy="160" r="12" fill="#1a1917" />
+                <circle cx="150" cy="160" r="4" fill="#f4c20d" />
+              </g>
+              <text x="150" y="186" text-anchor="middle" class="dial-label">Servis berkala</text>
+            </svg>
+
+            <div class="odo">
+              <div class="odo-kotak">
+                {odo.map((d) => (
+                  <span class="digit">
+                    <span class="gulung" style={`--ke:${d}`}>
+                      {Array.from({ length: 10 }).map((_, n) => <span>{n}</span>)}
+                    </span>
+                  </span>
+                ))}
+              </div>
+              <p>km, jadwal ganti oli kami</p>
+            </div>
+          </div>
+        </div>
+        <div class="jalan" aria-hidden="true"></div>
+      </section>
+
+      <!-- ===================== SERVIS + ESTIMASI ===================== -->
+      <section class="servis" id="servis">
+        <div class="wrap">
+          <h2>Servis dan biaya jasa</h2>
+          <p class="lead">Centang yang kamu butuhkan, total estimasi terhitung. Harga di sini jasa saja; oli dan suku cadang dihitung setelah dicek.</p>
+
+          <form class="servis-grid" data-estimasi data-wa={site.whatsapp} data-bisnis={t.business} onsubmit="return false">
+            <fieldset class="daftar">
+              <legend class="sr">Pilih servis</legend>
+              {layanan.map((l) => (
+                <label class="svc">
+                  <input type="checkbox" name="servis" value={l.id} data-nama={l.nama} data-harga={l.harga} />
+                  <span class="centang" aria-hidden="true"></span>
+                  <span class="svc-nama">{l.nama}</span>
+                  <span class="svc-menit">±{l.menit} menit</span>
+                  <span class="svc-harga"><small>mulai</small> {rupiah(l.harga)}</span>
+                </label>
+              ))}
+            </fieldset>
+
+            <div class="rincian" aria-live="polite">
+              <p class="r-judul">Estimasi jasa</p>
+              <p class="r-total"><small>Rp</small> <output data-total>0</output></p>
+              <p class="r-isi" data-ringkas>Belum ada servis dipilih.</p>
+              <a class="tombol tombol-kuning" data-kirim href={wa} target="_blank" rel="noopener noreferrer">Kirim rincian ke WhatsApp</a>
+              <p class="r-catatan">Harga akhir ditentukan montir setelah kendaraan dicek.</p>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ===================== ALUR ===================== -->
+      <section class="alur-bagian">
+        <div class="wrap">
+          <h2>Dari datang sampai pulang</h2>
+          <ol class="alur">
+            {alur.map((a, i) => (
+              <li style={`--i:${i}`}>
+                <span class="no">{i + 1}</span>
+                <h3>{a.judul}</h3>
+                <p>{a.isi}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <!-- ===================== JAM BUKA ===================== -->
+      <section class="info">
+        <div class="wrap info-grid">
+          <div>
+            <h2>Jam buka</h2>
+            <p class="status status-besar">
+              <span class="lampu" aria-hidden="true"></span>
+              <span data-open-label>Jam buka ada di bawah</span>
+            </p>
+            <ul class="jam">
+              {jam.map((j) => (
+                <li data-day={j.index}><span>{j.name}</span><span>{j.range}</span></li>
+              ))}
+            </ul>
+          </div>
+          <div class="kontak-kotak">
+            <h2>Cari kami</h2>
+            <p>Jl. Contoh Raya No. 7, Bandung</p>
+            <p class="redup">Alamat contoh. Di websitemu, bagian ini berisi alamat, tautan Google Maps, dan nomor usahamu.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="penutup">
+        <div class="wrap">
+          <h2>Motor mulai aneh bunyinya?</h2>
+          <p>Kirim foto atau video singkat, montir kami kasih gambaran biayanya dulu.</p>
+          <a class="tombol tombol-hitam" href={wa} target="_blank" rel="noopener noreferrer">Tanya lewat WhatsApp</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="kaki">
+      <div class="strip" aria-hidden="true"></div>
+      <div class="wrap kaki-isi">
+        <p>Bengkel Km 0 adalah usaha fiktif untuk contoh template.</p>
+        <a href="/template/">Lihat template lain dari Pixcode Studio</a>
+      </div>
+    </footer>
+  </div>
+</TemplateLayout>
+
+<style>
+  .bk {
+    --kuning: #f4c20d;
+    --oli: #1a1917;
+    --beton: #dcdad3;
+    --beton-muda: #ebe9e3;
+    --redup: #4a4843;
+    --merah: #a31f18;
+    --hijau: #1f7a3d;
+    background: var(--beton);
+    color: var(--oli);
+    font-family: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+    font-size: 1.0625rem;
+    line-height: 1.55;
+  }
+  :where(.bk) :where(p, ul, ol) { margin: 0; padding: 0; }
+  :where(.bk) :where(h1, h2, h3) {
+    font-family: var(--font-big-shoulders), "Arial Narrow", ui-sans-serif, sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 0.95;
+    margin: 0;
+  }
+  .bk h2 { font-size: clamp(2.2rem, 5vw, 3.4rem); letter-spacing: 0.005em; }
+  .wrap { max-width: 72rem; margin: 0 auto; padding: 0 1.25rem; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .redup { color: var(--redup); }
+  .bk a:focus-visible, .bk input:focus-visible + .centang { outline: 3px solid var(--oli); outline-offset: 3px; }
+
+  .tombol {
+    display: inline-block; padding: 0.85rem 1.4rem; font-weight: 600; text-decoration: none;
+    border-radius: 0.2rem; transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
+  }
+  .tombol:hover { transform: translateY(2px); box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35); }
+  .tombol:active { transform: translateY(4px); box-shadow: none; }
+  .tombol-hitam { background: var(--oli); color: #fff; }
+  .tombol-kuning { background: var(--kuning); color: var(--oli); }
+
+  /* Status: lampu merah saat tutup, hijau saat buka. */
+  .status { display: inline-flex; align-items: center; gap: 0.6rem; font-weight: 600; }
+  .lampu { width: 0.8rem; height: 0.8rem; border-radius: 50%; background: var(--redup); flex: none; }
+  [data-state="open"] .lampu { background: var(--hijau); box-shadow: 0 0 0 0 rgba(31, 122, 61, 0.5); animation: denyut 2.4s ease-out infinite; }
+  [data-state="closed"] .lampu { background: var(--merah); }
+  @keyframes denyut { to { box-shadow: 0 0 0 0.7rem rgba(31, 122, 61, 0); } }
+
+  /* HERO */
+  .hero { background: var(--kuning); position: relative; }
+  .hero-grid { display: grid; gap: 2.5rem; padding-top: 3rem; padding-bottom: 3.5rem; align-items: center; }
+  @media (min-width: 900px) { .hero-grid { grid-template-columns: 1.1fr 1fr; padding-top: 4rem; padding-bottom: 5rem; } }
+  .nama { font-size: clamp(5rem, 17vw, 11rem); letter-spacing: -0.005em; }
+  .tagline { margin-top: 1.6rem; max-width: 30rem; font-size: 1.2rem; }
+  .hero .status { margin-top: 1.6rem; background: var(--oli); color: #fff; padding: 0.4rem 0.9rem 0.4rem 0.8rem; border-radius: 99px; font-size: 0.95rem; }
+  .aksi { margin-top: 1.6rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem 1.6rem; }
+  .tautan { color: var(--oli); font-weight: 600; text-underline-offset: 5px; }
+  .alamat { margin-top: 2rem; font-size: 0.95rem; }
+  .alamat span { display: block; color: #3a3510; }
+
+  .panel { display: grid; justify-items: center; gap: 1.5rem; }
+  .dial { width: min(100%, 26rem); height: auto; }
+  .dial-label { font: 900 15px var(--font-big-shoulders), sans-serif; text-transform: uppercase; fill: #1a1917; }
+  .jarum { transform-origin: 150px 160px; animation: sapu 2.4s cubic-bezier(0.3, 1.5, 0.5, 1) 0.3s both; }
+  @keyframes sapu { from { transform: rotate(0deg); } to { transform: rotate(52deg); } }
+
+  .odo { text-align: center; }
+  .odo p { margin-top: 0.5rem; font-size: 0.9rem; }
+  .odo-kotak { display: inline-flex; gap: 0.25rem; background: var(--oli); padding: 0.45rem; border-radius: 0.3rem; }
+  .digit { display: block; width: 1.9rem; height: 2.6rem; overflow: hidden; background: #f3f1ea; border-radius: 0.15rem; }
+  .gulung { display: flex; flex-direction: column; animation: putar 2.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.4s both; }
+  .gulung span { height: 2.6rem; line-height: 2.6rem; text-align: center; font: 900 1.9rem/2.6rem var(--font-big-shoulders), sans-serif; color: var(--oli); }
+  @keyframes putar { from { transform: translateY(calc(-9 * 2.6rem)); } to { transform: translateY(calc(var(--ke) * -2.6rem)); } }
+
+  /* Marka jalan: garis putus-putus bergerak pelan di dasar hero */
+  .jalan { height: 1.1rem; background: var(--oli); position: relative; overflow: hidden; }
+  .jalan::after {
+    content: ""; position: absolute; inset: 50% 0 auto; height: 3px; transform: translateY(-50%);
+    background: repeating-linear-gradient(90deg, var(--kuning) 0 2rem, transparent 2rem 4rem);
+    animation: lintas 2.2s linear infinite;
+  }
+  @keyframes lintas { to { transform: translate(-4rem, -50%); } }
+  .jalan::after { inset-inline: 0 -4rem; }
+
+  /* SERVIS */
+  .servis { padding: 4.5rem 0; }
+  .lead { margin-top: 1rem; max-width: 38rem; color: var(--redup); }
+  .servis-grid { margin-top: 2.2rem; display: grid; gap: 1.5rem; align-items: start; }
+  @media (min-width: 900px) { .servis-grid { grid-template-columns: 1.6fr 1fr; } .rincian { position: sticky; top: 4.5rem; } }
+  .daftar { border: 0; margin: 0; padding: 0; display: grid; gap: 0.5rem; min-width: 0; }
+  .svc {
+    position: relative; display: grid; grid-template-columns: 1.6rem 1fr auto; gap: 0.2rem 0.9rem; align-items: center;
+    background: var(--beton-muda); padding: 0.9rem 1rem; border-radius: 0.2rem; cursor: pointer;
+    border-left: 0.35rem solid var(--oli); transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+  .svc:hover { background: #f4f2ec; }
+  .svc input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+  .centang { grid-row: 1 / span 2; width: 1.5rem; height: 1.5rem; border: 2.5px solid var(--oli); border-radius: 0.15rem; display: grid; place-items: center; background: #fff; }
+  .centang::after {
+    content: ""; width: 0.8rem; height: 0.45rem; border: solid var(--oli); border-width: 0 0 3px 3px;
+    transform: rotate(-45deg) scale(0); transition: transform 0.2s cubic-bezier(0.3, 1.6, 0.5, 1); margin-top: -0.15rem;
+  }
+  .svc:has(input:checked) { background: var(--kuning); border-color: var(--oli); }
+  .svc:has(input:checked) .centang { background: var(--kuning); }
+  .svc:has(input:checked) .centang::after { transform: rotate(-45deg) scale(1); }
+  .svc-nama { font-weight: 600; }
+  .svc-menit { grid-column: 2; font-size: 0.9rem; color: var(--redup); }
+  .svc:has(input:checked) .svc-menit { color: var(--oli); }
+  .svc-harga { grid-column: 3; grid-row: 1 / span 2; text-align: right; font: 900 1.5rem/1 var(--font-big-shoulders), sans-serif; white-space: nowrap; }
+  .svc-harga small { font: 400 0.8rem var(--font-plex-sans), sans-serif; margin-right: 0.15rem; color: var(--redup); }
+  .svc:has(input:checked) .svc-harga small { color: var(--oli); }
+
+  .rincian { background: var(--oli); color: #fff; padding: 1.4rem; border-radius: 0.25rem; display: grid; gap: 0.7rem; }
+  @media (max-width: 899px) { .rincian { position: sticky; bottom: 0.75rem; box-shadow: 0 0 0 0.75rem var(--beton); } }
+  .r-judul { font-weight: 600; color: #d9d6cc; }
+  .r-total { font: 900 3.4rem/1 var(--font-big-shoulders), sans-serif; color: var(--kuning); font-variant-numeric: tabular-nums; }
+  .r-total small { font-size: 1.4rem; }
+  .r-isi { color: #e9e6dd; font-size: 0.95rem; min-height: 1.5em; }
+  .r-catatan { font-size: 0.85rem; color: #cfccc2; }
+  .rincian .tombol { text-align: center; box-shadow: 0 4px 0 rgba(0, 0, 0, 0.5); }
+
+  /* ALUR: urutan nyata, jadi bernomor */
+  .alur-bagian { background: var(--beton-muda); padding: 4.5rem 0; }
+  .alur { list-style: none; margin-top: 2.4rem; display: grid; gap: 1.6rem; counter-reset: x; position: relative; }
+  @media (min-width: 900px) { .alur { grid-template-columns: repeat(5, 1fr); gap: 1.4rem; } }
+  .alur li { position: relative; padding-top: 4rem; }
+  .no {
+    position: absolute; top: 0; left: 0; width: 3rem; height: 3rem; border-radius: 50%; background: var(--oli); color: var(--kuning);
+    display: grid; place-items: center; font: 900 1.6rem/1 var(--font-big-shoulders), sans-serif; z-index: 1;
+  }
+  @media (min-width: 900px) {
+    .alur li::before { content: ""; position: absolute; top: 1.4rem; left: 3rem; right: -1.4rem; height: 0.2rem; background: repeating-linear-gradient(90deg, var(--oli) 0 0.7rem, transparent 0.7rem 1.2rem); }
+    .alur li:last-child::before { display: none; }
+  }
+  .alur h3 { font-size: 1.7rem; }
+  .alur li p { margin-top: 0.5rem; color: var(--redup); font-size: 0.97rem; }
+
+  /* INFO */
+  .info { padding: 4.5rem 0; }
+  .info-grid { display: grid; gap: 3rem; }
+  @media (min-width: 900px) { .info-grid { grid-template-columns: 1fr 1fr; } }
+  .status-besar { margin-top: 1rem; }
+  .jam { list-style: none; margin-top: 1.4rem; max-width: 24rem; }
+  .jam li { display: flex; justify-content: space-between; padding: 0.6rem 0.75rem; border-bottom: 1px solid #b9b6ac; }
+  .jam li[aria-current="date"] { background: var(--kuning); font-weight: 600; border-bottom-color: var(--kuning); }
+  .kontak-kotak p { margin-top: 1rem; max-width: 26rem; }
+  .kontak-kotak h2 + p { font-size: 1.25rem; font-weight: 600; margin-top: 1.2rem; }
+
+  .penutup { background: var(--kuning); padding: 4.5rem 0; }
+  .penutup p { margin: 1rem 0 1.6rem; max-width: 30rem; font-size: 1.15rem; }
+
+  .kaki { background: var(--oli); color: #e9e6dd; }
+  .strip { height: 0.7rem; background: repeating-linear-gradient(-45deg, var(--kuning) 0 0.9rem, var(--oli) 0.9rem 1.8rem); }
+  .kaki-isi { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem; padding-top: 1.4rem; padding-bottom: 1.4rem; font-size: 0.92rem; }
+  .kaki a { color: #fff; text-underline-offset: 4px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .jarum, .gulung, .jalan::after, .lampu { animation: none !important; }
+    .jarum { transform: rotate(52deg); }
+    .gulung { transform: translateY(calc(var(--ke) * -2.6rem)); }
+    .tombol, .svc, .centang::after { transition: none; }
+  }
+</style>
+
+<script>
+  // Alasan JS: total dan pesan WhatsApp bergantung pada pilihan pengunjung, jadi tidak bisa dibuat saat build.
+  // Tanpa JS, daftar tetap terbaca dan tombol tetap membuka WhatsApp (pesan umum).
+  const form = document.querySelector<HTMLFormElement>("[data-estimasi]");
+  if (form) {
+    const total = form.querySelector<HTMLElement>("[data-total]")!;
+    const ringkas = form.querySelector<HTMLElement>("[data-ringkas]")!;
+    const kirim = form.querySelector<HTMLAnchorElement>("[data-kirim]")!;
+    const awal = kirim.href;
+    const titik = (n: number) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+    const hitung = () => {
+      const dipilih = [...form.querySelectorAll<HTMLInputElement>("input[name=servis]:checked")];
+      const jumlah = dipilih.reduce((a, el) => a + Number(el.dataset.harga), 0);
+      const nama = dipilih.map((el) => el.dataset.nama);
+      total.textContent = titik(jumlah);
+      ringkas.textContent = nama.length ? nama.join(", ") : "Belum ada servis dipilih.";
+      if (!nama.length) {
+        kirim.href = awal;
+        return;
+      }
+      const teks =
+        `Halo Pixcode Studio! Saya mencoba contoh template "${form.dataset.bisnis}" (Paket UMKM). ` +
+        `Servis yang saya pilih di halaman contoh: ${nama.join(", ")}. Estimasi jasa: Rp ${titik(jumlah)}. ` +
+        `Jenis usaha saya: ___. Boleh tanya-tanya dulu?`;
+      kirim.href = `https://wa.me/${form.dataset.wa}?text=${encodeURIComponent(teks)}`;
+    };
+    form.addEventListener("change", hitung);
+    hitung();
+  }
+</script>

@@ -1,0 +1,145 @@
+---
+// Kerangka halaman CONTOH template Paket UMKM (/template/<slug>/).
+// Sengaja terpisah dari BaseLayout: tiap contoh punya tampilan, huruf, dan warna sendiri;
+// yang tetap hanya bar demo di atas (jelas menyatakan ini contoh) dan tanda noindex
+// (usaha di dalamnya fiktif — jangan sampai terindeks sebagai bisnis nyata).
+import { Font } from "astro:assets";
+import AnalyticsBeacon from "../components/AnalyticsBeacon.astro";
+import { fullUrl } from "../data/site";
+import type { DemoTemplate } from "../data/templates";
+
+interface Props {
+  template: DemoTemplate;
+  description: string;
+}
+
+const { template, description } = Astro.props;
+const title = `${template.business}: contoh template ${template.name} | Pixcode Studio`;
+const canonical = fullUrl(`/template/${template.slug}/`);
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content={template.themeColor} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Mendefinisikan --font-jakarta (dipakai bar demo & body). File font baru diunduh bila dipakai. -->
+    <Font cssVariable="--font-jakarta" />
+    <slot name="head" />
+    <AnalyticsBeacon />
+  </head>
+
+  <body class="demo-body">
+    <a href="#isi" class="demo-skip">Lewati ke isi contoh</a>
+
+    <!-- Bar demo: satu-satunya bagian Pixcode di halaman ini -->
+    <div class="demo-bar" data-demo-bar role="region" aria-label="Tentang contoh template ini">
+      <p class="demo-bar-text">
+        <strong>Contoh template Paket UMKM</strong>
+        <span class="demo-bar-note">Usaha, alamat, dan harga di bawah fiktif. Tombol WhatsApp di sini mengarah ke Pixcode, di websitemu mengarah ke nomor usahamu.</span>
+      </p>
+      <div class="demo-bar-actions">
+        <a href="/template/" class="demo-bar-link">Semua template</a>
+        <a href={`/wa/template-${template.slug}/`} target="_blank" rel="noopener noreferrer" class="demo-bar-cta">
+          Pakai template ini
+        </a>
+      </div>
+    </div>
+
+    <slot />
+
+    <script>
+      import "../scripts/open-status";
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  /* Bar demo memakai CSS biasa (bukan utility) agar tidak ikut berubah oleh gaya halaman contoh. */
+  .demo-body {
+    margin: 0;
+  }
+  .demo-skip {
+    position: absolute;
+    left: 0.75rem;
+    top: -4rem;
+    z-index: 200;
+    background: #0f172a;
+    color: #fff;
+    padding: 0.5rem 0.9rem;
+    border-radius: 0.4rem;
+    font: 600 0.875rem/1.2 var(--font-jakarta, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
+  }
+  .demo-skip:focus {
+    top: 0.75rem;
+  }
+  .demo-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem 1rem;
+    padding: 0.5rem 1rem;
+    background: #0f172a;
+    color: #e2e8f0;
+    font: 400 0.8125rem/1.35 var(--font-jakarta, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
+  }
+  .demo-bar-text {
+    margin: 0;
+    flex: 1 1 18rem;
+  }
+  .demo-bar-text strong {
+    color: #fff;
+    font-weight: 600;
+  }
+  .demo-bar-note {
+    display: none;
+    margin-left: 0.6rem;
+    color: #cbd5e1;
+  }
+  @media (min-width: 1024px) {
+    .demo-bar-note {
+      display: inline;
+    }
+  }
+  .demo-bar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+  .demo-bar-link {
+    color: #e2e8f0;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    font-weight: 500;
+  }
+  .demo-bar-link:hover {
+    color: #fff;
+  }
+  .demo-bar-cta {
+    background: #25d366;
+    color: #0f172a;
+    font-weight: 600;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.4rem;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+  .demo-bar-cta:hover {
+    background: #1da851;
+  }
+  .demo-bar a:focus-visible,
+  .demo-skip:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+</style>
