@@ -6,10 +6,10 @@
 import { Font } from "astro:assets";
 import TemplateLayout from "../../layouts/TemplateLayout.astro";
 import { getTemplate, hoursAttr, weekRows } from "../../data/templates";
-import { site } from "../../data/site";
 
 const t = getTemplate("bengkel");
 const wa = `/wa/template-${t.slug}/`;
+const waForm = "/wa/template-bengkel-form/";
 const jam = weekRows(t.hours);
 
 const rupiah = (n: number) => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -115,7 +115,7 @@ const odo = [0, 0, 2, 0, 0, 0];
           <h2>Servis dan biaya jasa</h2>
           <p class="lead">Centang yang kamu butuhkan, total estimasi terhitung. Harga di sini jasa saja; oli dan suku cadang dihitung setelah dicek.</p>
 
-          <form class="servis-grid" data-estimasi data-wa={site.whatsapp} data-bisnis={t.business} onsubmit="return false">
+          <form class="servis-grid" data-estimasi data-wa={waForm} data-bisnis={t.business} onsubmit="return false">
             <fieldset class="daftar">
               <legend class="sr">Pilih servis</legend>
               {layanan.map((l) => (
@@ -133,7 +133,7 @@ const odo = [0, 0, 2, 0, 0, 0];
               <p class="r-judul">Estimasi jasa</p>
               <p class="r-total"><small>Rp</small> <output data-total>0</output></p>
               <p class="r-isi" data-ringkas>Belum ada servis dipilih.</p>
-              <a class="tombol tombol-kuning" data-kirim href={wa} target="_blank" rel="noopener noreferrer">Kirim rincian ke WhatsApp</a>
+              <a class="tombol tombol-kuning" data-kirim href={waForm} target="_blank" rel="noopener noreferrer">Kirim rincian ke WhatsApp</a>
               <p class="r-catatan">Harga akhir ditentukan montir setelah kendaraan dicek.</p>
             </div>
           </form>
@@ -385,7 +385,7 @@ const odo = [0, 0, 2, 0, 0, 0];
         `Halo Pixcode Studio! Saya mencoba contoh template "${form.dataset.bisnis}" (Paket UMKM). ` +
         `Servis yang saya pilih di halaman contoh: ${nama.join(", ")}. Estimasi jasa: Rp ${titik(jumlah)}. ` +
         `Jenis usaha saya: ___. Boleh tanya-tanya dulu?`;
-      kirim.href = `https://wa.me/${form.dataset.wa}?text=${encodeURIComponent(teks)}`;
+      kirim.href = `${form.dataset.wa}?text=${encodeURIComponent(teks)}`;
     };
     form.addEventListener("change", hitung);
     hitung();

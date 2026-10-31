@@ -1,9 +1,10 @@
 # Data Portfolio — Pixcode Studio
 
 > Sumber data untuk content collection `src/content/projects/` (1 entri = 1 file `.md` saat build).
-> Foto: **placeholder dulu** — user belum memutuskan apakah web akan pakai foto asli.
+> Thumbnail: **asli terpasang** — 5 screenshot PNG + 2 cover SVG. Galeri/screenshot mobile & before-after visual masih menyusul.
 > Testimonial: **belum ada** — field testimonial dikosongkan untuk semua entri.
 > Data live site & repo diriset otomatis dari internet (teks situs + GitHub API/README) pada 2026-09-22.
+> Total: **7 proyek** — 4 website klien + 3 proyek teknis/mandiri.
 
 ---
 
@@ -150,10 +151,10 @@ Ahli Panggilan & Vodatrip ditemukan menyebut "PT. ONO VODA PRO" di footer/izin m
 Halaman detail kini berstruktur studi kasus: Tantangan → Sebelum & Sesudah → Manfaat → Fitur → Teknologi & tools. Field baru di skema (`content.config.ts`): `challenge`, `before`, `after`, `stack` — semuanya nullable, section hanya muncul saat diisi.
 
 **Status draft (wajib review user):**
-- `challenge` / `before` / `after` untuk 3 website klien = **DRAFT** — diturunkan dari fitur yang benar-benar ada, bukan wawancara klien. Koreksi langsung di file `.md` (hapus komentar `# DRAFT` setelah OK).
-- `stack` terverifikasi dari user (2026-09-23): Profesional Indonesia = WordPress/PHP + custom functions + plugin; Ahli Panggilan = TS/Astro/Tailwind + custom CMS esensial; Vodatrip = TS/Astro + Directus. Proyek internal = dari riset GitHub.
+- `challenge` / `before` / `after` untuk 4 website klien = **DRAFT** — diturunkan dari fitur yang benar-benar ada, bukan wawancara klien. Koreksi langsung di file `.md` (hapus komentar `# DRAFT` setelah OK).
+- `stack` terverifikasi dari user (2026-09-23): Profesional Indonesia = WordPress/PHP + custom functions + plugin; Ahli Panggilan = TS/Astro/Tailwind + custom CMS esensial; Vodatrip = TS/Astro + Directus. Voda Level Up = TypeScript/Astro/Tailwind (terkonfirmasi fingerprint HTML). Proyek internal = dari riset GitHub.
 - Screenshot before/after **visual** (desktop + mobile) tetap menyusul — slot gallery tersedia; format teks sudah aktif sekarang.
 
 ### Halaman detail per proyek (konten yang masih perlu diisi user, boleh menyusul):
-- Thumbnail asli ✅ terpasang untuk semua 6 proyek (4 screenshot PNG + 2 cover SVG mirai). Galeri/screenshot mobile (trust signal tambahan) masih kosong — field `gallery` tersedia bila mau ditambahkan.
+- Thumbnail asli ✅ terpasang untuk semua 7 proyek (5 screenshot PNG + 2 cover SVG mirai). Galeri/screenshot mobile (trust signal tambahan) masih kosong — field `gallery` tersedia bila mau ditambahkan.
 - Testimonial klien bila nanti ada (field sudah tersedia)

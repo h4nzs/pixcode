@@ -22,7 +22,6 @@ const { title, description = site.description, active, schema } = Astro.props;
 const fullTitle = `${title} | ${site.name}`;
 const canonical = fullUrl(Astro.url.pathname);
 const ogImage = fullUrl("/og-image.png");
-const siteOrigin = new URL(site.url).origin;
 ---
 
 <!doctype html>

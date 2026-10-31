@@ -6,7 +6,6 @@
 import { Font } from "astro:assets";
 import TemplateLayout from "../../layouts/TemplateLayout.astro";
 import { getTemplate, hoursAttr, weekRows } from "../../data/templates";
-import { site } from "../../data/site";
 
 const t = getTemplate("toko-tanaman");
 const jam = weekRows(t.hours);
@@ -38,10 +37,10 @@ const katalog: Tanaman[] = [
 ];
 
 const pesan = (p: Tanaman) =>
-  `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
+  `/wa/template-${t.slug}/?text=${encodeURIComponent(
     p.stok > 0
       ? `Halo Pixcode Studio! Saya mencoba contoh template "${t.business}" (Paket UMKM). Di halaman contoh, saya bertanya stok ${p.nama} (${p.latin}). Jenis usaha saya: ___. Boleh tanya-tanya dulu?`
-      : `Halo Pixcode Studio! Saya mencoba contoh template "${t.business}" (Paket UMKM). Di halaman contoh, ${p.nama} ditandai habis, saya ingin tahu cara kerja tombol kabari restock. Jenis usaha saya: ___.`,
+      : `Halo Pixcode Studio! Saya mencoba contoh template "${t.business}" (Paket UMKM). Di halaman contoh, ${p.nama} ditandai habis, saya ingin tahu cara kerja tombol kabari restock. Jenis usaha saya: ___. Boleh tanya-tanya dulu?`,
   )}`;
 
 const langkah = [

@@ -4,10 +4,11 @@
 // terhitung sebagai pageview (bisa dipecah per paket), lalu dialihkan ke wa.me.
 // Redirect ditunda setelah load agar beacon sempat mengirim data; tanpa JS,
 // meta-refresh di <noscript> tetap menjadi fallback.
-// Target di-bake SAAT BUILD dari site.ts — situs statis tidak bisa membaca query string.
+// Target bawaan di-bake SAAT BUILD dari site.ts; pesan dinamis dari halaman demo
+// ditumpangkan lewat ?text= dan dibaca di klien sebelum redirect.
 import type { GetStaticPaths } from "astro";
 import AnalyticsBeacon from "../../components/AnalyticsBeacon.astro";
-import { waLink } from "../../data/site";
+import { site, waLink } from "../../data/site";
 import { packages } from "../../data/packages";
 import { templates } from "../../data/templates";
 
@@ -17,6 +18,8 @@ export const getStaticPaths = (() => {
   const contexts = [
     { slug: "umum", target: waLink({ type: "general" }) },
     { slug: "portfolio", target: waLink({ type: "project", projectTitle: "proyek di portfolio" }) },
+    // Estimator Bengkel dipisah agar klik form terlihat terpisah dari CTA biasa.
+    { slug: "template-bengkel-form", target: waLink({ type: "template", slug: "bengkel", templateName: "Bengkel & Jasa Servis" }) },
     ...packages.map((p) => ({
       slug: `paket-${p.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
       target: waLink({ type: "package", packageName: `Paket ${p.name}` }),
@@ -61,16 +64,20 @@ const baseUrl = new URL(`/wa/${slug}/`, Astro.site).toString();
     <p>
       Membuka WhatsApp…
       <!-- Cadangan jika redirect diblokir browser: pengunjung tidak terjebak di halaman ini. -->
-      <a id="wa-fallback" href={target} style="color:#0f766e">Klik di sini kalau tidak terbuka otomatis</a>
+      <a id="wa-fallback" href={target} data-wa-base={`https://wa.me/${site.whatsapp}`} style="color:#0f766e">Klik di sini kalau tidak terbuka otomatis</a>
     </p>
     <script is:inline>
-      // Delay singkat setelah load agar beacon CWA sempat mengirim pageview.
-      window.addEventListener("load", () => {
-        setTimeout(() => {
-          const fallback = document.getElementById("wa-fallback");
-          if (fallback instanceof HTMLAnchorElement) location.replace(fallback.href);
-        }, 400);
-      });
+      // Pesan dari tombol demo (mis. pilihan servis) dibawa lewat ?text=;
+      // target dasar tetap nomor Pixcode dari site.ts.
+      const fallback = document.getElementById("wa-fallback");
+      if (fallback instanceof HTMLAnchorElement) {
+        const text = new URLSearchParams(location.search).get("text");
+        if (text) fallback.href = `${fallback.dataset.waBase}?text=${encodeURIComponent(text)}`;
+        // Delay singkat setelah load agar beacon CWA sempat mengirim pageview.
+        window.addEventListener("load", () => {
+          setTimeout(() => location.replace(fallback.href), 400);
+        });
+      }
     </script>
   </body>
 </html>

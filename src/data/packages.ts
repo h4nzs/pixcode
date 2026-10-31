@@ -1,4 +1,4 @@
-// Data 5 paket — sumber: docs/WEBSITE-BRIEF.md §4 (harga final dari user, 2026-09-22).
+// Data 5 paket — sumber: docs/WEBSITE-BRIEF.md §4 (harga final dari user, 2026-10-31).
 // ATURAN AGENTS.md: semua tampilan paket wajib mengambil dari file ini.
 
 export interface Package {
