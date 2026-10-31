@@ -35,6 +35,8 @@ const ogImage = fullUrl("/og-image.png");
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#0f766e" />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
     <!-- Open Graph / WhatsApp / Twitter -->
@@ -60,7 +62,7 @@ const ogImage = fullUrl("/og-image.png");
       description: site.description,
       url: site.url,
       image: ogImage,
-      logo: fullUrl("/favicon.svg"),
+      logo: fullUrl("/brand/pixcode-logo-horizontal.png"),
       telephone: `+${site.whatsapp}`,
       email: site.email,
       foundingDate: String(site.foundedYear),

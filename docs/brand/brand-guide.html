@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pixcode Studio — Brand Guide v1.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --teal-700: #0f766e;
+    --teal-500: #14b8a6;
+    --teal-100: #ccfbf1;
+    --ink: #0f172a;
+    --slate-600: #475569;
+    --slate-500: #64748b;
+    --line: #e2e8f0;
+    --paper: #ffffff;
+    --off: #fafafa;
+    --wa: #25d366;
+  }
+
+  * { box-sizing: border-box; }
+
+  @page { size: A4; margin: 0; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #e5e7eb;
+    color: var(--ink);
+    font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .sheet {
+    position: relative;
+    width: 210mm;
+    height: 297mm;
+    margin: 22px auto;
+    padding: 16mm 18mm;
+    overflow: hidden;
+    background: var(--paper);
+    box-shadow: 0 10px 30px rgb(15 23 42 / 0.12);
+    page-break-after: always;
+  }
+
+  .sheet:last-child { page-break-after: auto; }
+
+  .sheet::after {
+    content: "PIXCODE STUDIO · BRAND GUIDE 1.0";
+    position: absolute;
+    left: 18mm;
+    right: 18mm;
+    bottom: 7mm;
+    color: #94a3b8;
+    font-size: 7.5pt;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+
+  .cover { padding: 0; background: var(--off); }
+
+  .cover::after { display: none; }
+
+  .cover-bar {
+    height: 7mm;
+    background: var(--teal-700);
+  }
+
+  .cover-inner {
+    height: calc(297mm - 7mm);
+    padding: 18mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .cover-mark { width: 44mm; }
+
+  .cover h1 {
+    max-width: 145mm;
+    margin: 0;
+    font-size: 50pt;
+    font-weight: 800;
+    letter-spacing: -0.06em;
+    line-height: 0.96;
+  }
+
+  .cover h1 span { color: var(--teal-700); }
+
+  .cover-sub {
+    max-width: 128mm;
+    margin: 7mm 0 0;
+    color: var(--slate-600);
+    font-size: 12pt;
+    line-height: 1.65;
+  }
+
+  .cover-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 20mm;
+    padding-top: 6mm;
+    border-top: 1px solid var(--line);
+    color: var(--slate-600);
+    font-size: 8.5pt;
+    line-height: 1.6;
+  }
+
+  .cover-meta strong { display: block; color: var(--ink); font-size: 9.5pt; }
+
+  .cover-pixels {
+    position: absolute;
+    right: 18mm;
+    bottom: 34mm;
+    display: grid;
+    grid-template-columns: repeat(2, 12mm);
+    grid-template-rows: repeat(2, 12mm);
+    gap: 3mm;
+  }
+
+  .cover-pixels i { display: block; border-radius: 1.2mm; background: var(--teal-500); }
+  .cover-pixels i:nth-child(2) { background: var(--teal-700); }
+  .cover-pixels i:nth-child(3) { width: 9mm; height: 9mm; align-self: end; justify-self: end; }
+  .cover-pixels i:nth-child(4) { display: none; }
+
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 2.2mm;
+    margin: 0 0 4mm;
+    color: var(--teal-700);
+    font-size: 8pt;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .kicker::before { content: ""; width: 2.4mm; height: 2.4mm; background: var(--teal-500); }
+
+  h2 {
+    margin: 0;
+    font-size: 26pt;
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    line-height: 1.02;
+  }
+
+  h3 {
+    margin: 0 0 3mm;
+    font-size: 11pt;
+    font-weight: 800;
+    letter-spacing: -0.015em;
+  }
+
+  p { margin: 0; }
+
+  .lead {
+    max-width: 150mm;
+    margin-top: 4mm;
+    color: var(--slate-600);
+    font-size: 10pt;
+    line-height: 1.7;
+  }
+
+  .rule {
+    margin: 7mm 0;
+    border: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 7mm; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5mm; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4mm; }
+
+  .card {
+    padding: 5mm;
+    border: 1px solid var(--line);
+    border-radius: 2.5mm;
+    background: var(--paper);
+  }
+
+  .card p { color: var(--slate-600); font-size: 8.5pt; line-height: 1.6; }
+  .card .num { color: var(--teal-700); font-size: 8pt; font-weight: 800; letter-spacing: 0.1em; }
+
+  .tagline {
+    margin-top: 5mm;
+    padding: 6mm;
+    border-left: 1.2mm solid var(--teal-500);
+    background: var(--off);
+    font-size: 15pt;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.25;
+  }
+
+  .mark-stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 72mm;
+    border: 1px solid var(--line);
+    border-radius: 2.5mm;
+    background:
+      linear-gradient(var(--line) 0.35mm, transparent 0.35mm),
+      linear-gradient(90deg, var(--line) 0.35mm, transparent 0.35mm);
+    background-size: 6mm 6mm;
+  }
+
+  .mark-stage img { width: 42mm; }
+
+  .logo-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 30mm;
+    padding: 5mm;
+    border: 1px solid var(--line);
+    border-radius: 2mm;
+    background: var(--paper);
+  }
+
+  .logo-row.dark { border-color: #134e4a; background: #0f766e; }
+  .logo-row img { max-width: 100%; }
+
+  .caption { margin-top: 2mm; color: var(--slate-500); font-size: 7.5pt; line-height: 1.45; text-align: center; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 8pt; }
+  th, td { padding: 2.4mm 2mm; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+  th { color: var(--slate-500); font-size: 7pt; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+  td { color: var(--slate-600); line-height: 1.45; }
+  td strong { color: var(--ink); }
+
+  .swatch {
+    min-height: 28mm;
+    padding: 3.5mm;
+    border-radius: 2mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border: 1px solid rgb(15 23 42 / 0.08);
+  }
+
+  .swatch strong { font-size: 8.5pt; letter-spacing: -0.01em; }
+  .swatch span { margin-top: 1mm; font-size: 7pt; opacity: 0.82; }
+
+  .ratio-bar { display: flex; height: 12mm; margin-top: 5mm; overflow: hidden; border-radius: 2mm; }
+  .ratio-bar i { display: flex; align-items: center; padding: 0 3mm; font-size: 7pt; font-style: normal; font-weight: 700; }
+  .ratio-bar .a { flex: 6; background: var(--off); color: var(--slate-600); border: 1px solid var(--line); }
+  .ratio-bar .b { flex: 3; background: var(--ink); color: white; }
+  .ratio-bar .c { flex: 1; background: var(--teal-700); color: white; }
+
+  .type-display { font-size: 38pt; font-weight: 800; letter-spacing: -0.055em; line-height: 0.98; }
+  .type-h2 { margin-top: 6mm; font-size: 22pt; font-weight: 800; letter-spacing: -0.04em; }
+  .type-body { max-width: 140mm; margin-top: 5mm; color: var(--slate-600); font-size: 10pt; line-height: 1.7; }
+  .type-label { margin-top: 6mm; color: var(--teal-700); font-size: 8pt; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
+
+  .specimen {
+    padding: 7mm;
+    border: 1px solid var(--line);
+    border-radius: 2.5mm;
+    background: var(--off);
+  }
+
+  .weights { display: flex; gap: 6mm; margin-top: 6mm; color: var(--slate-600); font-size: 8pt; }
+  .weights b { display: block; color: var(--ink); font-size: 17pt; letter-spacing: -0.04em; }
+
+  .do, .dont { padding: 5mm; border: 1px solid var(--line); border-radius: 2.5mm; }
+  .do { background: #f0fdfa; border-color: var(--teal-100); }
+  .dont { background: var(--off); }
+  .do h3, .dont h3 { font-size: 8pt; letter-spacing: 0.12em; text-transform: uppercase; }
+  .do h3 { color: var(--teal-700); }
+  .dont h3 { color: var(--slate-500); }
+  .do ul, .dont ul { margin: 0; padding-left: 4mm; color: var(--slate-600); font-size: 8pt; line-height: 1.7; }
+
+  .app-card { padding: 4mm; border: 1px solid var(--line); border-radius: 2.5mm; background: var(--paper); }
+  .app-card h3 { margin-bottom: 3mm; font-size: 8pt; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate-500); }
+  .mini-header { display: flex; align-items: center; justify-content: space-between; gap: 3mm; padding: 3mm 0; border-bottom: 1px solid var(--line); }
+  .mini-header img { height: 6mm; }
+  .mini-nav { color: var(--slate-500); font-size: 6pt; white-space: nowrap; }
+  .mini-footer { padding: 4mm; border-radius: 1.5mm; background: var(--off); }
+  .mini-footer img { height: 7mm; }
+  .mini-footer p { margin-top: 2mm; color: var(--slate-500); font-size: 6.5pt; }
+  .og-thumb { width: 100%; border-radius: 1.5mm; border: 1px solid var(--line); }
+
+  .note {
+    margin-top: 5mm;
+    padding: 4mm 5mm;
+    border: 1px solid var(--line);
+    border-radius: 2mm;
+    color: var(--slate-600);
+    font-size: 8pt;
+    line-height: 1.6;
+  }
+
+  .end {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 8mm;
+    margin-top: 13mm;
+    padding-top: 7mm;
+    border-top: 1px solid var(--line);
+  }
+
+  .end img { width: 58mm; }
+
+  @media print {
+    html, body { background: white; }
+    .sheet { margin: 0; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 01 COVER -->
+<section class="sheet cover">
+  <div class="cover-bar"></div>
+  <div class="cover-inner">
+    <div>
+      <img class="cover-mark" src="../../public/brand/pixcode-mark.svg" alt="Mark Pixcode Studio" />
+    </div>
+
+    <div>
+      <p class="kicker">Brand guide · versi 1.0</p>
+      <h1>pixcode<br /><span>STUDIO</span></h1>
+      <p class="cover-sub">
+        Identitas visual untuk studio pembuatan website dan aplikasi UMKM.
+        Tegas, minimal, dan ramah — tanpa gradient, tanpa kurung kode.
+      </p>
+    </div>
+
+    <div class="cover-meta">
+      <div><strong>Berlaku sejak</strong>31 Oktober 2026</div>
+      <div><strong>Lingkup</strong>Digital: web, sosial, dokumen</div>
+      <div><strong>Basis</strong>Bandung, Indonesia</div>
+    </div>
+  </div>
+  <div class="cover-pixels" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+</section>
+
+<!-- 02 CORE -->
+<section class="sheet">
+  <p class="kicker">01 · Inti brand</p>
+  <h2>Jelas, tegas,<br />tidak bertele-tele.</h2>
+  <p class="lead">
+    Pixcode membantu UMKM mendapatkan website yang bisa dipahami sebelum membeli:
+    apa yang dikerjakan, berapa harganya, dan bagaimana prosesnya. Identitas visual
+    harus mencerminkan hal yang sama — terstruktur, terbuka, dan langsung.
+  </p>
+
+  <div class="grid-3" style="margin-top: 9mm;">
+    <div class="card">
+      <p class="num">01</p>
+      <h3 style="margin-top: 3mm;">Berani</h3>
+      <p>Tipografi tebal dan warna tegas. Tidak takut mengambil ruang, tetapi tidak berteriak.</p>
+    </div>
+    <div class="card">
+      <p class="num">02</p>
+      <h3 style="margin-top: 3mm;">Minimal</h3>
+      <p>Sedikit elemen, banyak ruang kosong. Setiap blok punya alasan untuk ada.</p>
+    </div>
+    <div class="card">
+      <p class="num">03</p>
+      <h3 style="margin-top: 3mm;">Ramah</h3>
+      <p>Bahasa manusia, sudut membulat, dan nada yang membantu — bukan menggurui.</p>
+    </div>
+  </div>
+
+  <div class="tagline">Website jelas. Harga jelas. Proses jelas.</div>
+
+  <hr class="rule" />
+
+  <div class="grid-2">
+    <div>
+      <h3>Positioning</h3>
+      <p class="lead" style="margin-top: 0;">
+        Studio web dan aplikasi untuk usaha kecil. Fokus pada cakupan yang ditulis,
+        harga yang tidak berubah diam-diam, dan proses yang bisa dicek.
+      </p>
+    </div>
+    <div>
+      <h3>Ide dasar</h3>
+      <p class="lead" style="margin-top: 0;">
+        Piksel adalah modul; kode adalah struktur. Mark berupa tangga empat blok
+        yang naik — sederhana, bisa dijelaskan, dan tidak memakai klise kurung
+        <span style="font-family: ui-monospace, monospace;">&lt;/&gt;</span>.
+      </p>
+    </div>
+  </div>
+
+  <div class="note">
+    Brand ini digital-only. Tidak ada kebutuhan cetak, merch, atau signage dalam lingkup versi 1.0.
+    CMYK/Pantone di panduan ini hanya aproksimasi jika suatu saat diperlukan.
+  </div>
+</section>
+
+<!-- 03 MARK -->
+<section class="sheet">
+  <p class="kicker">02 · Mark</p>
+  <h2>Staircase Four</h2>
+  <p class="lead">
+    Empat blok di kanvas 32 × 32. Tiga blok mengecil ke kiri bawah, satu blok gelap
+    menjadi jangkar di kanan bawah. Gerak naik, struktur, dan keseimbangan.
+  </p>
+
+  <div class="grid-2" style="margin-top: 8mm; align-items: start;">
+    <div>
+      <div class="mark-stage">
+        <svg viewBox="0 0 32 32" width="100%" height="100%" aria-label="Konstruksi mark 32 kali 32" role="img">
+          <defs>
+            <pattern id="grid" width="2" height="2" patternUnits="userSpaceOnUse">
+              <path d="M2 0H0V2" fill="none" stroke="#e2e8f0" stroke-width="0.12" />
+            </pattern>
+          </defs>
+          <rect width="32" height="32" fill="url(#grid)" />
+          <rect x="20" y="2" width="10" height="10" rx="1.2" fill="#14b8a6" />
+          <rect x="10" y="10" width="8" height="8" rx="1" fill="#14b8a6" />
+          <rect x="2" y="18" width="6" height="6" rx="0.8" fill="#14b8a6" />
+          <rect x="20" y="18" width="10" height="10" rx="1.2" fill="#0f766e" />
+        </svg>
+      </div>
+      <p class="caption">Grid 32 × 32 · jarak antar blok 2 unit · margin aman 2 unit</p>
+    </div>
+
+    <div>
+      <table>
+        <thead>
+          <tr><th>Blok</th><th>Posisi</th><th>Ukuran</th><th>Warna</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>1</strong></td><td>20, 2</td><td>10 × 10</td><td>Teal 500</td></tr>
+          <tr><td><strong>2</strong></td><td>10, 10</td><td>8 × 8</td><td>Teal 500</td></tr>
+          <tr><td><strong>3</strong></td><td>2, 18</td><td>6 × 6</td><td>Teal 500</td></tr>
+          <tr><td><strong>4</strong></td><td>20, 18</td><td>10 × 10</td><td>Teal 700</td></tr>
+        </tbody>
+      </table>
+      <p class="caption" style="text-align: left; margin-top: 4mm;">
+        Jangkar gelap mengunci komposisi. Jangan menukar posisi atau menyamakan ukuran blok.
+      </p>
+    </div>
+  </div>
+
+  <hr class="rule" />
+
+  <div class="grid-3">
+    <div>
+      <div class="logo-row"><img src="../../public/brand/pixcode-mark.svg" alt="Mark warna" style="width: 17mm;" /></div>
+      <p class="caption">Full color</p>
+    </div>
+    <div>
+      <div class="logo-row dark"><img src="../../public/brand/pixcode-mark-inverted.svg" alt="Mark inverted" style="width: 17mm;" /></div>
+      <p class="caption">Inverted</p>
+    </div>
+    <div>
+      <div class="logo-row"><img src="../../public/brand/pixcode-mark-mono.svg" alt="Mark mono" style="width: 17mm;" /></div>
+      <p class="caption">Mono</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 LOCKUP -->
+<section class="sheet">
+  <p class="kicker">03 · Lockup</p>
+  <h2>Satu sistem,<br />beberapa ukuran.</h2>
+  <p class="lead">
+    Header memakai lockup compact. Footer, OG, dan dokumen memakai lockup lengkap.
+    Format persegi memakai stacked. Favicon memakai mark only.
+  </p>
+
+  <div class="grid-2" style="margin-top: 8mm; align-items: start;">
+    <div>
+      <div class="logo-row" style="min-height: 34mm;"><img src="../../public/brand/pixcode-logo-horizontal.svg" alt="Lockup horizontal lengkap" style="width: 74mm;" /></div>
+      <p class="caption">Horizontal lengkap — footer, OG, dokumen</p>
+    </div>
+    <div>
+      <div class="logo-row" style="min-height: 34mm;"><img src="../../public/brand/pixcode-logo-compact.svg" alt="Lockup compact" style="width: 52mm;" /></div>
+      <p class="caption">Compact — header situs (hanya “pixcode”)</p>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-top: 6mm; align-items: start;">
+    <div>
+      <div class="logo-row" style="min-height: 55mm;"><img src="../../public/brand/pixcode-logo-stacked.svg" alt="Lockup stacked" style="width: 33mm;" /></div>
+      <p class="caption">Stacked — format persegi, sampul, sosial</p>
+    </div>
+    <div>
+      <div class="logo-row dark" style="min-height: 55mm;"><img src="../../public/brand/pixcode-logo-stacked-inverted.svg" alt="Lockup stacked inverted" style="width: 33mm;" /></div>
+      <p class="caption">Stacked inverted — latar gelap</p>
+    </div>
+  </div>
+
+  <hr class="rule" />
+
+  <div class="grid-2">
+    <div>
+      <h3>Ruang aman</h3>
+      <div style="display: flex; align-items: center; gap: 6mm; margin-top: 3mm;">
+        <svg viewBox="0 0 48 48" width="42mm" height="42mm" role="img" aria-label="Diagram ruang aman 8 unit">
+          <rect x="0.4" y="0.4" width="47.2" height="47.2" fill="none" stroke="#94a3b8" stroke-width="0.7" stroke-dasharray="1.6 1.4" />
+          <rect x="8" y="8" width="32" height="32" fill="none" stroke="#cbd5e1" stroke-width="0.5" />
+          <rect x="28" y="10" width="10" height="10" rx="1.2" fill="#14b8a6" />
+          <rect x="18" y="18" width="8" height="8" rx="1" fill="#14b8a6" />
+          <rect x="10" y="26" width="6" height="6" rx="0.8" fill="#14b8a6" />
+          <rect x="28" y="26" width="10" height="10" rx="1.2" fill="#0f766e" />
+          <text x="4" y="6" font-family="Plus Jakarta Sans, sans-serif" font-size="2.2" font-weight="700" fill="#64748b">8 unit</text>
+        </svg>
+        <p style="color: var(--slate-600); font-size: 8.5pt; line-height: 1.6;">
+          Minimal 8 unit (25% tinggi mark) di setiap sisi. Tidak ada teks, garis,
+          atau tepi gambar yang boleh masuk area ini.
+        </p>
+      </div>
+    </div>
+    <div>
+      <h3>Ukuran minimum digital</h3>
+      <table>
+        <tbody>
+          <tr><td>Horizontal lengkap</td><td><strong>160 px</strong> lebar</td></tr>
+          <tr><td>Horizontal compact</td><td><strong>120 px</strong> lebar</td></tr>
+          <tr><td>Stacked</td><td><strong>96 px</strong> lebar</td></tr>
+          <tr><td>Mark only</td><td><strong>20 px</strong></td></tr>
+          <tr><td>Favicon</td><td><strong>16 px</strong> (mark disederhanakan)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 05 COLOR -->
+<section class="sheet">
+  <p class="kicker">04 · Warna</p>
+  <h2>Teal yang tenang,<br />bukan neon.</h2>
+  <p class="lead">
+    Putih dan off-white mendominasi. Ink menjaga keterbacaan. Teal dipakai untuk
+    aksi dan penanda. Hijau WhatsApp hanya untuk tombol WhatsApp.
+  </p>
+
+  <div class="grid-4" style="margin-top: 8mm;">
+    <div class="swatch" style="background: var(--teal-700); color: white;"><strong>Teal 700</strong><span>#0F766E</span></div>
+    <div class="swatch" style="background: var(--teal-500); color: var(--ink);"><strong>Teal 500</strong><span>#14B8A6</span></div>
+    <div class="swatch" style="background: var(--teal-100); color: var(--ink);"><strong>Mint 100</strong><span>#CCFBF1</span></div>
+    <div class="swatch" style="background: var(--ink); color: white;"><strong>Ink</strong><span>#0F172A</span></div>
+  </div>
+  <div class="grid-4" style="margin-top: 4mm;">
+    <div class="swatch" style="background: var(--slate-600); color: white;"><strong>Slate 600</strong><span>#475569</span></div>
+    <div class="swatch" style="background: var(--paper); color: var(--ink);"><strong>Paper</strong><span>#FFFFFF</span></div>
+    <div class="swatch" style="background: var(--off); color: var(--ink);"><strong>Off-white</strong><span>#FAFAFA</span></div>
+    <div class="swatch" style="background: var(--wa); color: var(--ink);"><strong>WhatsApp</strong><span>#25D366</span></div>
+  </div>
+
+  <div class="ratio-bar" aria-label="Rasio warna 60 30 10">
+    <i class="a">60% Paper / Off-white</i>
+    <i class="b">30% Ink / Slate</i>
+    <i class="c">10% Teal</i>
+  </div>
+
+  <hr class="rule" />
+
+  <div class="grid-2">
+    <div>
+      <h3>Kontras yang benar</h3>
+      <table>
+        <tbody>
+          <tr><td>Ink di atas Paper</td><td><strong>17.85:1</strong></td></tr>
+          <tr><td>Slate 600 di atas Paper</td><td><strong>7.58:1</strong></td></tr>
+          <tr><td>Teal 700 di atas Paper</td><td><strong>5.47:1</strong></td></tr>
+          <tr><td>Putih di atas Teal 700</td><td><strong>5.47:1</strong></td></tr>
+          <tr><td>Ink di atas WhatsApp</td><td><strong>9.00:1</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h3>Jangan</h3>
+      <p style="color: var(--slate-600); font-size: 8.5pt; line-height: 1.7;">
+        Teal 500 untuk teks kecil di atas putih (2.49:1). Putih di atas WhatsApp
+        (1.98:1). Gradient. Warna aksen di luar palet. Hijau WhatsApp untuk hal
+        selain tombol WhatsApp.
+      </p>
+    </div>
+  </div>
+
+  <div class="note">
+    CMYK/Pantone adalah aproksimasi. Acuan final adalah HEX karena brand ini digital-only.
+    Jika perlu cetak, lakukan proofing fisik.
+  </div>
+</section>
+
+<!-- 06 TYPE -->
+<section class="sheet">
+  <p class="kicker">05 · Tipografi</p>
+  <h2>Satu keluarga.<br />Dibuat bekerja.</h2>
+  <p class="lead">
+    Plus Jakarta Sans untuk semua teks situs. ExtraBold untuk headline dan wordmark,
+    Bold untuk label, Regular/Medium untuk body. Tidak ada font dekoratif kedua.
+  </p>
+
+  <div class="specimen" style="margin-top: 8mm;">
+    <p class="type-label">Display · ExtraBold 800</p>
+    <div class="type-display">Website jelas.<br />Harga jelas.</div>
+    <p class="type-label">Heading · Bold 700</p>
+    <div class="type-h2">Proses yang bisa kamu cek.</div>
+    <p class="type-body">
+      Body text memakai Plus Jakarta Sans Regular atau Medium. Kalimat aktif,
+      angka konkret, dan istilah teknis yang diterjemahkan. Panjang baris ideal
+      60–75 karakter.
+    </p>
+    <div class="weights">
+      <div><b>Aa</b>Regular 400</div>
+      <div><b>Aa</b>Medium 500</div>
+      <div><b>Aa</b>Bold 700</div>
+      <div><b>Aa</b>ExtraBold 800</div>
+    </div>
+  </div>
+
+  <hr class="rule" />
+
+  <div class="grid-2">
+    <div>
+      <h3>Skala</h3>
+      <table>
+        <tbody>
+          <tr><td>Display</td><td>40–72 px · tracking -0.04em</td></tr>
+          <tr><td>H1 / H2</td><td>24–40 px · tracking -0.03em</td></tr>
+          <tr><td>Body</td><td>16–18 px · line-height 1.6–1.75</td></tr>
+          <tr><td>Label</td><td>12–13 px · uppercase · tracking 0.08–0.14em</td></tr>
+          <tr><td>Tombol</td><td>14–16 px · weight 600–700</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h3>Wordmark</h3>
+      <p style="color: var(--slate-600); font-size: 8.5pt; line-height: 1.7;">
+        Wordmark adalah Plus Jakarta Sans ExtraBold yang sudah dikonversi menjadi
+        path, tracking -20/1000, dengan huruf “i” tanpa titik yang diganti kotak
+        teal. “STUDIO” memakai Bold dengan tracking lebar.
+      </p>
+      <p style="margin-top: 3mm; color: var(--slate-600); font-size: 8.5pt; line-height: 1.7;">
+        Jangan mengetik ulang logo memakai font biasa. Selalu pakai file SVG di
+        <span style="font-family: ui-monospace, monospace; font-size: 7.5pt;">public/brand/</span>.
+      </p>
+    </div>
+  </div>
+
+  <div class="note">
+    Halaman demo template Paket UMKM memakai font sendiri karena merupakan mockup usaha fiktif.
+    Itu bukan perluasan tipografi brand Pixcode.
+  </div>
+</section>
+
+<!-- 07 ELEMENTS & APPS -->
+<section class="sheet">
+  <p class="kicker">06 · Elemen & aplikasi</p>
+  <h2>Piksel sebagai<br />penanda, bukan hiasan.</h2>
+  <p class="lead">
+    Satu blok atau cluster empat blok cukup untuk mengingatkan ke mark. Gunakan
+    hemat di penanda section, bullet, sudut gambar, dan watermark. Jangan
+    menumpuk pola piksel di belakang teks.
+  </p>
+
+  <div class="grid-4" style="margin-top: 7mm;">
+    <div class="card"><h3>Motif</h3><p>Satu blok 8–12 px atau cluster empat blok. Maksimal satu motif per section.</p></div>
+    <div class="card"><h3>Ikon</h3><p>Garis, stroke 1.5–2 px, ujung membulat. Ikon WhatsApp hanya di konteks WhatsApp.</p></div>
+    <div class="card"><h3>Garis</h3><p>Pemisah 1 px Slate 200. Bukan grid penuh di belakang teks.</p></div>
+    <div class="card"><h3>Foto</h3><p>Asli, cahaya natural, crop konsisten. Tanpa stok generik. Alt text deskriptif.</p></div>
+  </div>
+
+  <hr class="rule" />
+
+  <div class="grid-3" style="align-items: start;">
+    <div class="app-card">
+      <h3>Header</h3>
+      <div class="mini-header">
+        <img src="../../public/brand/pixcode-logo-compact.svg" alt="Logo compact header" />
+        <span class="mini-nav">Home · Layanan · Portfolio</span>
+      </div>
+      <p class="caption" style="text-align: left; margin-top: 3mm;">Compact, tinggi 32 px, latar putih.</p>
+    </div>
+    <div class="app-card">
+      <h3>Footer</h3>
+      <div class="mini-footer">
+        <img src="../../public/brand/pixcode-logo-horizontal.svg" alt="Logo lengkap footer" />
+        <p>Website untuk UMKM. Bandung, Indonesia.</p>
+      </div>
+      <p class="caption" style="text-align: left; margin-top: 3mm;">Lengkap, tinggi 40 px, di atas Off-white.</p>
+    </div>
+    <div class="app-card">
+      <h3>Open Graph</h3>
+      <img class="og-thumb" src="../../public/og-image.png" alt="Contoh og-image Pixcode" />
+      <p class="caption" style="text-align: left; margin-top: 3mm;">1200 × 630, lockup compact + headline.</p>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-top: 7mm;">
+    <div class="do">
+      <h3>Lakukan</h3>
+      <ul>
+        <li>Mark di atas Teal 700 untuk favicon dan avatar.</li>
+        <li>Ruang kosong yang luas; biarkan teks bernapas.</li>
+        <li>Kontras teks minimal 4.5:1.</li>
+        <li>Motion halus, hormati reduced motion.</li>
+      </ul>
+    </div>
+    <div class="dont">
+      <h3>Hindari</h3>
+      <ul>
+        <li>Gradient, neon, shadow keras, efek 3D.</li>
+        <li>Kurung <span style="font-family: ui-monospace, monospace;">&lt;/&gt;</span> atau ikon terminal sebagai mark.</li>
+        <li>Memutar, meregangkan, atau menata ulang blok.</li>
+        <li>Logo di atas foto ramai tanpa bidang kontras.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 08 VOICE & GOVERNANCE -->
+<section class="sheet">
+  <p class="kicker">07 · Suara & tata kelola</p>
+  <h2>Angka, bukan<br />superlatif.</h2>
+  <p class="lead">
+    Suara brand sama dengan visualnya: langsung, konkret, dan membantu. Panggil
+    pemilik usaha dengan “kamu”. Sebut apa yang didapat, berapa lama, dan apa
+    batasnya.
+  </p>
+
+  <div class="grid-2" style="margin-top: 8mm;">
+    <div class="do">
+      <h3>Lakukan</h3>
+      <ul>
+        <li>“Rp 400.000”, “3–7 hari kerja”, “revisi 2x”.</li>
+        <li>“Tanya-tanya dulu, gratis.”</li>
+        <li>“Online 24 jam”, bukan “high availability”.</li>
+        <li>Kalimat aktif dan spesifik.</li>
+      </ul>
+    </div>
+    <div class="dont">
+      <h3>Hindari</h3>
+      <ul>
+        <li>“Solusi digital revolusioner”, “next-gen”, “game-changer”.</li>
+        <li>“Ribuan klien” tanpa bukti.</li>
+        <li>Jargon teknis tanpa terjemahan.</li>
+        <li>Kalimat pasif yang menyembunyikan pelaku.</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="rule" />
+
+  <div class="grid-2">
+    <div>
+      <h3>Tata kelola aset</h3>
+      <p style="color: var(--slate-600); font-size: 8.5pt; line-height: 1.7;">
+        Perubahan logo dimulai dari <span style="font-family: ui-monospace, monospace; font-size: 7.5pt;">src/data/brand.ts</span>
+        dan file di <span style="font-family: ui-monospace, monospace; font-size: 7.5pt;">public/brand/</span>.
+        Jangan mengedit inline di banyak komponen. Setelah mengubah aset, perbarui
+        favicon, apple touch icon, OG image, dan panduan ini. Jalankan
+        <span style="font-family: ui-monospace, monospace; font-size: 7.5pt;">npm run check</span> dan
+        <span style="font-family: ui-monospace, monospace; font-size: 7.5pt;">npm run build</span>.
+      </p>
+    </div>
+    <div>
+      <h3>Manifest aset</h3>
+      <table>
+        <tbody>
+          <tr><td>Logo</td><td><span style="font-family: ui-monospace, monospace; font-size: 7pt;">public/brand/</span></td></tr>
+          <tr><td>Mark & wordmark</td><td><span style="font-family: ui-monospace, monospace; font-size: 7pt;">src/data/brand.ts</span></td></tr>
+          <tr><td>Favicon</td><td><span style="font-family: ui-monospace, monospace; font-size: 7pt;">public/favicon.svg</span></td></tr>
+          <tr><td>OG</td><td><span style="font-family: ui-monospace, monospace; font-size: 7pt;">public/og-image.png</span></td></tr>
+          <tr><td>Panduan</td><td><span style="font-family: ui-monospace, monospace; font-size: 7pt;">docs/BRAND-GUIDE.md</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top: 7mm;">
+    Versi 1.0 — 31 Oktober 2026. Mark A (Staircase Four) dipilih; lockup “pixcode STUDIO”;
+    palet teal; wordmark path; favicon, OG, dan panduan final. Digital-only.
+  </div>
+
+  <div class="end">
+    <div>
+      <p class="kicker" style="margin-bottom: 2mm;">Pixcode Studio</p>
+      <p style="color: var(--slate-600); font-size: 8.5pt;">Bandung, Indonesia · pixcode.my.id</p>
+    </div>
+    <img src="../../public/brand/pixcode-logo-horizontal.svg" alt="Pixcode Studio" />
+  </div>
+</section>
+
+</body>
+</html>

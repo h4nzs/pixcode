@@ -17,6 +17,7 @@
 | Stack | **Astro 7** + Tailwind CSS v4 (v4.3.x) |
 | Bahasa konten | Indonesia |
 | Arahan desain | Light clean — putih bersih, ramah, mudah dibaca; aksen **teal** |
+| Identitas visual | Mark A **Staircase Four** + lockup **pixcode STUDIO**; panduan di `docs/BRAND-GUIDE.md` (PDF: `docs/BRAND-GUIDE.pdf`) |
 | Penampilan harga | "Mulai dari Rp…" — detail final lewat WhatsApp |
 
 **Tujuan situs (urutan prioritas):**
@@ -38,7 +39,7 @@
 - ✅ Proses terstruktur: DP 50% → demo staging → pelunasan → handover
 - ✅ Maintenance opsional, bukan terpaksa
 
-**Motif visual brand:** "pix" (piksel/square kecil) + "code" — dipakai sebagai elemen dekoratif (grid piksel, sudut square, aksen kotak kecil) agar brand terasa teknis tapi tetap bersih.
+**Motif visual brand:** mark **A "Staircase Four"** — empat blok piksel (tiga anak tangga + satu jangkar gelap) pada grid 32 × 32. Piksel = modul, kode = struktur; bukan kurung `</>`, tanpa gradient. Lockup final: **`pixcode STUDIO`** (header memakai compact `pixcode`). Aturan lengkap ada di `docs/BRAND-GUIDE.md`.
 
 ---
 
@@ -166,7 +167,13 @@ pixcode-studio/
 ├── astro.config.mjs          # site URL, integrasi sitemap, @tailwindcss/vite
 ├── wrangler.jsonc            # deploy Workers: { assets: { directory: "./dist" } } — tanpa adapter
 ├── package.json
+├── docs/
+│   ├── BRAND-GUIDE.md        # aturan identitas visual (sumber teks)
+│   ├── BRAND-GUIDE.pdf       # versi visual 8 halaman
+│   └── brand/                # moodboard.html + og-source.svg
 ├── public/
+│   ├── apple-touch-icon.png
+│   ├── brand/                # 15 SVG logo (horizontal/compact/stacked/mark/wordmark × 3 varian) + PNG
 │   ├── favicon.svg
 │   ├── og-image.png          # gambar share WhatsApp/sosmed
 │   └── robots.txt
@@ -182,6 +189,7 @@ pixcode-studio/
 │   │   └── projects/         # 1 file .md per proyek (content collections)
 │   ├── data/
 │   │   ├── site.ts           # WA, email, IG, jam, url, token analytics — SINGLE SOURCE
+│   │   ├── brand.ts          # path wordmark, geometri mark, metrik lockup
 │   │   ├── packages.ts       # data 5 paket (dipakai Home & Layanan)
 │   │   ├── addons.ts         # 16 add-on + harga (dipakai Layanan)
 │   │   └── templates.ts      # data 3 contoh template Paket UMKM
@@ -314,7 +322,7 @@ Catatan: situs ini full static sehingga tidak perlu adapter/Worker code. Jika na
 | 5 | Harga paket | ✅ Final 2026-10-31 (playbook): UMKM Rp 400rb flat; Hemat Rp 650rb; Hemat Plus Rp 1jt; Standar Rp 3jt + server; POS Rp 6jt. Detail fitur di `packages.ts`; 16 add-on di `addons.ts`. |
 | 6 | Estimasi lama pengerjaan per paket | ✅ Final 2026-10-27: UMKM & Hemat 3–7 hari kerja, Hemat Plus 1–2 minggu, Standar 2–4 minggu, POS 3–6 minggu (sejak materi lengkap). Biaya domain/server di luar harga paket, dicantumkan terpisah di proposal. |
 | 7 | Domain final | ✅ `https://pixcode.my.id` — aktif dan live per 2026-10-31 |
-| 8 | Logo (file SVG/PNG) | ⬜ logo teks/SVG dipakai di situs; file logo final masih menunggu dikirim |
+| 8 | Logo (file SVG/PNG) | ✅ Final 2026-10-31: mark A (Staircase Four) + lockup `pixcode STUDIO`; 15 SVG di `public/brand/`, favicon, apple touch icon, OG, dan `docs/BRAND-GUIDE.pdf` |
 | 9 | Aset portfolio | ✅ 7 proyek terkumpul → detail di `docs/PORTFOLIO-DATA.md`; thumbnail asli 5 PNG + 2 SVG; klien dianonimkan |
 | 10 | Foto tim | ✅ foto asli terpasang di `src/assets/team/` (dehan.jpg, destra.jpg) |
 | 11 | Warna aksen final | ✅ **Teal/hijau** |
@@ -343,4 +351,4 @@ Aturan kerja AI agen untuk repo ini ada di **`AGENTS.md`**.
 
 ---
 
-*Terakhir diperbarui: 2026-10-31 — sinkronisasi docs dengan kodebase: domain live, harga/add-on final, 3 template Paket UMKM, tracking `/wa`, dan foto tim.*
+*Terakhir diperbarui: 2026-10-31 — sinkronisasi docs dengan kodebase: domain live, harga/add-on final, 3 template Paket UMKM, tracking `/wa`, foto tim, dan identitas visual final (Brand Guide 1.0).*
