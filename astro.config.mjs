@@ -12,7 +12,7 @@ const localVariant = (dir, file, weight, style = "normal") => ({
 
 // https://astro.build/config
 export default defineConfig({
-  // TODO(user): domain final — ganti 1 nilai ini saat pixcode.my.id aktif atau diganti domain lain.
+  // Domain final (aktif 2026-10-31). Ganti 1 nilai ini bila domain berubah.
   site: "https://pixcode.my.id",
   integrations: [
     sitemap({
