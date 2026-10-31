@@ -108,10 +108,10 @@ Poin "kenapa Pixcode" tidak menjadi section terpisah di Home; nilai kerja ditamp
 | Paket | Harga | Termasuk | Tidak termasuk (add-on berbayar) | Revisi maks | Lama pengerjaan |
 |---|---|---|---|---|---|
 | **UMKM** ⭐ *(highlight)* | **Rp 400.000** | 1 halaman dari template siap pakai, subdomain bawaan, tombol WA/Maps, SEO dasar | Desain custom, custom domain, halaman tambahan | 1x | 3–7 hari kerja |
-| **Hemat** | Mulai dari Rp 500.000 | 1 halaman, tombol WA/Maps, SEO dasar | Halaman tambahan, custom domain | 1x | 3–7 hari kerja |
-| **Hemat Plus** | Mulai dari Rp 900.000 | 2–3 halaman, pemasangan custom domain + SSL (biaya domain terpisah) | Fitur dinamis, form dengan database | 2x | 1–2 minggu |
-| **Standar / Dynamic** | Mulai dari Rp 1.600.000 | Login admin, CRUD data, 1 modul laporan | Modul tambahan (integrasi pembayaran, multi-cabang), role user > 1 tingkat | 2x, revisi besar dihitung ulang | 2–4 minggu |
-| **Desktop POS** | Mulai dari Rp 3.100.000 | Kasir + stok dasar, cetak struk thermal, laporan harian | Sinkronisasi multi-device, integrasi e-commerce online | 2x | 3–6 minggu |
+| **Hemat** | Mulai dari Rp 650.000 | 1 halaman, tombol WA/Maps, SEO dasar | Halaman tambahan, custom domain | 1x | 3–7 hari kerja |
+| **Hemat Plus** | Mulai dari Rp 1.000.000 | 2–3 halaman, pemasangan custom domain + SSL (biaya domain terpisah) | Fitur dinamis, form dengan database | 2x | 1–2 minggu |
+| **Standar / Dynamic** | Mulai dari Rp 3.000.000 + server | Login admin, CRUD data, 1 modul laporan | Modul tambahan (integrasi pembayaran, multi-cabang), role user > 1 tingkat | 2x, revisi besar dihitung ulang | 2–4 minggu |
+| **Desktop POS** | Mulai dari Rp 6.000.000 | Kasir + stok dasar, cetak struk thermal, laporan harian | Sinkronisasi multi-device, integrasi e-commerce online | 2x | 3–6 minggu |
 
 > **Paket UMKM** adalah paket baru (tidak ada di SOP v2) dan menjadi **paket unggulan yang di-highlight** di halaman Home & Layanan. Gaya highlight: badge "Paling Laris" (teal) + border tebal + posisi paling depan. Detail fitur, revisi, dan durasi sudah final per 2026-10-27.
 
@@ -297,7 +297,7 @@ Catatan: situs ini full static sehingga tidak perlu adapter/Worker code. Jika na
 | 2 | Username Instagram | ⬜ dibuat nanti (link IG ditambahkan belakangan) |
 | 3 | Email bisnis | ✅ `pixcodestd@gmail.com` |
 | 4 | Kota/basis operasional | ✅ Bandung |
-| 5 | Harga paket | ✅ Final per 2026-09-22: UMKM Rp 400rb flat (highlight). Diubah 2026-10-31 dari rentang ke "mulai dari": Hemat 500rb, Hemat Plus 900rb, Standar 1,6jt, POS 3,1jt; kebutuhan di luar daftar termasuk dihitung terpisah sebelum DP. Detail fitur Paket UMKM ⬜ |
+| 5 | Harga paket | ✅ Final per 2026-09-22: UMKM Rp 400rb flat (highlight). Diubah 2026-10-31 dari rentang ke "mulai dari": Disesuaikan 2026-10-31 (playbook): Hemat 650rb, Hemat Plus 1jt, Standar 3jt + server, POS 6jt; kebutuhan di luar daftar termasuk dihitung terpisah sebelum DP. Detail fitur Paket UMKM ⬜ |
 | 6 | Estimasi lama pengerjaan per paket | ✅ Final 2026-10-27: UMKM & Hemat 3–7 hari kerja, Hemat Plus 1–2 minggu, Standar 2–4 minggu, POS 3–6 minggu (sejak materi lengkap). Biaya domain di luar harga paket, dicantumkan terpisah di proposal. |
 | 7 | Domain final | ✅ `pixcode.my.id` (sementara — tinggal ganti 1 nilai di `site.ts` nanti) |
 | 8 | Logo (file SVG/PNG) | ⬜ pakai logo sendiri, file menunggu dikirim |

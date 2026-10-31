@@ -6,6 +6,7 @@ import FaqItem from "../components/FaqItem.astro";
 import WaButton from "../components/WaButton.astro";
 import CtaBanner from "../components/CtaBanner.astro";
 import { packages } from "../data/packages";
+import { addons } from "../data/addons";
 
 const faqs = [
   {
@@ -17,20 +18,28 @@ const faqs = [
     a: "Jumlah halaman/konten yang lebih banyak, kebutuhan desain khusus, atau fitur tambahan di luar daftar 'termasuk'. Semua dihitung dan disepakati sebelum DP — tidak ada tambahan diam-diam di tengah jalan.",
   },
   {
+    q: "Apa bedanya paket UMKM dan Hemat?",
+    a: "Paket UMKM memakai salah satu template siap pakai: struktur, huruf, dan gaya gerak tetap, yang kamu ganti adalah isi, foto, logo, dan satu warna aksen. Paket Hemat tetap 1 halaman, tapi tampilannya disesuaikan dengan identitas usahamu: sampai 2 warna, huruf pilihan, dan susunan section mengikuti kebutuhan.",
+  },
+  {
+    q: "Kapan saya harus pindah ke paket yang lebih tinggi?",
+    a: "Kalau kamu butuh login, data yang tersimpan, atau pembayaran di website, itu paket Standar. Di luar itu, kebutuhan kecil jadi add-on. Kalau total paket ditambah add-on sudah mencapai harga paket di atasnya, kami sarankan paket di atasnya. Biaya paket yang sudah dibayar dikurangkan penuh bila kamu naik paket sebelum demo pertama, dan 50% bila setelah demo.",
+  },
+  {
     q: "Berapa biaya revisi di luar batas paket?",
     a: "Revisi melebihi batas otomatis dikenakan biaya per revisi: Paket UMKM dan Hemat Rp 100.000, Hemat Plus Rp 150.000, Standar/Dynamic dan Desktop POS Rp 300.000–500.000 tergantung kompleksitas. Rate ini sudah dicantumkan di proposal sejak awal.",
   },
   {
     q: "Apakah harga paket sudah termasuk domain dan hosting?",
-    a: "Belum. Biaya domain dan perpanjangan tahunannya dibayar terpisah dari harga paket, dan nominalnya dicantumkan di proposal sebelum DP — jadi kamu tahu total biaya dari awal.",
+    a: "Paket UMKM dan Hemat di-hosting gratis di Cloudflare dengan alamat bawaan, jadi tidak ada biaya hosting tahunan. Domain sendiri sudah dipasangkan di Hemat Plus ke atas (add-on Rp 150.000 untuk UMKM dan Hemat); domainnya dibeli terpisah dengan kisaran Rp 140–280 ribu per tahun. Paket Standar butuh server yang dibayar langsung ke penyedia atas namamu tanpa markup dari kami, perkiraan Rp 0,7–1,3 juta per tahun bersama domain. Nominal pastinya dicantumkan di proposal sebelum DP.",
   },
   {
     q: "Bagaimana dengan hosting dan maintenance?",
-    a: "Hosting dan maintenance tidak termasuk dalam harga paket. Maintenance bersifat opsional — kamu bebas lanjut atau tidak setelah website live. Biaya dan ketentuannya dijelaskan di proposal sebelum DP.",
+    a: "Opsional dan tidak ada kewajiban. Website statis tidak butuh biaya rawat; perubahan kecil setelah live Rp 50.000 per permintaan (maksimal 30 menit), atau 5 permintaan Rp 200.000. Paket Standar punya Rawat server Rp 500.000 per tahun: pemantauan, backup mingguan, dan pembaruan keamanan.",
   },
   {
     q: "Apakah bisa request fitur di luar paket?",
-    a: "Bisa — fitur tambahan (integrasi pembayaran, multi-cabang, dll.) dihitung sebagai add-on dan dikutip terpisah sebelum pengerjaan dimulai, jadi kamu tahu biayanya sebelum memutuskan.",
+    a: "Bisa. Fitur tambahan dihitung sebagai add-on dan dikutip tertulis sebelum pengerjaan dimulai, lengkap dengan tambahan waktunya. Kami baru mengerjakannya setelah kamu setuju, jadi tidak ada tagihan kejutan.",
   },
 ];
 
@@ -47,7 +56,7 @@ const schema = {
 
 <BaseLayout
   title="Layanan & Harga Paket Website"
-  description="5 paket pembuatan website untuk UMKM: dari Rp 400.000 (Paket UMKM) sampai aplikasi kasir mulai Rp 3,1 juta. Termasuk/tidak termasuk tertulis, batas revisi jelas, DP 50%."
+  description="5 paket pembuatan website untuk UMKM: dari Rp 400.000 (Paket UMKM) sampai aplikasi kasir mulai Rp 6 juta. Termasuk/tidak termasuk tertulis, batas revisi jelas, DP 50%."
   active="layanan"
   schema={schema}
 >
@@ -61,7 +70,7 @@ const schema = {
       <p class="mt-4 max-w-3xl text-lg leading-relaxed text-slate-600">
         Biaya pembuatan website untuk UMKM di Pixcode Studio mulai
         <strong class="font-semibold text-slate-900">Rp 400.000</strong> (Paket UMKM), dan aplikasi kasir (Desktop POS) mulai
-        <strong class="font-semibold text-slate-900">Rp 3.100.000</strong>, diperbarui Oktober 2026.
+        <strong class="font-semibold text-slate-900">Rp 6.000.000</strong>, diperbarui Oktober 2026.
         Setiap paket punya daftar termasuk, tidak termasuk, dan batas revisi yang eksplisit — harga final dikunci di proposal sebelum DP.
       </p>
     </div>
@@ -94,6 +103,41 @@ const schema = {
         Estimasi pengerjaan dihitung sejak materi (foto, teks) lengkap. Biaya domain tidak termasuk dalam harga paket dan
         dicantumkan terpisah di proposal.
       </p>
+    </div>
+  </section>
+
+  <!-- Add-on (sumber: src/data/addons.ts) -->
+  <section id="addon" class="border-t border-slate-100 py-16 lg:py-20">
+    <div class="mx-auto max-w-4xl px-4 sm:px-6">
+      <SectionHeading
+        kicker="Add-on"
+        title="Apa saja add-on dan berapa harganya?"
+        subtitle="Add-on untuk kebutuhan kecil yang tidak mengubah jenis paket. Totalnya dikunci tertulis di proposal sebelum DP."
+      />
+      <ul class="reveal mt-10 divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white shadow-sm">
+        {
+          addons.map((a) => (
+            <li class="grid gap-1 px-5 py-4 sm:grid-cols-[1fr_auto] sm:gap-x-6">
+              <div>
+                <p class="font-semibold text-slate-900">{a.name}</p>
+                {a.note && <p class="mt-0.5 text-sm text-slate-600">{a.note}</p>}
+                <p class="mt-1 text-xs text-slate-500">Untuk: {a.appliesTo}</p>
+              </div>
+              <p class="font-bold text-brand-700 sm:text-right">{a.price}</p>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="reveal mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-5">
+        <h3 class="font-bold text-slate-900">Ketentuan untuk semua paket</h3>
+        <ul class="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-600">
+          <li>Permintaan di luar daftar ditulis lengkap dengan harga dan tambahan waktu. Kami mengerjakannya setelah kamu setuju tertulis; WhatsApp cukup.</li>
+          <li>Naik paket: biaya paket yang sudah dibayar dikurangkan penuh bila diputuskan sebelum demo pertama, dan 50% bila setelah demo.</li>
+          <li>Garansi perbaikan bug gratis 14 hari setelah website live.</li>
+          <li>Biaya tahun berikutnya: UMKM dan Hemat di alamat bawaan Rp 0. Dengan domain sendiri, hanya perpanjangan domain ke penyedia. Paket Standar: server dan domain.</li>
+        </ul>
+      </div>
     </div>
   </section>
 

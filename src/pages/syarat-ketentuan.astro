@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { site, waDisplay } from "../data/site";
 
-const updated = "27 Oktober 2026";
+const updated = "31 Oktober 2026";
 ---
 
 <BaseLayout
@@ -37,6 +37,15 @@ const updated = "27 Oktober 2026";
             </li>
             <li>
               Keterlambatan pemberian materi dari klien (foto, teks, akses) menggeser jadwal pengerjaan secara proporsional.
+              Bila materi atau tanggapan tertunda lebih dari 14 hari, proyek dijeda dan dilanjutkan sesuai jadwal kosong berikutnya.
+            </li>
+            <li>
+              Permintaan di luar lingkup paket ditulis sebagai permintaan perubahan lengkap dengan harga dan tambahan
+              waktu, dan baru dikerjakan setelah klien menyetujuinya secara tertulis (pesan WhatsApp cukup).
+            </li>
+            <li>
+              Naik paket: biaya paket yang sudah dibayar dikurangkan penuh bila naik paket diputuskan sebelum demo
+              pertama, dan 50% bila diputuskan setelah demo.
             </li>
           </ul>
         </div>
@@ -46,9 +55,10 @@ const updated = "27 Oktober 2026";
           <p class="mt-2">
             Kami menyarankan domain & hosting didaftarkan atas nama/email kamu sendiri — kami bantu prosesnya.
             Jika sementara memakai akun kami, kepemilikan ditransfer ke kamu setelah pelunasan, sesuai prosedur
-            yang dijelaskan tertulis di awal. Biaya domain tidak termasuk dalam harga paket dan dicantumkan
-            terpisah di proposal. Hosting dan maintenance juga di luar harga paket; maintenance bersifat opsional,
-            biaya dan ketentuannya dijelaskan di proposal.
+            yang dijelaskan tertulis di awal. Paket UMKM dan Hemat di-hosting di Cloudflare dengan alamat bawaan
+            tanpa biaya hosting tahunan. Biaya domain dan server (paket Standar) tidak termasuk dalam harga paket,
+            dibayar langsung ke penyedia atas namamu tanpa markup dari kami, dan nominalnya dicantumkan di proposal.
+            Maintenance bersifat opsional; biaya dan ketentuannya dijelaskan di proposal.
           </p>
         </div>
 
@@ -66,7 +76,17 @@ const updated = "27 Oktober 2026";
         </div>
 
         <div>
-          <h2 class="text-xl font-bold text-slate-900">5. Pembatalan</h2>
+          <h2 class="text-xl font-bold text-slate-900">5. Garansi & perawatan</h2>
+          <p class="mt-2">
+            Kami memperbaiki bug tanpa biaya selama 14 hari setelah website live. Bug berarti bagian yang berfungsi
+            tidak sesuai dengan yang disepakati di proposal; perubahan isi atau tampilan bukan bug dan mengikuti
+            ketentuan revisi atau add-on. Setelah masa garansi, perubahan kecil dihitung per permintaan sesuai
+            daftar add-on di halaman Layanan.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-slate-900">6. Pembatalan</h2>
           <p class="mt-2">
             Jika proyek dibatalkan di tengah jalan dari pihak klien, DP mencatat sebagai kompensasi waktu &
             resource yang sudah terpakai; hasil pengerjaan sampai titik itu dapat diserahkan sesuai kesepakatan.
@@ -74,7 +94,7 @@ const updated = "27 Oktober 2026";
         </div>
 
         <div>
-          <h2 class="text-xl font-bold text-slate-900">6. Penggunaan situs ini</h2>
+          <h2 class="text-xl font-bold text-slate-900">7. Penggunaan situs ini</h2>
           <p class="mt-2">
             Konten di situs ini (teks, harga, contoh karya) informatif dan bukan penawaran mengikat —
             kesepakatan final ada di proposal. Harga dapat berubah sewaktu-waktu; harga yang berlaku adalah
@@ -83,7 +103,7 @@ const updated = "27 Oktober 2026";
         </div>
 
         <div>
-          <h2 class="text-xl font-bold text-slate-900">7. Kontak</h2>
+          <h2 class="text-xl font-bold text-slate-900">8. Kontak</h2>
           <p class="mt-2">
             Pertanyaan soal ketentuan ini? WhatsApp {waDisplay} atau email
             <a class="text-brand-700 hover:underline" href={`mailto:${site.email}`}>{site.email}</a>.
