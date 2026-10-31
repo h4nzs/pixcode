@@ -4,9 +4,11 @@
 export interface Package {
   id: "umkm" | "hemat" | "hemat-plus" | "standar" | "pos";
   name: string;
-  /** Rentang harga untuk tampilan; string bebas karena format Indonesia. */
+  /** Harga untuk tampilan (angka awal), string bebas karena format Indonesia. */
   price: string;
-  /** Baris penjelas rentang harga (pricing psychology — riset §7). */
+  /** true = harga "mulai dari" (kebutuhan di luar daftar termasuk dihitung terpisah); false = harga flat. */
+  priceFrom: boolean;
+  /** Baris penjelas di bawah harga (batas lingkup harga). */
   priceNote?: string;
   /** Kelompok visual: dasar vs lanjutan (riset §7 "limit pilihan"). */
   tier: "dasar" | "lanjutan";
@@ -23,6 +25,7 @@ export const packages: Package[] = [
     id: "umkm",
     name: "UMKM",
     price: "Rp 400.000",
+    priceFrom: false,
     priceNote: "Harga flat, paling terjangkau untuk mulai hadir di Google.",
     tier: "dasar",
     featured: true,
@@ -40,8 +43,9 @@ export const packages: Package[] = [
   {
     id: "hemat",
     name: "Hemat",
-    price: "Rp 500.000 – 800.000",
-    priceNote: "Tergantung jumlah konten & kebutuhan desain.",
+    price: "Rp 500.000",
+    priceFrom: true,
+    priceNote: "Sudah termasuk daftar di bawah. Kebutuhan di luar daftar dihitung terpisah, disepakati sebelum DP.",
     tier: "dasar",
     includes: [
       "1 halaman",
@@ -56,8 +60,9 @@ export const packages: Package[] = [
   {
     id: "hemat-plus",
     name: "Hemat Plus",
-    price: "Rp 650.000 – 1.500.000",
-    priceNote: "Tergantung jumlah konten & kebutuhan desain.",
+    price: "Rp 900.000",
+    priceFrom: true,
+    priceNote: "Sudah termasuk daftar di bawah. Kebutuhan di luar daftar dihitung terpisah, disepakati sebelum DP.",
     tier: "dasar",
     includes: [
       "2–3 halaman",
@@ -71,8 +76,9 @@ export const packages: Package[] = [
   {
     id: "standar",
     name: "Standar / Dynamic",
-    price: "Rp 1.000.000 – 3.000.000",
-    priceNote: "Tergantung jumlah modul & kompleksitas data.",
+    price: "Rp 1.600.000",
+    priceFrom: true,
+    priceNote: "Sudah termasuk daftar di bawah. Kebutuhan di luar daftar dihitung terpisah, disepakati sebelum DP.",
     tier: "lanjutan",
     includes: [
       "Login admin",
@@ -89,8 +95,9 @@ export const packages: Package[] = [
   {
     id: "pos",
     name: "Desktop POS",
-    price: "Rp 2.500.000 – 8.000.000",
-    priceNote: "Tergantung kebutuhan hardware & laporan.",
+    price: "Rp 3.100.000",
+    priceFrom: true,
+    priceNote: "Sudah termasuk daftar di bawah. Kebutuhan di luar daftar dihitung terpisah, disepakati sebelum DP.",
     tier: "lanjutan",
     includes: [
       "Kasir + stok dasar",

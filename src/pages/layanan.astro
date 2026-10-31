@@ -9,11 +9,11 @@ import { packages } from "../data/packages";
 
 const faqs = [
   {
-    q: "Kenapa harganya berupa rentang, bukan angka pasti?",
-    a: "Karena kebutuhan tiap usaha berbeda — jumlah konten, kebutuhan desain, dan fitur menentukan posisi akhir di rentang. Setelah konsultasi singkat, harga final dikunci tertulis di proposal dan tidak berubah.",
+    q: "Apa artinya harga \"mulai dari\"?",
+    a: "Harga mulai dari sudah mencakup semua yang ada di daftar \"termasuk\" pada kartu paket. Kebutuhan di luar daftar, misalnya halaman atau konten tambahan, desain khusus, dan fitur lain, dihitung terpisah. Setelah konsultasi singkat, totalnya dikunci tertulis di proposal dan tidak berubah.",
   },
   {
-    q: "Apa yang membuat harga naik dari batas bawah?",
+    q: "Apa yang membuat total lebih tinggi dari harga mulai?",
     a: "Jumlah halaman/konten yang lebih banyak, kebutuhan desain khusus, atau fitur tambahan di luar daftar 'termasuk'. Semua dihitung dan disepakati sebelum DP — tidak ada tambahan diam-diam di tengah jalan.",
   },
   {
@@ -47,7 +47,7 @@ const schema = {
 
 <BaseLayout
   title="Layanan & Harga Paket Website"
-  description="5 paket pembuatan website untuk UMKM: dari Rp 400.000 (Paket UMKM) sampai aplikasi kasir Rp 2,5–8 juta. Termasuk/tidak termasuk tertulis, batas revisi jelas, DP 50%."
+  description="5 paket pembuatan website untuk UMKM: dari Rp 400.000 (Paket UMKM) sampai aplikasi kasir mulai Rp 3,1 juta. Termasuk/tidak termasuk tertulis, batas revisi jelas, DP 50%."
   active="layanan"
   schema={schema}
 >
@@ -60,8 +60,8 @@ const schema = {
       </h1>
       <p class="mt-4 max-w-3xl text-lg leading-relaxed text-slate-600">
         Biaya pembuatan website untuk UMKM di Pixcode Studio mulai
-        <strong class="font-semibold text-slate-900">Rp 400.000</strong> (Paket UMKM) sampai
-        <strong class="font-semibold text-slate-900">Rp 8.000.000</strong> (Desktop POS), diperbarui Oktober 2026.
+        <strong class="font-semibold text-slate-900">Rp 400.000</strong> (Paket UMKM), dan aplikasi kasir (Desktop POS) mulai
+        <strong class="font-semibold text-slate-900">Rp 3.100.000</strong>, diperbarui Oktober 2026.
         Setiap paket punya daftar termasuk, tidak termasuk, dan batas revisi yang eksplisit — harga final dikunci di proposal sebelum DP.
       </p>
     </div>

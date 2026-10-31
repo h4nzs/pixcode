@@ -24,7 +24,9 @@ const { pkg } = Astro.props;
   }
 
   <h3 class="text-lg font-bold text-slate-900">{pkg.name}</h3>
-  <p class="mt-2 text-2xl font-extrabold tracking-tight text-brand-700">{pkg.price}</p>
+  <p class="mt-2 text-2xl font-extrabold tracking-tight text-brand-700">
+    {pkg.priceFrom && <span class="mr-1.5 text-sm font-semibold text-slate-500">Mulai dari</span>}{pkg.price}
+  </p>
   {pkg.priceNote && <p class="mt-1 text-xs text-slate-500">{pkg.priceNote}</p>}
 
   <dl class="mt-5 grid grid-cols-2 gap-3 rounded-lg bg-slate-50 p-3 text-xs">
