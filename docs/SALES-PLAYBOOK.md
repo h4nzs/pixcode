@@ -23,6 +23,22 @@ Keputusan harga final per 2026-10-31 dan bisa ditinjau ulang setelah 3–5 proye
 - UMKM yang minta desain custom → Hemat (atau add-on "Desain dari nol" di Hemat/Hemat Plus).
 - Hemat Plus yang minta fitur server → Standar.
 
+## Contoh batas paket Standar
+
+"Sampai 3 jenis data dan 1 modul laporan" dihitung per jenis data yang dikelola (tambah, ubah, hapus), bukan per halaman.
+Contoh: login admin + produk + kategori + pelanggan + laporan penjualan masuk paket Standar (3 jenis data, 1 laporan).
+Tambah pemasok atau stok masuk = jenis data ke-4, dikutip sebagai modul tambahan.
+
+Statis lebih dari 3 halaman tanpa login dan database: tetap Hemat Plus, ditambah add-on halaman tambahan per halaman.
+
+## Janji hosting dan perawatan
+
+- Hosting statis ditulis "memakai layanan gratis Cloudflare selama masih dalam batas dan ketentuan penyedia"; jangan menjanjikan gratis selamanya.
+- Domain dan server atas nama klien. Perpanjangan tanggung jawab klien; bila lewat, situs bisa berhenti tayang.
+- Rawat server (Rp 500.000/tahun): pemeriksaan berkala, backup mingguan disimpan 4 minggu, pembaruan keamanan. Pemulihan backup
+  dan perbaikan bug aplikasi dikutip terpisah. "Respons 1 hari kerja" = balasan pertama pada jam respons, bukan penyelesaian.
+- Garansi bug 14 hari dihitung sejak serah terima. Bug = fungsi yang tidak sesuai spesifikasi yang disetujui.
+
 ## Hosting
 
 - UMKM dan Hemat/Hemat Plus: Cloudflare (static assets). Jangan pakai GitHub Pages karena melarang penggunaan komersial.

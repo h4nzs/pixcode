@@ -38,7 +38,7 @@ export const packages: Package[] = [
       "Nama usaha, logo, teks, foto (sampai 8), jam buka, lokasi, dan 1 warna aksen diganti sesuai usahamu",
       "Tombol WhatsApp & peta lokasi",
       "SEO dasar agar ditemukan di Google",
-      "Hosting Cloudflare dengan alamat bawaan, tanpa biaya hosting tahunan",
+      "Hosting Cloudflare dengan alamat bawaan, tanpa biaya hosting dari kami",
     ],
     excludes: ["Tampilan disesuaikan (paket Hemat)", "Domain sendiri", "Halaman tambahan"],
     maxRevisions: "1x revisi (teks dan foto)",

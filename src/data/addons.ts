@@ -23,7 +23,7 @@ export const addons: Addon[] = [
   { name: "Google Business Profile dan Search Console", price: "Rp 150.000", appliesTo: "Semua paket web", note: "Pengaturan dan optimasi; verifikasi tetap lewat pemilik usaha." },
   { name: "Pengerjaan prioritas", price: "+30% dari total", appliesTo: "Semua paket", note: "Selesai maksimal 3 hari kerja setelah materi lengkap." },
   { name: "Revisi tambahan", price: "Rp 100.000–500.000 per revisi", appliesTo: "Semua paket", note: "UMKM dan Hemat Rp 100.000; Hemat Plus Rp 150.000; Standar dan POS Rp 300.000–500.000." },
-  { name: "Perubahan kecil setelah website live", price: "Rp 50.000 per permintaan", appliesTo: "Semua paket web", note: "Maksimal 30 menit: ganti teks, foto, harga, atau jam buka. Paket 5 permintaan Rp 200.000, berlaku 6 bulan." },
+  { name: "Perubahan kecil setelah website live", price: "Rp 50.000 per permintaan", appliesTo: "Semua paket web", note: "Maksimal 30 menit: ganti teks, foto, harga, atau jam buka. Beberapa perubahan di satu section yang diminta bersamaan dihitung satu permintaan. Paket 5 permintaan Rp 200.000, berlaku 6 bulan." },
   { name: "Modul tambahan", price: "Dikutip per modul", appliesTo: "Standar", note: "Peran user lain, laporan tambahan, notifikasi WhatsApp, pembayaran online. Harga disepakati sebelum dikerjakan." },
-  { name: "Rawat server", price: "Rp 500.000 per tahun", appliesTo: "Standar", note: "Pemantauan, backup mingguan, pembaruan keamanan, respons 1 hari kerja. Dibayar di muka." },
+  { name: "Rawat server", price: "Rp 500.000 per tahun", appliesTo: "Standar", note: "Pemeriksaan berkala (bukan pemantauan 24 jam), backup mingguan disimpan 4 minggu, pembaruan keamanan. Pemulihan backup dan perbaikan bug aplikasi dikutip terpisah. Respons 1 hari kerja berarti balasan pertama pada jam respons. Dibayar di muka." },
 ];
