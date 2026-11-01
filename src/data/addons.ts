@@ -25,5 +25,6 @@ export const addons: Addon[] = [
   { name: "Revisi tambahan", price: "Rp 100.000–500.000 per revisi", appliesTo: "Semua paket", note: "UMKM dan Hemat Rp 100.000; Hemat Plus Rp 150.000; Standar dan POS Rp 300.000–500.000." },
   { name: "Perubahan kecil setelah website live", price: "Rp 50.000 per permintaan", appliesTo: "Semua paket web", note: "Maksimal 30 menit: ganti teks, foto, harga, atau jam buka. Beberapa perubahan di satu section yang diminta bersamaan dihitung satu permintaan. Paket 5 permintaan Rp 200.000, berlaku 6 bulan." },
   { name: "Modul tambahan", price: "Dikutip per modul", appliesTo: "Standar", note: "Peran user lain, laporan tambahan, notifikasi WhatsApp, pembayaran online. Harga disepakati sebelum dikerjakan." },
+  { name: "Dukungan POS setelah garansi", price: "Rp 250.000 per kejadian", appliesTo: "Desktop POS", note: "Instal ulang, pindah komputer, atau pemulihan database lewat akses jarak jauh, maksimal 2 jam. Pemulihan butuh salinan backup yang utuh; kunjungan langsung dikutip terpisah." },
   { name: "Rawat server", price: "Rp 500.000 per tahun", appliesTo: "Standar", note: "Pemeriksaan berkala (bukan pemantauan 24 jam), backup mingguan disimpan 4 minggu, pembaruan keamanan. Pemulihan backup dan perbaikan bug aplikasi dikutip terpisah. Respons 1 hari kerja berarti balasan pertama pada jam respons. Dibayar di muka." },
 ];

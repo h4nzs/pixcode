@@ -31,6 +31,15 @@ Tambah pemasok atau stok masuk = jenis data ke-4, dikutip sebagai modul tambahan
 
 Statis lebih dari 3 halaman tanpa login dan database: tetap Hemat Plus, ditambah add-on halaman tambahan per halaman.
 
+## Pembayaran dan dukungan Desktop POS
+
+- Pembayaran POS tiga tahap: DP 40%, 30% setelah demo versi kerja disetujui, 30% setelah instalasi dan serah terima.
+  Paket lain tetap DP 50% dan pelunasan 50% setelah demo.
+- Setelah garansi 14 hari, instal ulang, pindah komputer, dan pemulihan database dihitung Rp 250.000 per kejadian
+  (jarak jauh, maksimal 2 jam). Pemulihan bergantung pada salinan backup; backup otomatis dipasang saat instalasi,
+  klien wajib menyimpan salinan di flashdisk atau penyimpanan cloud.
+- Kunjungan langsung dan perubahan perangkat keras tidak termasuk; dikutip terpisah.
+
 ## Janji hosting dan perawatan
 
 - Hosting statis ditulis "memakai layanan gratis Cloudflare selama masih dalam batas dan ketentuan penyedia"; jangan menjanjikan gratis selamanya.
