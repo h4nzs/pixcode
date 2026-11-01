@@ -1,0 +1,68 @@
+---
+// Mark Pixcode (tangga empat blok) diperbesar menjadi komposisi hero.
+// Posisi dan ukuran blok sama persis dengan src/data/brand.ts (markBlocks) pada kanvas 32 satuan,
+// jadi komposisinya adalah logo itu sendiri. Isi tiap blok adalah bukti nyata: dua karya, satu contoh
+// template, dan harga paket UMKM sebagai jangkar gelap.
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import { markBlocks } from "../data/brand";
+import { projectImage } from "../utils/projectImage";
+import { templateImage } from "../utils/templateImage";
+
+interface Props {
+  top: CollectionEntry<"projects">;
+  mid: CollectionEntry<"projects">;
+}
+const { top, mid } = Astro.props;
+const [b1, b2, b3, b4] = markBlocks;
+const tpl = templateImage("bengkel.png");
+---
+
+<div class="hb-canvas parallax-slow">
+  <!-- Blok 3 (terkecil): contoh template Paket UMKM -->
+  <a
+    href="/template/bengkel/"
+    class="hb block bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-600"
+    style={`--x:${b3.x};--y:${b3.y};--s:${b3.w};--r:${b3.rx};--d:0`}
+    aria-label="Buka contoh template Bengkel"
+  >
+    <Image src={tpl} alt="Contoh template Paket UMKM: Bengkel" width={240} height={180} loading="eager" class="h-full w-full object-cover object-left" />
+  </a>
+
+  <!-- Blok 2: karya -->
+  <a
+    href={`/portfolio/${mid.id}/`}
+    class="hb block bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-600"
+    style={`--x:${b2.x};--y:${b2.y};--s:${b2.w};--r:${b2.rx};--d:1`}
+    aria-label={`Lihat karya: ${mid.data.title}`}
+  >
+    <Image src={projectImage(mid.data.thumbnail)} alt={`Karya: ${mid.data.title}`} width={420} height={420} loading="eager" class="h-full w-full object-cover object-left" />
+  </a>
+
+  <!-- Blok 1 (terbesar, kanan atas): karya -->
+  <a
+    href={`/portfolio/${top.id}/`}
+    class="hb block bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-600"
+    style={`--x:${b1.x};--y:${b1.y};--s:${b1.w};--r:${b1.rx};--d:2`}
+    aria-label={`Lihat karya: ${top.data.title}`}
+  >
+    <Image src={projectImage(top.data.thumbnail)} alt={`Karya: ${top.data.title}`} width={520} height={520} loading="eager" fetchpriority="high" class="h-full w-full object-cover object-[18%_40%]" />
+    <span class="absolute inset-x-0 bottom-0 hidden bg-ink/85 px-[calc(var(--u)*0.9)] py-[calc(var(--u)*0.55)] text-[max(11px,calc(var(--u)*0.62))] font-semibold text-white sm:block">
+      {top.data.title}
+    </span>
+  </a>
+
+  <!-- Blok 4 (jangkar gelap): harga -->
+  <a
+    href="/layanan/#paket"
+    class="hb hb-drop flex flex-col justify-between bg-ink p-[calc(var(--u)*1)] text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-600"
+    style={`--x:${b4.x};--y:${b4.y};--s:${b4.w};--r:${b4.rx};--d:3`}
+    aria-label="Paket UMKM mulai Rp 400.000, lihat paket dan harga"
+  >
+    <span class="text-[max(11px,calc(var(--u)*0.72))] font-semibold text-brand-300">Paket UMKM</span>
+    <span class="block">
+      <span class="block text-[max(11px,calc(var(--u)*0.8))] font-bold text-slate-400">Rp</span>
+      <span class="display block text-[max(16px,calc(var(--u)*1.85))]">400.000</span>
+    </span>
+  </a>
+</div>

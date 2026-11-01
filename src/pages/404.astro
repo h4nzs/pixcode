@@ -4,23 +4,27 @@ import WaButton from "../components/WaButton.astro";
 ---
 
 <BaseLayout title="Halaman Tidak Ditemukan">
-  <section class="flex min-h-[60vh] items-center justify-center px-4 py-20">
-    <div class="text-center">
-      <p class="font-mono text-sm font-bold uppercase tracking-widest text-brand-600">Error 404</p>
-      <h1 class="mt-3 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
-        Halaman tidak ditemukan
+  <section class="relative flex min-h-[70vh] items-center overflow-hidden bg-slate-50">
+    <p class="pointer-events-none absolute -bottom-[0.18em] right-[-0.04em] select-none text-[min(48vw,30rem)] font-extrabold leading-none tracking-[-0.06em] text-brand-100" aria-hidden="true">404</p>
+    <div class="wrap relative w-full py-20">
+      <p class="hero-seq flex items-center gap-2.5 text-sm font-bold text-brand-600">
+        <span class="h-2.5 w-2.5 rounded-[3px] bg-brand-500" aria-hidden="true"></span>
+        Error 404
+      </p>
+      <h1 class="display mt-5 max-w-3xl text-[clamp(2.4rem,6vw,5rem)] ">
+        <span class="line"><span>Halaman tidak ditemukan<span class="pix" aria-hidden="true"></span></span></span>
       </h1>
-      <p class="mx-auto mt-4 max-w-md text-slate-600">
+      <p class="hero-seq mt-6 max-w-md text-lg text-slate-600" style="--d:1">
         Alamat yang kamu buka mungkin salah ketik, atau halamannya sudah dipindah.
       </p>
-      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+      <div class="hero-seq mt-10 flex flex-wrap items-center gap-3" style="--d:2">
+        <WaButton context={{ type: "general" }} label="Tanya lewat WhatsApp" />
         <a
           href="/"
-          class="rounded-lg border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 transition-colors hover:border-brand-600 hover:text-brand-700"
+          class="btn-press rounded-xl border border-slate-300 px-6 py-3.5 text-sm font-bold text-slate-700 hover:border-brand-600 hover:text-brand-700"
         >
-          Ke Halaman Utama
+          Ke beranda
         </a>
-        <WaButton context={{ type: "general" }} label="Tanya lewat WhatsApp" />
       </div>
     </div>
   </section>

@@ -6,13 +6,12 @@ import { waLink, type WaContext } from "../data/site";
 interface Props {
   /** Default: { type: "general" } jika tidak diberikan. */
   context?: WaContext;
-  variant?: "primary" | "ghost";
+  /** primary = hijau WhatsApp; ghost = garis di latar terang; dark = garis di latar gelap. */
+  variant?: "primary" | "ghost" | "dark";
   size?: "normal" | "large";
   label?: string;
   /** Pakai redirect terukur /wa/[slug] (pageview Web Analytics CF) — default true. */
   tracked?: boolean;
-  /** Pulse ring halus — hanya untuk 1 CTA utama per halaman (jangan lebih). */
-  pulse?: boolean;
   class?: string;
 }
 
@@ -22,7 +21,6 @@ const {
   size = "normal",
   label,
   tracked = true,
-  pulse = false,
   class: className = "",
 } = Astro.props;
 
@@ -39,15 +37,17 @@ const trackSlug =
         : "umum";
 const href = tracked ? `/wa/${trackSlug}/` : directUrl;
 
-const base = "btn-press inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600";
-const sizes = size === "large" ? "px-6 py-3.5 text-base" : "px-5 py-2.5 text-sm";
+const base =
+  "btn-press inline-flex items-center justify-center gap-2.5 rounded-xl font-bold focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brand-600";
+const sizes = size === "large" ? "px-7 py-4 text-base" : "px-5 py-2.5 text-sm";
 const variants = {
-  primary: "bg-wa text-slate-900 hover:bg-wa-dark shadow-sm",
-  ghost: "border border-wa/50 text-[#075e54] hover:bg-wa/10",
+  primary: "bg-wa text-slate-900 hover:bg-wa-dark",
+  ghost: "border border-slate-300 text-slate-900 hover:border-slate-900",
+  dark: "border border-white/30 text-white hover:border-white hover:bg-white/5",
 };
 ---
 
-<a href={href} target="_blank" rel="noopener noreferrer" class={`${base} ${sizes} ${variants[variant]} ${pulse ? "pulse-wa" : ""} ${className}`}>
+<a href={href} target="_blank" rel="noopener noreferrer" class={`${base} ${sizes} ${variants[variant]} ${className}`}>
   <Icon name="message-circle" class="h-5 w-5" />
   {label ?? "Tanya via WhatsApp"}
 </a>

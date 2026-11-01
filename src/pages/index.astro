@@ -3,15 +3,15 @@ import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHeading from "../components/SectionHeading.astro";
-import PackageCard from "../components/PackageCard.astro";
+import PackageSelector from "../components/PackageSelector.astro";
+import HeroBlocks from "../components/HeroBlocks.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import WaButton from "../components/WaButton.astro";
 import CtaBanner from "../components/CtaBanner.astro";
 import FaqItem from "../components/FaqItem.astro";
 import Icon from "../components/Icon.astro";
-import { site } from "../data/site";
-import { packages } from "../data/packages";
-import { projectImage } from "../utils/projectImage";
+import { templates } from "../data/templates";
+import { templateImage } from "../utils/templateImage";
 
 // Top-3 Home: situs yang sedang aktif dulu (hero berjanji "sedang dipakai usaha nyata"),
 // lalu proyek klien, lalu tahun terbaru. Proyek yang nonaktif sementara tetap ada di /portfolio.
@@ -67,15 +67,6 @@ const schema = {
   })),
 };
 
-const umkmTypes = [
-  { icon: "shopping-bag", label: "Toko & Ritel" },
-  { icon: "utensils", label: "Kuliner & F&B" },
-  { icon: "heart-pulse", label: "Klinik & Kesehatan" },
-  { icon: "wrench", label: "Jasa & Bengkel" },
-  { icon: "graduation-cap", label: "Kursus & Sekolah" },
-  { icon: "briefcase", label: "Event & Agensi" },
-] as const;
-
 const steps = [
   {
     n: "1",
@@ -98,6 +89,19 @@ const steps = [
     text: "Setelah kamu setuju, pelunasan, website tayang di domain final, lengkap dengan panduan singkat. Perawatan opsional, bukan paksaan.",
   },
 ];
+
+// Hero memakai dua karya nyata dari daftar unggulan; blok ketiga adalah contoh template.
+const heroTop = featuredProjects[1] ?? featuredProjects[0];
+const heroMid = featuredProjects[2] ?? featuredProjects[0];
+
+// Angka di strip ini diambil dari paket dan ketentuan yang tertulis (src/data/packages.ts, syarat-ketentuan).
+const facts = [
+  { value: "Rp 400.000", label: "Paket UMKM, harga flat. Tidak ada biaya hosting dari kami." },
+  { value: "3–7 hari", label: "kerja untuk paket 1 halaman, dihitung sejak foto dan teks lengkap." },
+  { value: "DP 50%", label: "Sisanya lunas setelah kamu menyetujui demo di alamat staging." },
+  { value: "14 hari", label: "garansi perbaikan bug gratis sejak website diserahkan." },
+];
+
 ---
 
 <BaseLayout
@@ -105,134 +109,99 @@ const steps = [
   active="home"
   schema={schema}
 >
-  <!-- ============ HERO (riset §3: value + 2 CTA + bukti cepat) ============ -->
+  <!-- ============ HERO ============ -->
   <section class="relative overflow-hidden">
-    <!-- Aurora drift (Tier 2): dua blob teal bergerak sangat lambat — latar terasa bernafas.
-         Catatan: parallax-slow TIDAK di sini — dua animation transform pada satu elemen
-         saling menimpa (shorthand animation). Parallax dipasang di mockup kanan. -->
-    <div class="aurora aurora-1" aria-hidden="true"></div>
-    <div class="aurora aurora-2" aria-hidden="true"></div>
-    <div class="relative mx-auto grid max-w-6xl gap-10 px-4 pb-16 pt-14 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pb-24 lg:pt-20">
-      <div>
-        <p class="hero-seq inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700" style="--d:0">
-          <Icon name="map-pin" class="h-3.5 w-3.5" />
-          Studio web lokal dari {site.city} — melayani {site.serviceArea}
+    <div class="wrap grid gap-14 pb-20 pt-12 sm:pt-16 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-center lg:gap-10 lg:pb-28 lg:pt-20">
+      <div class="relative z-10">
+        <p class="hero-seq flex items-center gap-2.5 text-sm font-bold text-brand-700" style="--d:0">
+          <span class="h-2.5 w-2.5 rounded-[3px] bg-brand-500" aria-hidden="true"></span>
+          Studio web dari Bandung, melayani seluruh Indonesia
         </p>
-        <h1 class="hero-seq mt-5 text-4xl font-extrabold leading-[1.1] tracking-tight text-slate-900 sm:text-5xl" style="--d:1">
-          Website untuk UMKM —
-          <span class="text-brand-600">jelas cakupannya, jelas harganya, jelas prosesnya.</span>
+        <h1 class="display mt-7 whitespace-nowrap text-[clamp(2.4rem,5.6vw,4.9rem)]">
+          <span class="line"><span style="--d:0">Website jelas<span class="sr-only">.</span><span class="pix" aria-hidden="true"></span></span></span>
+          <span class="line"><span style="--d:1">Harga jelas<span class="sr-only">.</span><span class="pix" aria-hidden="true"></span></span></span>
+          <span class="line"><span style="--d:2">Proses jelas<span class="sr-only">.</span><span class="pix" aria-hidden="true"></span></span></span>
         </h1>
-        <p class="hero-seq mt-5 max-w-xl text-lg leading-relaxed text-slate-600" style="--d:2">
-          Jasa pembuatan website & aplikasi untuk usaha kecil. Mulai <strong class="font-semibold text-slate-900">Rp 400.000</strong>,
-          batas revisi tertulis di proposal, dan demo dulu sebelum lunas — tidak ada tambahan diam-diam.
+        <p class="hero-seq mt-8 max-w-[30rem] text-lg leading-relaxed text-slate-600" style="--d:3">
+          Jasa pembuatan website dan aplikasi untuk usaha kecil. Mulai <strong class="font-bold text-slate-900">Rp 400.000</strong>,
+          batas revisi tertulis di proposal, dan kamu lihat demonya dulu sebelum melunasi.
         </p>
-        <div class="hero-seq mt-8 flex flex-wrap items-center gap-3" style="--d:3">
-          <WaButton context={{ type: "general" }} size="large" label="Tanya-tanya dulu, gratis" pulse />
+        <div class="hero-seq mt-9 flex flex-wrap items-center gap-3" style="--d:4">
+          <WaButton context={{ type: "general" }} size="large" label="Tanya-tanya dulu, gratis" />
           <a
             href="/layanan/"
-            class="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-6 py-3.5 text-base font-semibold text-slate-700 transition-colors hover:border-brand-600 hover:text-brand-700"
+            class="btn-press inline-flex items-center gap-2.5 rounded-xl border border-slate-300 px-6 py-4 text-base font-bold text-slate-900 hover:border-slate-900"
           >
-            Lihat Paket & Harga
-            <Icon name="arrow-right" class="h-5 w-5" />
+            Lihat paket dan harga
+            <Icon name="arrow-right" class="arrow h-5 w-5" />
           </a>
         </div>
-        <p class="hero-seq mt-4 flex items-center gap-2 text-sm text-slate-500" style="--d:4">
+        <p class="hero-seq mt-5 flex items-center gap-2 text-sm text-slate-500" style="--d:5">
           <Icon name="clock" class="h-4 w-4 text-brand-600" />
-          Balasan cepat di jam kerja — langsung ke orang yang mengerjakan, bukan CS berlapis.
+          Balasan di jam kerja, langsung ke orang yang mengerjakan.
         </p>
       </div>
 
-      <!-- Bukti cepat: mini-grid 3 proyek (mobile di dalam mockup browser) -->
-      <div class="hero-seq relative mx-auto w-full max-w-md lg:max-w-none" style="--d:5">
-        <!-- parallax-slow: mockup bergeser halus saat scroll (progressive, @supports).
-             Elemen ini bebas animation lain sehingga tidak konflik dengan aurora. -->
-        <div class="parallax-slow rounded-2xl border border-slate-200 bg-white shadow-lg">
-          <div class="flex items-center gap-1.5 border-b border-slate-100 px-4 py-3">
-            <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
-            <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
-            <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
-            <span class="ml-3 truncate rounded-md bg-slate-50 px-2 py-1 text-[11px] text-slate-600">
-              {new URL(site.url).host} — contoh karya kami
-            </span>
-          </div>
-          <div class="grid grid-cols-3 gap-3 p-4">
-            {
-              featuredProjects.map((p) => (
-                <Image
-                  src={projectImage(p.data.thumbnail)}
-                  alt={`Contoh karya: ${p.data.title}`}
-                  width={300}
-                  height={225}
-                  loading="eager"
-                  class="aspect-[4/3] w-full rounded-lg object-cover ring-1 ring-slate-100"
-                />
-              ))
-            }
-          </div>
-          <div class="px-4 pb-4">
-            <p class="text-sm font-semibold text-slate-900">Website yang sedang dipakai usaha nyata</p>
-            <p class="mt-1 text-xs text-slate-500">Lihat sendiri di halaman Portfolio — semua ada link-nya.</p>
-          </div>
-        </div>
+      <div class="relative lg:justify-self-end lg:-mr-10">
+        <HeroBlocks top={heroTop} mid={heroMid} />
       </div>
     </div>
   </section>
 
-  <!-- ============ TICKER (Tier 2): layanan berjalan — situs terasa bernafas ============ -->
-  <section class="border-y border-slate-100 bg-white py-5" aria-hidden="true">
-    <div class="marquee">
-      <div class="marquee-track">
+  <!-- ============ ANGKA YANG TERTULIS ============ -->
+  <section class="bg-ink" aria-label="Ketentuan utama">
+    <div class="wrap">
+      <dl class="stagger grid sm:grid-cols-2 lg:grid-cols-4">
         {
-          [
-            "Website Profil Usaha",
-            "Katalog & Harga Dinamis",
-            "Form Booking Online",
-            "Dashboard Admin",
-            "Aplikasi Kasir (POS)",
-            "Landing Page Kampanye",
-            "Maintenance & Support",
-            "SEO & Google Business",
-          ].map((label) => (
-            <span class="mr-10 flex items-center gap-3 whitespace-nowrap text-sm font-semibold text-slate-600">
-              <span class="text-brand-400">◆</span>
-              {label}
-            </span>
+          facts.map((f, i) => (
+            <div class="stagger-child border-white/10 py-9 sm:px-8 sm:first:pl-0 lg:border-l lg:first:border-l-0 [&:nth-child(n+2)]:border-t sm:[&:nth-child(n+2)]:border-t-0 sm:[&:nth-child(n+3)]:border-t lg:[&:nth-child(n+3)]:border-t-0" style={`--i:${i}`}>
+              <dt class="display whitespace-nowrap text-[clamp(2.1rem,3.3vw,3rem)] text-white">{f.value}</dt>
+              <dd class="mt-3 max-w-[16rem] text-[0.95rem] leading-relaxed text-slate-300">{f.label}</dd>
+            </div>
           ))
         }
-        {
-          [
-            "Website Profil Usaha",
-            "Katalog & Harga Dinamis",
-            "Form Booking Online",
-            "Dashboard Admin",
-            "Aplikasi Kasir (POS)",
-            "Landing Page Kampanye",
-            "Maintenance & Support",
-            "SEO & Google Business",
-          ].map((label) => (
-            <span class="mr-10 flex items-center gap-3 whitespace-nowrap text-sm font-semibold text-slate-600">
-              <span class="text-brand-400">◆</span>
-              {label}
-            </span>
-          ))
-        }
-      </div>
+      </dl>
     </div>
   </section>
-  <section class="border-y border-slate-100 bg-slate-50 py-16">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6">
-      <SectionHeading
-        kicker="Untuk siapa"
-        title="Dibuat untuk usaha yang belum punya 'etalase digital'"
-        subtitle="Kalau usaha kamu masuk salah satu kategori ini, website akan langsung terasa manfaatnya."
-        center
-      />
-      <ul class="stagger mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+
+  <!-- ============ CONTOH TEMPLATE (Paket UMKM) ============ -->
+  <section class="py-24 lg:py-32">
+    <div class="wrap">
+      <div class="grid gap-8 lg:grid-cols-[1.25fr_1fr] lg:items-end lg:gap-16">
+        <SectionHeading kicker="Paket UMKM" title="Buka contohnya dulu. Baru putuskan." />
+        <div class="reveal">
+          <p class="text-lg leading-relaxed text-slate-600">
+            Paket UMKM dibuat dari tiga template ini. Yang kamu ganti: nama, logo, teks, foto, jam buka, lokasi, dan satu warna aksen.
+            Usaha di contoh adalah fiktif; semuanya bisa kamu buka dan coba.
+          </p>
+          <a href="/template/" class="group mt-5 inline-flex items-center gap-2 font-bold text-brand-700 underline decoration-brand-500/40 underline-offset-8 hover:decoration-brand-600">
+            Lihat semua contoh
+            <Icon name="arrow-right" class="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+          </a>
+        </div>
+      </div>
+
+      <ul class="stagger mt-14 grid gap-x-8 gap-y-14 md:grid-cols-3">
         {
-          umkmTypes.map((t, i) => (
-            <li class="stagger-child card-lift flex flex-col items-center gap-3 rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm" style={`--i:${i}`}>
-              <Icon name={t.icon} class="h-7 w-7 text-brand-600" strokeWidth={1.75} />
-              <span class="text-sm font-semibold text-slate-800">{t.label}</span>
+          templates.map((t, i) => (
+            <li class="stagger-child md:[&:nth-child(1)]:mt-16 md:[&:nth-child(2)]:mt-8" style={`--i:${i}`}>
+              <a href={`/template/${t.slug}/`} class="group block focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-600">
+                <div class="relative overflow-hidden rounded-[1.5rem] bg-slate-100 ring-1 ring-line">
+                  <Image
+                    src={templateImage(t.image)}
+                    alt={`Contoh template ${t.name}: ${t.business}`}
+                    width={640}
+                    height={480}
+                    loading="lazy"
+                    class="aspect-[4/3] w-full object-cover object-top transition-transform duration-[900ms] ease-[var(--ease-out-soft)] group-hover:scale-[1.05]"
+                  />
+                  <span class="absolute right-4 top-4 flex h-10 w-10 translate-y-1 items-center justify-center rounded-full bg-white text-slate-900 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
+                    <Icon name="arrow-up-right" class="h-5 w-5" strokeWidth={2.25} />
+                  </span>
+                </div>
+                <h3 class="mt-5 text-xl font-extrabold tracking-tight text-slate-900">{t.name}</h3>
+                <p class="mt-1 text-sm leading-relaxed text-slate-600">{t.suitableFor}</p>
+              </a>
             </li>
           ))
         }
@@ -240,69 +209,39 @@ const steps = [
     </div>
   </section>
 
-  <!-- ============ PAKET (UMKM highlight paling depan — riset §7) ============ -->
-  <section class="py-20 lg:py-24" id="paket">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+  <!-- ============ PAKET ============ -->
+  <section class="bg-slate-50 py-24 lg:py-32" id="paket">
+    <div class="wrap">
       <SectionHeading
-        kicker="Paket & harga"
+        kicker="Paket dan harga"
         title="Harga terpampang. Termasuk dan tidak termasuk, tertulis."
-        subtitle={'Tidak ada "hubungi kami untuk tahu harga". Pilih yang sesuai anggaran, tanya sisanya via WhatsApp.'}
-        center
+        subtitle={'Tidak ada "hubungi kami untuk tahu harga". Pilih yang sesuai anggaran, tanya sisanya lewat WhatsApp.'}
       />
-      <div class="stagger mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {
-          packages.map((pkg, i) => (
-            <div class={`stagger-child ${pkg.featured ? "xl:-mt-4" : ""}`} style={`--i:${i}`}>
-              <PackageCard pkg={pkg} />
-            </div>
-          ))
-        }
-      </div>
-      <p class="reveal mx-auto mt-8 max-w-2xl text-center text-sm text-slate-500">
-        <strong class="font-semibold text-slate-700">Cara bayar: DP 50% — lunas setelah kamu approve demo.</strong>
-        Revisi di luar batas paket dikenakan biaya tambahan yang diumumkan sejak proposal, bukan saat kejadian.
-      </p>
-    </div>
-  </section>
-
-  <!-- ============ PORTFOLIO HIGHLIGHT ============ -->
-  <section class="border-y border-slate-100 bg-slate-50 py-20 lg:py-24">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6">
-      <div class="flex flex-wrap items-end justify-between gap-4">
-        <SectionHeading
-          kicker="Karya"
-          title="Website yang sedang dipakai usaha nyata"
-          subtitle="Klik untuk melihat detail — termasuk link website yang bisa kamu buka sendiri."
-        />
-        <a href="/portfolio/" class="group inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-600">
-          Lihat semua proyek
-          <Icon name="arrow-right" class="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-        </a>
-      </div>
-      <div class="stagger mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {featuredProjects.map((p, i) => <ProjectCard project={p} index={i} />)}
+      <div class="reveal mt-14">
+        <PackageSelector />
       </div>
     </div>
   </section>
 
-  <!-- ============ CARA KERJA ============ -->
-  <section class="py-20 lg:py-24">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6">
-      <SectionHeading
-        kicker="Cara kerja"
-        title="Empat langkah, semua transparan"
-        subtitle="Proses ini tertulis di setiap proposal — bukan janji lisan."
-        center
-      />
-      <ol class="stagger mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+  <!-- ============ CARA KERJA: tangga empat langkah ============ -->
+  <section class="overflow-hidden py-24 lg:py-32">
+    <div class="wrap">
+      <SectionHeading kicker="Cara kerja" title="Empat langkah, naik satu per satu." subtitle="Proses ini tertulis di setiap proposal, bukan janji lisan." />
+      <ol class="stagger mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4 lg:items-end lg:gap-6">
         {
           steps.map((s, i) => (
-            <li class="stagger-child card-lift relative rounded-2xl border border-slate-200 bg-white p-6 shadow-sm" style={`--i:${i}`}>
-              <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-600 text-base font-extrabold text-white">
-                {s.n}
-              </span>
-              <h3 class="mt-4 font-bold text-slate-900">{s.title}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-slate-600">{s.text}</p>
+            <li
+              class:list={[
+                "stagger-child flex flex-col justify-between gap-8 rounded-[1.5rem] p-7 lg:min-h-[calc(15.5rem+var(--n)*4.25rem)]",
+                i === 3 ? "bg-brand-600 text-brand-50" : "bg-brand-100 text-slate-700",
+              ]}
+              style={`--i:${i};--n:${i}`}
+            >
+              <span class:list={["display block text-[4.5rem]", i === 3 ? "text-brand-300" : "text-brand-600"]} aria-hidden="true">{s.n}</span>
+              <div>
+                <h3 class:list={["text-lg font-extrabold tracking-tight", i === 3 ? "text-white" : "text-slate-900"]}>{s.title}</h3>
+                <p class="mt-2.5 text-[0.95rem] leading-relaxed">{s.text}</p>
+              </div>
             </li>
           ))
         }
@@ -310,18 +249,43 @@ const steps = [
     </div>
   </section>
 
+  <!-- ============ KARYA ============ -->
+  <section class="bg-ink py-24 lg:py-32">
+    <div class="wrap">
+      <div class="flex flex-wrap items-end justify-between gap-6">
+        <SectionHeading dark kicker="Karya" title="Website yang sedang dipakai usaha nyata." subtitle="Klik untuk melihat detail, termasuk tautan website yang bisa kamu buka sendiri." />
+        <a href="/portfolio/" class="group inline-flex items-center gap-2 font-bold text-white underline decoration-white/30 underline-offset-8 hover:decoration-white">
+          Lihat semua proyek
+          <Icon name="arrow-right" class="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+        </a>
+      </div>
+      <div class="stagger mt-14 grid gap-x-8 gap-y-14 lg:grid-cols-12">
+        {
+          featuredProjects.map((p, i) => (
+            <div class={i === 0 ? "contents lg:block lg:col-span-7 lg:row-span-2" : "contents lg:block lg:col-span-5"}>
+              <ProjectCard project={p} index={i} dark ratio={i === 0 ? "aspect-[4/3]" : "aspect-[16/10]"} width={i === 0 ? 900 : 640} />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
   <!-- ============ FAQ ============ -->
-  <section class="border-t border-slate-100 bg-slate-50 py-20 lg:py-24">
-    <div class="mx-auto max-w-3xl px-4 sm:px-6">
-      <SectionHeading kicker="FAQ" title="Pertanyaan yang paling sering masuk" center />
-      <div class="reveal mt-10 space-y-3">
+  <section class="py-24 lg:py-32">
+    <div class="wrap grid gap-12 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
+      <div class="lg:sticky lg:top-28 lg:self-start">
+        <SectionHeading kicker="FAQ" title="Pertanyaan yang paling sering masuk." />
+        <p class="mt-6 max-w-sm leading-relaxed text-slate-600">Belum ketemu jawabannya? Tanya langsung, dibalas di jam kerja.</p>
+        <div class="mt-7">
+          <WaButton context={{ type: "general" }} variant="ghost" label="Tanya lewat WhatsApp" />
+        </div>
+      </div>
+      <div class="reveal border-t border-line">
         {faqs.map((f) => <FaqItem question={f.q} answer={f.a} />)}
       </div>
     </div>
   </section>
 
-  <!-- ============ CTA AKHIR ============ -->
-  <section class="py-20 lg:py-24">
-    <CtaBanner />
-  </section>
+  <CtaBanner />
 </BaseLayout>

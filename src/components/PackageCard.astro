@@ -7,76 +7,76 @@ interface Props {
   pkg: Package;
 }
 const { pkg } = Astro.props;
+const dark = pkg.featured === true;
 ---
 
 <article
   class:list={[
-    "card-lift relative flex flex-col rounded-2xl border bg-white p-6 shadow-sm",
-    pkg.featured ? "animated-border border-brand-600 border-2 shadow-md" : "border-slate-200",
+    "card-lift relative flex h-full flex-col rounded-[1.75rem] border p-7",
+    dark ? "border-ink bg-ink text-slate-300" : "border-line bg-white",
   ]}
 >
   {
-    pkg.featured && (
-      <span class="absolute -top-3.5 left-6 rounded-full bg-brand-600 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-sm">
-        Paling Laris
+    dark && (
+      <span class="absolute -top-3.5 left-7 rounded-full bg-brand-500 px-3.5 py-1 text-xs font-extrabold text-ink">
+        Paling laris
       </span>
     )
   }
 
-  <h3 class="text-lg font-bold text-slate-900">{pkg.name}</h3>
-  <p class="mt-2 text-2xl font-extrabold tracking-tight text-brand-700">
-    {pkg.priceFrom && <span class="mr-1.5 text-sm font-semibold text-slate-500">Mulai dari</span>}{pkg.price}
+  <h3 class:list={["text-xl font-extrabold tracking-tight", dark ? "text-white" : "text-slate-900"]}>{pkg.name}</h3>
+  <p class:list={["mt-3 text-[2.1rem] font-extrabold leading-none tracking-tight", dark ? "text-white" : "text-slate-900"]}>
+    {pkg.priceFrom && <span class:list={["mb-1.5 block text-sm font-semibold tracking-normal", dark ? "text-brand-300" : "text-slate-500"]}>Mulai dari</span>}{pkg.price}
   </p>
-  {pkg.priceNote && <p class="mt-1 text-xs text-slate-500">{pkg.priceNote}</p>}
+  {pkg.priceNote && <p class:list={["mt-3 text-sm leading-relaxed", dark ? "text-slate-400" : "text-slate-500"]}>{pkg.priceNote}</p>}
 
-  <dl class="mt-5 grid grid-cols-2 gap-3 rounded-lg bg-slate-50 p-3 text-xs">
+  <dl class:list={["mt-6 grid grid-cols-2 gap-4 border-y py-4 text-sm", dark ? "border-white/10" : "border-line"]}>
     <div>
-      <dt class="font-semibold uppercase tracking-wide text-slate-500">Revisi</dt>
-      <dd class="mt-0.5 font-medium text-slate-700">{pkg.maxRevisions}</dd>
+      <dt class:list={["font-semibold", dark ? "text-slate-400" : "text-slate-500"]}>Revisi</dt>
+      <dd class:list={["mt-1 font-bold", dark ? "text-white" : "text-slate-900"]}>{pkg.maxRevisions}</dd>
     </div>
     <div>
-      <dt class="font-semibold uppercase tracking-wide text-slate-500">Pengerjaan</dt>
-      <dd class="mt-0.5 font-medium text-slate-700">{pkg.duration}</dd>
+      <dt class:list={["font-semibold", dark ? "text-slate-400" : "text-slate-500"]}>Pengerjaan</dt>
+      <dd class:list={["mt-1 font-bold", dark ? "text-white" : "text-slate-900"]}>{pkg.duration}</dd>
     </div>
   </dl>
 
-  <ul class="mt-5 flex-1 space-y-2.5 text-sm" aria-label="Termasuk dalam paket">
+  <ul class="mt-6 flex-1 space-y-3 text-[0.95rem]" aria-label="Termasuk dalam paket">
     {
       pkg.includes.map((item) => (
-        <li class="flex items-start gap-2">
-          <Icon name="check" class="mt-0.5 h-4 w-4 shrink-0 text-brand-600" strokeWidth={2.5} />
-          <span class="text-slate-700">{item}</span>
+        <li class="flex items-start gap-3">
+          <Icon name="check" class:list={["mt-1 h-4 w-4 shrink-0", dark ? "text-brand-300" : "text-brand-600"]} strokeWidth={2.75} />
+          <span class={dark ? "text-slate-200" : "text-slate-700"}>{item}</span>
         </li>
       ))
     }
   </ul>
 
-  <details class="group mt-4 text-sm">
-    <summary class="cursor-pointer list-none font-medium text-slate-500 transition-colors hover:text-slate-700">
-      Tidak termasuk (add-on berbayar)
+  <details class="group mt-5 text-sm">
+    <summary class:list={["cursor-pointer list-none font-semibold underline decoration-dotted underline-offset-4 transition-colors", dark ? "text-slate-300 hover:text-white" : "text-slate-500 hover:text-slate-900"]}>
+      Tidak termasuk
     </summary>
-    <!-- Panel halus (murni CSS — pola sama dengan FAQ). -->
     <div class="faq-panel">
       <div>
-        <ul class="space-y-2 pt-2" aria-label="Tidak termasuk dalam paket">
-      {
-        pkg.excludes.map((item) => (
-          <li class="flex items-start gap-2">
-            <Icon name="x" class="mt-0.5 h-4 w-4 shrink-0 text-slate-400" strokeWidth={2.5} />
-            <span class="text-slate-500">{item}</span>
-          </li>
-        ))
-      }
-          </ul>
+        <ul class="space-y-2 pt-3" aria-label="Tidak termasuk dalam paket">
+          {
+            pkg.excludes.map((item) => (
+              <li class="flex items-start gap-3">
+                <Icon name="x" class:list={["mt-0.5 h-4 w-4 shrink-0", dark ? "text-slate-500" : "text-slate-400"]} strokeWidth={2.5} />
+                <span class={dark ? "text-slate-400" : "text-slate-500"}>{item}</span>
+              </li>
+            ))
+          }
+        </ul>
       </div>
     </div>
   </details>
 
-  <div class="mt-6">
+  <div class="mt-7">
     <WaButton
       context={{ type: "package", packageName: `Paket ${pkg.name}` }}
-      variant={pkg.featured ? "primary" : "ghost"}
-      label={pkg.featured ? "Ambil Paket Ini" : "Tanya Paket Ini"}
+      variant={dark ? "primary" : "ghost"}
+      label={dark ? "Ambil paket ini" : "Tanya paket ini"}
       class="w-full"
     />
   </div>

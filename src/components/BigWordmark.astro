@@ -1,0 +1,22 @@
+---
+// Wordmark raksasa untuk dasar footer: path yang sama dengan logo (src/data/brand.ts), dipotong di bawah.
+// Tinggi viewBox mencakup ascender (y 757) sampai descender (y -200); garis dasar di y 0.
+import { wordmarkPath, wordmarkDot } from "../data/brand";
+---
+
+<div class="wm-crop" aria-hidden="true">
+  <svg viewBox="40 -770 3860 980" class="wm-rise block w-full" fill="none">
+    <g transform="scale(1 -1)">
+      <path d={wordmarkPath} fill="var(--color-brand-600)"></path>
+      <rect x={wordmarkDot.x} y={wordmarkDot.y} width={wordmarkDot.w} height={wordmarkDot.h} fill="var(--color-brand-500)"></rect>
+    </g>
+  </svg>
+</div>
+
+<style>
+  /* Potong sekitar 70% tinggi svg: huruf terpotong sedikit di bawah, seperti tercetak melewati tepi halaman. */
+  .wm-crop {
+    overflow: hidden;
+    aspect-ratio: 3860 / 690;
+  }
+</style>
