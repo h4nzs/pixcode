@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
-    "@tailwindcss/typography": "^0.5.20",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.3.3",
     "tailwindcss": "^4.3.3"
@@ -25,7 +24,6 @@
   },
   "allowScripts": {
     "esbuild@0.28.2": true,
-    "esbuild@0.28.1": true,
-    "workerd@1.20260921.1": true
+    "workerd@1.20261023.1": true
   }
 }
