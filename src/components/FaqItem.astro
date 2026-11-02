@@ -8,15 +8,17 @@ interface Props {
 const { question, answer } = Astro.props;
 ---
 
-<details class="group rounded-xl border border-slate-200 bg-white px-5 py-4 transition-colors duration-300 hover:border-brand-200 [&_summary::-webkit-details-marker]:hidden">
-  <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-slate-900">
+<details class="group border-b border-line [&_summary::-webkit-details-marker]:hidden">
+  <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-lg font-bold text-slate-900 transition-colors hover:text-brand-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600">
     {question}
-    <Icon name="chevron-down" class="h-5 w-5 shrink-0 text-slate-400 transition-transform duration-300 group-open:rotate-180" />
+    <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line text-slate-700 transition-all duration-500 group-open:rotate-45 group-open:border-brand-600 group-open:bg-brand-600 group-open:text-white">
+      <Icon name="plus" class="h-4 w-4" strokeWidth={2.25} />
+    </span>
   </summary>
   <!-- Panel halus: grid 0fr→1fr saat <details> terbuka (murni CSS — lihat global.css). -->
   <div class="faq-panel">
     <div>
-      <p class="pt-3 text-sm leading-relaxed text-slate-600">{answer}</p>
+      <p class="max-w-2xl pb-6 leading-relaxed text-slate-600">{answer}</p>
     </div>
   </div>
 </details>

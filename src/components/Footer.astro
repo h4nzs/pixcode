@@ -1,6 +1,7 @@
 ---
 import Logo from "./Logo.astro";
 import Icon from "./Icon.astro";
+import BigWordmark from "./BigWordmark.astro";
 import { site, waDisplay } from "../data/site";
 
 const year = new Date().getFullYear();
@@ -9,8 +10,9 @@ const columns = [
   {
     title: "Layanan",
     links: [
-      { label: "Paket & Harga", href: "/layanan/" },
+      { label: "Paket & harga", href: "/layanan/" },
       { label: "Portfolio", href: "/portfolio/" },
+      { label: "Contoh template", href: "/template/" },
       { label: "Konsultasi", href: "/kontak/" },
     ],
   },
@@ -18,23 +20,23 @@ const columns = [
     title: "Studio",
     links: [
       { label: "Tentang", href: "/tentang/" },
-      { label: "Kebijakan Privasi", href: "/kebijakan-privasi/" },
-      { label: "Syarat & Ketentuan", href: "/syarat-ketentuan/" },
+      { label: "Kebijakan privasi", href: "/kebijakan-privasi/" },
+      { label: "Syarat & ketentuan", href: "/syarat-ketentuan/" },
     ],
   },
 ];
 ---
 
-<footer class="border-t border-slate-200 bg-slate-50">
-  <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:py-16">
-    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1.3fr]">
+<footer class="reveal bg-ink text-slate-300">
+  <div class="wrap pt-16 lg:pt-20">
+    <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1.4fr]">
       <div>
-        <Logo class="h-10" full />
-        <p class="mt-4 max-w-xs text-sm leading-relaxed text-slate-600">
+        <Logo class="h-10" full useWhite />
+        <p class="mt-5 max-w-xs text-[0.95rem] leading-relaxed text-slate-300">
           {site.tagline}
         </p>
-        <p class="mt-4 inline-flex items-center gap-2 text-sm text-slate-600">
-          <Icon name="map-pin" class="h-4 w-4 shrink-0 text-brand-600" />
+        <p class="mt-5 inline-flex items-center gap-2 text-sm text-slate-300">
+          <Icon name="map-pin" class="h-4 w-4 shrink-0 text-brand-400" />
           {site.city}, {site.region}
         </p>
       </div>
@@ -42,11 +44,11 @@ const columns = [
       {
         columns.map((col) => (
           <nav aria-label={`Navigasi ${col.title}`}>
-            <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-600">{col.title}</h2>
-            <ul class="mt-4 space-y-2.5 text-sm">
+            <h2 class="text-sm font-bold text-white">{col.title}</h2>
+            <ul class="mt-5 space-y-3 text-[0.95rem]">
               {col.links.map((link) => (
                 <li>
-                  <a class="text-slate-600 transition-colors hover:text-brand-700" href={link.href}>
+                  <a class="text-slate-300 transition-colors hover:text-white" href={link.href}>
                     {link.label}
                   </a>
                 </li>
@@ -57,11 +59,11 @@ const columns = [
       }
 
       <div>
-        <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-600">Hubungi</h2>
-        <ul class="mt-4 space-y-3 text-sm">
+        <h2 class="text-sm font-bold text-white">Hubungi</h2>
+        <ul class="mt-5 space-y-3.5 text-[0.95rem]">
           <li>
             <a
-              class="inline-flex items-center gap-2 font-semibold text-brand-700 transition-colors hover:text-brand-800"
+              class="inline-flex items-center gap-2 font-bold text-brand-300 transition-colors hover:text-white"
               href="/wa/umum/"
               target="_blank"
               rel="noopener noreferrer"
@@ -71,12 +73,12 @@ const columns = [
             </a>
           </li>
           <li>
-            <a class="inline-flex items-center gap-2 text-slate-600 hover:text-brand-700" href={`mailto:${site.email}`}>
+            <a class="inline-flex items-center gap-2 text-slate-300 transition-colors hover:text-white" href={`mailto:${site.email}`}>
               <Icon name="mail" class="h-4 w-4" />
               {site.email}
             </a>
           </li>
-          <li class="flex items-start gap-2 text-slate-600">
+          <li class="flex items-start gap-2 text-slate-300">
             <Icon name="clock" class="mt-0.5 h-4 w-4 shrink-0" />
             {site.hours}
           </li>
@@ -84,7 +86,7 @@ const columns = [
             site.instagram && (
               <li>
                 <a
-                  class="inline-flex items-center gap-2 text-slate-600 hover:text-brand-700"
+                  class="inline-flex items-center gap-2 text-slate-300 transition-colors hover:text-white"
                   href={`https://instagram.com/${site.instagram}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -98,9 +100,13 @@ const columns = [
       </div>
     </div>
 
-    <div class="mt-12 flex flex-col gap-2 border-t border-slate-200 pt-6 text-xs text-slate-600 sm:flex-row sm:items-center sm:justify-between">
+    <div class="mt-14 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between">
       <p>© {year} {site.name}. Semua hak dilindungi.</p>
       <p>Dibuat dan dirawat dari {site.city}, melayani {site.serviceArea}.</p>
     </div>
+  </div>
+
+  <div class="wrap mt-10 pb-0">
+    <BigWordmark />
   </div>
 </footer>

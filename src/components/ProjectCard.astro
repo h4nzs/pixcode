@@ -3,13 +3,20 @@ import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { packages } from "../data/packages";
 import { projectImage } from "../utils/projectImage";
+import Icon from "./Icon.astro";
 
 interface Props {
   project: CollectionEntry<"projects">;
   /** Index dalam grid stagger — mengatur delay animasi masuk (opsional). */
   index?: number;
+  /** Untuk latar gelap. */
+  dark?: boolean;
+  /** Rasio gambar; default 4/3. */
+  ratio?: string;
+  /** Lebar gambar yang diminta ke astro:assets. */
+  width?: number;
 }
-const { project, index } = Astro.props;
+const { project, index, dark = false, ratio = "aspect-[4/3]", width = 700 } = Astro.props;
 const { title, client, category, package: pkgId, internalLabel, year, thumbnail, liveStatus } = project.data;
 const thumb = projectImage(thumbnail);
 
@@ -20,35 +27,33 @@ const categoryLabel = { website: "Website", "web-app": "Web App", pos: "POS" }[c
 <a
   href={`/portfolio/${project.id}/`}
   style={index !== undefined ? `--i:${index}` : undefined}
-  class:list={["group block overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm", "card-lift stagger-child"]}
+  class="stagger-child group block focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-500"
 >
-  <div class="overflow-hidden">
+  <div class:list={["relative overflow-hidden rounded-[1.5rem]", dark ? "bg-white/5 ring-1 ring-white/10" : "bg-slate-100 ring-1 ring-line"]}>
     <Image
       src={thumb}
       alt={`Tampilan ${title}`}
-      width={600}
-      height={450}
+      width={width}
+      height={Math.round(width * 0.75)}
       loading="lazy"
-      class="aspect-[4/3] w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+      class:list={[ratio, "w-full object-cover object-top transition-transform duration-[900ms] ease-[var(--ease-out-soft)] group-hover:scale-[1.04]"]}
     />
+    <span class="absolute right-4 top-4 flex h-10 w-10 translate-y-1 items-center justify-center rounded-full bg-white text-slate-900 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
+      <Icon name="arrow-up-right" class="h-5 w-5" strokeWidth={2.25} />
+    </span>
   </div>
-  <div class="p-5">
-    <div class="flex items-center justify-between gap-2 text-xs">
-      <div class="flex items-center gap-1.5">
-        <span class="rounded-md bg-brand-50 px-2 py-0.5 font-semibold text-brand-700">{categoryLabel}</span>
-        {
-          liveStatus === "temporarily-offline" && (
-            <span class="rounded-md bg-amber-50 px-2 py-0.5 font-semibold text-amber-700">Nonaktif sementara</span>
-          )
-        }
-      </div>
-      <span class="text-slate-500">{year}</span>
+  <div class="mt-5 flex items-start justify-between gap-4">
+    <div class="min-w-0">
+      <h3 class:list={["text-xl font-extrabold tracking-tight", dark ? "text-white" : "text-slate-900"]}>{title}</h3>
+      <p class:list={["mt-1 text-sm", dark ? "text-slate-400" : "text-slate-500"]}>
+        {categoryLabel}
+        {pkgName && <span> · Paket {pkgName}</span>}
+        {liveStatus === "temporarily-offline" && <span> · Nonaktif sementara</span>}
+      </p>
+      <p class:list={["mt-0.5 text-sm", dark ? "text-slate-500" : "text-slate-500"]}>
+        {internalLabel ? <span class="italic">{internalLabel}</span> : client}
+      </p>
     </div>
-    <h3 class="mt-3 font-bold text-slate-900 group-hover:text-brand-700">{title}</h3>
-    <p class="mt-1 text-sm text-slate-500">
-      {internalLabel ? <span class="italic text-slate-500">{internalLabel}</span> : client}
-      {pkgName && <span class="mx-1.5 text-slate-300">·</span>}
-      {pkgName && <span>Paket {pkgName}</span>}
-    </p>
+    <span class:list={["shrink-0 pt-1 text-sm font-semibold", dark ? "text-slate-400" : "text-slate-500"]}>{year}</span>
   </div>
 </a>

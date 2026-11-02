@@ -2,7 +2,8 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import WaButton from "../components/WaButton.astro";
 import Icon from "../components/Icon.astro";
-import { site } from "../data/site";
+import PageHero from "../components/PageHero.astro";
+import { site, waDisplay } from "../data/site";
 ---
 
 <BaseLayout
@@ -10,64 +11,66 @@ import { site } from "../data/site";
   description={`Hubungi Pixcode Studio ${site.city}: WhatsApp ${site.whatsapp} atau email ${site.email}. Konsultasi gratis, dibalas cepat di jam kerja.`}
   active="kontak"
 >
-  <section class="py-14 lg:py-20">
-    <div class="mx-auto max-w-4xl px-4 sm:px-6">
-      <p class="text-xs font-bold uppercase tracking-widest text-brand-600">Kontak</p>
-      <h1 class="mt-3 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
-        Obrolan pertama, tanpa komitmen
-      </h1>
-      <p class="mt-4 max-w-2xl text-lg leading-relaxed text-slate-600">
-        Ceritakan usaha kamu dan apa yang ingin dicapai. Kami balas dengan pertanyaan yang tepat —
-        dan rekomendasi paket yang jujur, bukan yang paling mahal.
-      </p>
+  <PageHero kicker="Kontak" title="Obrolan pertama, tanpa komitmen">
+    <p class="text-slate-600">
+      Ceritakan usaha kamu dan apa yang ingin dicapai. Kami balas dengan pertanyaan yang tepat,
+      dan rekomendasi paket yang jujur, bukan yang paling mahal.
+    </p>
+  </PageHero>
 
-      <div class="mt-10 grid gap-6 sm:grid-cols-2">
+  <section class="py-16 lg:py-24">
+    <div class="wrap">
+      <div class="stagger grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         <!-- Kartu WA utama -->
-        <div class="rounded-2xl border-2 border-wa/30 bg-white p-6 shadow-sm sm:col-span-2">
-          <div class="flex flex-wrap items-center justify-between gap-4">
-            <div>
-              <h2 class="flex items-center gap-2 text-lg font-bold text-slate-900">
-                <Icon name="message-circle" class="h-5 w-5 text-wa-dark" />
-                WhatsApp — kanal tercepat
-              </h2>
-              <p class="mt-1 text-sm text-slate-600">
-                Berbasis {site.city} — melayani {site.serviceArea}. Konsultasi awal gratis, tanpa DP.
-              </p>
-            </div>
-            <WaButton size="large" label={`Chat ${site.whatsapp.slice(2).replace(/(\d{3})(\d{3})(\d+)/, "$1-$2-$3")}`} />
+        <div class="stagger-child flex flex-col justify-between gap-10 rounded-[1.75rem] bg-ink p-8 sm:p-10 lg:row-span-2" style="--i:0">
+          <div>
+            <h2 class="flex items-center gap-2.5 text-lg font-bold text-brand-300">
+              <Icon name="message-circle" class="h-5 w-5" />
+              WhatsApp, kanal tercepat
+            </h2>
+            <p class="title mt-5 text-[clamp(1.8rem,3.4vw,2.7rem)] text-white">
+              Konsultasi awal gratis, tanpa DP<span class="pix pix-light" aria-hidden="true"></span>
+            </p>
+            <p class="mt-4 max-w-md leading-relaxed text-slate-300">
+              Berbasis {site.city}, melayani {site.serviceArea}.
+            </p>
+          </div>
+          <div>
+            <WaButton size="large" label={`Chat ${waDisplay}`} />
           </div>
         </div>
 
         <!-- Email -->
         <a
           href={`mailto:${site.email}`}
-          class="rounded-2xl border border-slate-200 p-6 shadow-sm transition-colors hover:border-brand-500"
+          class="stagger-child card-lift rounded-[1.75rem] border border-line bg-white p-7"
+          style="--i:1"
         >
-          <h2 class="flex items-center gap-2 font-bold text-slate-900">
-            <Icon name="mail" class="h-5 w-5 text-brand-600" />
+          <h2 class="flex items-center gap-2.5 font-bold text-slate-900">
+            <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-100 text-brand-600"><Icon name="mail" class="h-5 w-5" /></span>
             Email
           </h2>
-          <p class="mt-2 text-sm text-slate-600">{site.email}</p>
-          <p class="mt-1 text-xs text-slate-500">Untuk dokumen, brief, atau penawaran resmi.</p>
+          <p class="mt-4 text-lg font-extrabold tracking-tight text-slate-900 [overflow-wrap:anywhere]">{site.email}</p>
+          <p class="mt-1 text-sm text-slate-500">Untuk dokumen, brief, atau penawaran resmi.</p>
         </a>
 
         <!-- Jam & area -->
-        <div class="rounded-2xl border border-slate-200 p-6 shadow-sm">
-          <h2 class="flex items-center gap-2 font-bold text-slate-900">
-            <Icon name="clock" class="h-5 w-5 text-brand-600" />
+        <div class="stagger-child rounded-[1.75rem] border border-line bg-slate-50 p-7" style="--i:2">
+          <h2 class="flex items-center gap-2.5 font-bold text-slate-900">
+            <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-100 text-brand-600"><Icon name="clock" class="h-5 w-5" /></span>
             Jam respons
           </h2>
-          <p class="mt-2 text-sm text-slate-600">{site.hours}</p>
-          <p class="mt-1 flex items-start gap-1.5 text-xs text-slate-500">
-            <Icon name="map-pin" class="mt-0.5 h-3.5 w-3.5 shrink-0" />
-            Basis {site.city} — melayani {site.serviceArea}.
+          <p class="mt-4 text-lg font-extrabold tracking-tight text-slate-900">{site.hours}</p>
+          <p class="mt-1 flex items-start gap-1.5 text-sm text-slate-500">
+            <Icon name="map-pin" class="mt-0.5 h-4 w-4 shrink-0" />
+            Basis {site.city}, melayani {site.serviceArea}.
           </p>
         </div>
       </div>
 
-      <p class="mt-8 text-sm text-slate-500">
+      <p class="mt-10 max-w-xl text-slate-500">
         {/* IG menyusul — TODO(user): tambahkan link Instagram saat akun dibuat (docs checklist #2). */}
-        Lebih suka email? Kirim brief singkat usaha kamu — kami balas dengan estimasi paket & harga.
+        Lebih suka email? Kirim brief singkat usaha kamu, kami balas dengan estimasi paket dan harga.
       </p>
     </div>
   </section>

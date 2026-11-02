@@ -4,6 +4,7 @@ import SectionHeading from "../components/SectionHeading.astro";
 import PackageCard from "../components/PackageCard.astro";
 import FaqItem from "../components/FaqItem.astro";
 import CtaBanner from "../components/CtaBanner.astro";
+import PageHero from "../components/PageHero.astro";
 import { packages } from "../data/packages";
 import { addons } from "../data/addons";
 
@@ -60,29 +61,23 @@ const schema = {
   schema={schema}
 >
   <!-- Answer block GEO (riset §6): jawaban langsung di atas -->
-  <section class="border-b border-slate-100 bg-slate-50 py-14 lg:py-16">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6">
-      <p class="text-xs font-bold uppercase tracking-widest text-brand-600">Layanan & harga</p>
-      <h1 class="mt-3 max-w-3xl text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
-        Pilih paket — semua ketentuannya tertulis di sini
-      </h1>
-      <p class="mt-4 max-w-3xl text-lg leading-relaxed text-slate-600">
-        Biaya pembuatan website untuk UMKM di Pixcode Studio mulai
-        <strong class="font-semibold text-slate-900">Rp 400.000</strong> (Paket UMKM), dan aplikasi kasir (Desktop POS) mulai
-        <strong class="font-semibold text-slate-900">Rp 6.000.000</strong>, diperbarui Oktober 2026.
-        Setiap paket punya daftar termasuk, tidak termasuk, dan batas revisi yang eksplisit — harga final dikunci di proposal sebelum DP.
-      </p>
-    </div>
-  </section>
+  <PageHero kicker="Layanan dan harga" title="Pilih paket. Semua ketentuannya tertulis di sini">
+    <p class="text-slate-600">
+      Biaya pembuatan website untuk UMKM di Pixcode Studio mulai{" "}
+      <strong class="font-bold text-slate-900">Rp 400.000</strong> (Paket UMKM), dan aplikasi kasir (Desktop POS) mulai{" "}
+      <strong class="font-bold text-slate-900">Rp 6.000.000</strong>, diperbarui Oktober 2026.
+      Setiap paket punya daftar termasuk, tidak termasuk, dan batas revisi yang eksplisit. Harga final dikunci di proposal sebelum DP.
+    </p>
+  </PageHero>
 
   <!-- Grid paket -->
-  <section class="py-16 lg:py-20">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+  <section class="py-16 lg:py-24">
+    <div class="wrap">
       <h2 class="sr-only">Daftar paket</h2>
-      <div class="stagger grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <div class="stagger grid gap-6 pt-3 md:grid-cols-2 xl:grid-cols-3">
         {
           packages.map((pkg, i) => (
-            <div class={`stagger-child ${pkg.featured ? "xl:-mt-4" : ""}`} style={`--i:${i}`}>
+            <div class="stagger-child" style={`--i:${i}`}>
               <PackageCard pkg={pkg} />
             </div>
           ))
@@ -90,47 +85,51 @@ const schema = {
       </div>
 
       <!-- Trust line tepat di bawah grid harga (riset §7) -->
-      <p class="reveal mx-auto mt-8 max-w-2xl rounded-xl border border-brand-100 bg-brand-50 p-4 text-center text-sm text-brand-900">
-        <strong class="font-semibold">Alur pembayaran: DP 50% saat mulai — pelunasan 50% setelah kamu approve demo di domain staging.</strong>
-        Website sudah kamu lihat dan setuju dulu, baru lunas.
-      </p>
-      <p class="reveal mx-auto mt-3 max-w-2xl text-center text-sm text-slate-600">
-        Mau lihat dulu tampilannya?
-        <a href="/template/" class="font-semibold text-brand-700 underline underline-offset-4 hover:text-brand-800">Buka tiga contoh template Paket UMKM</a>.
-      </p>
-      <p class="reveal mx-auto mt-3 max-w-2xl text-center text-sm text-slate-500">
-        Estimasi pengerjaan dihitung sejak materi (foto, teks) lengkap. Biaya domain tidak termasuk dalam harga paket dan
-        dicantumkan terpisah di proposal.
-      </p>
+      <div class="reveal mt-14 grid gap-6 rounded-[1.75rem] bg-brand-50 p-7 sm:p-9 lg:grid-cols-[1.4fr_1fr] lg:items-center">
+        <p class="text-lg leading-snug text-brand-900">
+          <strong class="font-extrabold">DP 50% saat mulai, pelunasan 50% setelah kamu approve demo di domain staging.</strong>{" "}
+          Website sudah kamu lihat dan setujui dulu, baru lunas.
+        </p>
+        <div class="space-y-2 text-sm text-brand-900/80">
+          <p>
+            Mau lihat dulu tampilannya?
+            <a href="/template/" class="font-bold text-brand-700 underline underline-offset-4 hover:text-brand-900">Buka tiga contoh template Paket UMKM</a>.
+          </p>
+          <p>
+            Estimasi pengerjaan dihitung sejak materi (foto, teks) lengkap. Biaya domain tidak termasuk dalam harga paket dan
+            dicantumkan terpisah di proposal.
+          </p>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- Add-on (sumber: src/data/addons.ts) -->
-  <section id="addon" class="border-t border-slate-100 py-16 lg:py-20">
-    <div class="mx-auto max-w-4xl px-4 sm:px-6">
+  <section id="addon" class="border-t border-line py-16 lg:py-24">
+    <div class="wrap">
       <SectionHeading
         kicker="Add-on"
         title="Apa saja add-on dan berapa harganya?"
         subtitle="Add-on untuk kebutuhan kecil yang tidak mengubah jenis paket. Totalnya dikunci tertulis di proposal sebelum DP."
       />
-      <ul class="reveal mt-10 divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <ul class="reveal mt-12 divide-y divide-line border-y border-line">
         {
           addons.map((a) => (
-            <li class="grid gap-1 px-5 py-4 sm:grid-cols-[1fr_auto] sm:gap-x-6">
+            <li class="grid gap-1 py-5 transition-colors hover:bg-slate-50 sm:grid-cols-[1fr_auto] sm:gap-x-8 sm:px-3">
               <div>
-                <p class="font-semibold text-slate-900">{a.name}</p>
+                <p class="text-lg font-extrabold tracking-tight text-slate-900">{a.name}</p>
                 {a.note && <p class="mt-0.5 text-sm text-slate-600">{a.note}</p>}
                 <p class="mt-1 text-xs text-slate-500">Untuk: {a.appliesTo}</p>
               </div>
-              <p class="font-bold text-brand-700 sm:text-right">{a.price}</p>
+              <p class="font-extrabold text-brand-600 sm:text-right sm:text-lg">{a.price}</p>
             </li>
           ))
         }
       </ul>
 
-      <div class="reveal mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-5">
-        <h3 class="font-bold text-slate-900">Ketentuan untuk semua paket</h3>
-        <ul class="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-600">
+      <div class="reveal mt-12 rounded-[1.75rem] bg-ink p-7 text-slate-300 sm:p-9">
+        <h3 class="text-xl font-extrabold tracking-tight text-white">Ketentuan untuk semua paket</h3>
+        <ul class="mt-5 list-disc space-y-3 pl-5 marker:text-brand-500 leading-relaxed">
           <li>Permintaan di luar daftar ditulis lengkap dengan harga dan tambahan waktu. Kami mengerjakannya setelah kamu setuju tertulis; WhatsApp cukup.</li>
           <li>Naik paket: biaya paket yang sudah dibayar dikurangkan penuh bila diputuskan sebelum demo pertama, dan 50% bila setelah demo.</li>
           <li>Garansi perbaikan bug gratis 14 hari sejak website diserahkan (live).</li>
@@ -141,25 +140,23 @@ const schema = {
   </section>
 
   <!-- FAQ harga (H2 pertanyaan nyata — GEO) -->
-  <section class="border-y border-slate-100 bg-slate-50 py-16 lg:py-20">
-    <div class="mx-auto max-w-3xl px-4 sm:px-6">
-      <SectionHeading
-        kicker="FAQ harga"
-        title="Pertanyaan soal harga & ketentuan"
-        subtitle="Jawaban singkat dan langsung — detail lengkapnya dijelaskan saat konsultasi."
-        center
-      />
-      <div class="reveal mt-10 space-y-3">
+  <section class="border-t border-line bg-slate-50 py-16 lg:py-24">
+    <div class="wrap grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+      <div class="lg:sticky lg:top-28 lg:self-start">
+        <SectionHeading
+          kicker="FAQ harga"
+          title="Pertanyaan soal harga dan ketentuan"
+          subtitle="Jawaban singkat dan langsung. Detail lengkapnya dijelaskan saat konsultasi."
+        />
+      </div>
+      <div class="reveal">
         {faqs.map((f) => <FaqItem question={f.q} answer={f.a} />)}
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="py-20">
-    <CtaBanner
-      title="Masih ragu pilih paket yang mana?"
-      subtitle="Ceritakan usaha & kebutuhan kamu — kami rekomendasikan yang paling pas, bukan yang paling mahal."
-    />
-  </section>
+  <CtaBanner
+    title="Masih ragu pilih paket yang mana?"
+    subtitle="Ceritakan usaha dan kebutuhan kamu. Kami rekomendasikan yang paling pas, bukan yang paling mahal."
+  />
 </BaseLayout>
