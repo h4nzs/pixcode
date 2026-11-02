@@ -155,50 +155,25 @@ html {
   }
 }
 
-/* ---------- Empat blok hero: tersusun seperti mark ----------
-   Posisi dan ukuran memakai satuan --u yang sama dengan kanvas mark 32 x 28. */
-.hb-canvas {
-  --u: min(calc((100vw - 2rem) / 32), 22px);
-  position: relative;
-  width: calc(32 * var(--u));
-  height: calc(28 * var(--u));
+/* ---------- Panel hero ----------
+   Sudut kiri-bawah dipotong tiga anak tangga (siluet mark). border-radius tetap membulatkan sudut lainnya. */
+.hp-clip {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 42% 100%, 42% 88%, 28% 88%, 28% 76%, 14% 76%, 14% 64%, 0 64%);
 }
-@media (min-width: 64rem) {
-  .hb-canvas {
-    --u: clamp(10px, 1.4vw, 20px);
-  }
-}
-.hb {
-  position: absolute;
-  left: calc(var(--x) * var(--u));
-  top: calc(var(--y) * var(--u));
-  width: calc(var(--s) * var(--u));
-  height: calc(var(--s) * var(--u));
-  border-radius: calc(var(--r) * var(--u));
-  overflow: hidden;
+.hero-panel {
   opacity: 0;
-  transform: translateY(calc(var(--u) * 4)) scale(0.9);
-  animation: hb-in 1s var(--ease-land) forwards;
-  animation-delay: calc(var(--d, 0) * 150ms + 300ms);
-  box-shadow:
-    0 1px 2px rgb(15 23 42 / 0.06),
-    0 18px 36px -18px rgb(15 23 42 / 0.3);
+  transform: translateY(18px);
+  animation: hero-in 1s var(--ease-out-soft) 0.35s forwards;
 }
-.hb-drop {
-  transform: translateY(calc(var(--u) * -4)) scale(0.9);
+/* Tiga slide bergantian (siklus 18 dtk). Delay negatif membuat slide pertama langsung tampak. */
+.hp-slide {
+  animation: hp-fade 18s linear infinite;
+  animation-delay: calc((var(--i) - 3) * 6s);
 }
-@keyframes hb-in {
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-.hb img {
-  transition: transform 0.9s var(--ease-out-soft);
-}
-a.hb:hover img,
-a.hb:focus-visible img {
-  transform: scale(1.06);
+@keyframes hp-fade {
+  0%, 29% { opacity: 1; }
+  32%, 95% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 /* ---------- Interaksi kecil ---------- */
@@ -334,7 +309,7 @@ details[open] > .faq-panel {
   }
   .line > span,
   .hero-seq,
-  .hb {
+  .hero-panel {
     opacity: 1;
     transform: none;
     animation: none;
@@ -351,10 +326,12 @@ details[open] > .faq-panel {
   .btn-press:hover .arrow {
     transform: none;
   }
-  .hb img,
-  a.hb:hover img {
-    transform: none;
-    transition: none;
+  .hp-slide {
+    animation: none;
+    opacity: 0;
+  }
+  .hp-slide:first-child {
+    opacity: 1;
   }
   .parallax-slow {
     animation: none;
