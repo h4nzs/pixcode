@@ -111,9 +111,8 @@ const facts = [
 >
   <!-- ============ HERO ============ -->
   <section class="bg-brand-600 p-3 pb-5 sm:p-4 sm:pb-6 lg:p-5 lg:pb-7">
-    <div class="relative overflow-hidden rounded-[1.75rem] bg-slate-50 shadow-[0_2px_6px_rgb(2_23_22/0.15),0_40px_70px_-34px_rgb(2_23_22/0.65)] sm:rounded-[2.25rem]">
-      <div class="relative mx-auto grid max-w-[76rem] gap-14 px-6 pb-16 pt-12 sm:px-10 sm:pt-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:items-center lg:gap-12 lg:px-12 lg:pb-20 lg:pt-16">
-      <div class="relative z-10">
+    <div class="relative overflow-hidden rounded-[1.75rem] bg-slate-50 shadow-[0_2px_6px_rgb(2_23_22/0.15),0_40px_70px_-34px_rgb(2_23_22/0.65)] sm:rounded-[2.25rem] lg:min-h-[36rem]">
+      <div class="relative z-10 px-6 pb-12 pt-12 sm:px-10 sm:pt-14 lg:flex lg:min-h-[36rem] lg:w-1/2 lg:flex-col lg:justify-center lg:py-16 lg:pl-[max(3rem,calc((100vw-76rem)/2))] lg:pr-8">
         <p class="hero-seq flex items-center gap-2.5 text-sm font-bold text-brand-700" style="--d:0">
           <span class="h-2.5 w-2.5 rounded-[3px] bg-brand-500" aria-hidden="true"></span>
           Studio web dari Bandung, melayani seluruh Indonesia
@@ -142,9 +141,7 @@ const facts = [
           Balasan di jam kerja, langsung ke orang yang mengerjakan.
         </p>
       </div>
-
-        <HeroPanel top={heroTop} mid={heroMid} />
-      </div>
+      <HeroPanel top={heroTop} mid={heroMid} />
     </div>
   </section>
 

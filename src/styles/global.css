@@ -156,9 +156,15 @@ html {
 }
 
 /* ---------- Panel hero ----------
-   Sudut kiri-bawah dipotong tiga anak tangga (siluet mark). border-radius tetap membulatkan sudut lainnya. */
+   Batas panel dengan kartu berupa tiga anak tangga yang naik ke kanan, seperti mark.
+   Mobile: batasnya di tepi atas panel. Desktop: di tepi kiri panel. */
 .hp-clip {
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 42% 100%, 42% 88%, 28% 88%, 28% 76%, 14% 76%, 14% 64%, 0 64%);
+  clip-path: polygon(0 24%, 33% 24%, 33% 12%, 66% 12%, 66% 0, 100% 0, 100% 100%, 0 100%);
+}
+@media (min-width: 64rem) {
+  .hp-clip {
+    clip-path: polygon(34% 0, 100% 0, 100% 100%, 0 100%, 0 66%, 17% 66%, 17% 33%, 34% 33%);
+  }
 }
 .hero-panel {
   opacity: 0;
